@@ -1,0 +1,136 @@
+﻿using System;
+
+using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Runtime;
+
+using Autodesk.Civil.Land.DatabaseServices;
+
+[assembly: CommandClass(typeof(Autodesk.CivilizedDevelopment.AlignmentEntitiesCommands))]
+
+namespace Autodesk.CivilizedDevelopment
+{
+    public class AlignmentEntitiesCommands
+    {
+        [CommandMethod("CDS_DisplayAlignmentEntities")]
+        public void CDS_DisplayAlignmentEntities()
+        {
+            EnumerateEntities += enumerateEntitiesById;
+            doDisplayAlignmentEntities();
+        }
+
+        [CommandMethod("CDS_DisplayAlignmentEntitiesByOrder")]
+        public void CDS_DisplayAlignmentEntitiesByOrder()
+        {
+            EnumerateEntities += enumerateEntitiesByOrder;
+            doDisplayAlignmentEntities();
+        }
+
+        private void doDisplayAlignmentEntities()
+        {
+            ObjectId alignmentId = promptForAlignment();
+            if (ObjectId.Null != alignmentId)
+            {
+                displayAlignmentEntities(alignmentId);
+            }
+        }
+
+        private ObjectId promptForAlignment()
+        {
+            // We use PromptEntityOptions to insure the entity selected
+            // is an Alignment object. When filtering for a type of entity,
+            // we need to set a reject message in case the user selects
+            // an entity type not allowed.
+            //
+            string promptMsg = "\nSelect Alignment: ";
+            string rejectMsg = "\nSelected entity is not an alignment.";
+            PromptEntityOptions opts = new PromptEntityOptions(promptMsg);
+            opts.SetRejectMessage(rejectMsg);
+            opts.AddAllowedClass(typeof(Alignment), false);
+            PromptEntityResult result = _editor.GetEntity(opts);
+            if (result.Status == PromptStatus.OK)
+            {
+                return result.ObjectId;
+            }
+            return ObjectId.Null;
+        }
+
+        private void displayAlignmentEntities(ObjectId alignmentId)
+        {
+            using (Transaction tr = startTransaction())
+            {
+                Alignment alignment = 
+                    alignmentId.GetObject(OpenMode.ForRead) as Alignment;
+                write("\nAlignment Name: " + alignment.Name);
+                EnumerateEntities(alignment);
+            }
+        }
+
+        private void enumerateEntitiesById(Alignment alignment)
+        {
+            foreach (AlignmentEntity entity in alignment.Entities)
+            {
+                write("\n.. Entity ID: " + entity.EntityId);
+                write("\n.. Entity Class: " + entity.GetType());
+                write("\n.. Entity Type: " + entity.EntityType);
+                write("\n.. Subentities: " + entity.SubEntityCount);
+            }
+        }
+
+        private void enumerateEntitiesByOrder(Alignment alignment)
+        {
+            AlignmentEntityCollection entities = alignment.Entities;
+            for (int i = 0; i < entities.Count; i++)
+            {
+                AlignmentEntity entity = entities.GetEntityByOrder(i);
+                write("\n.. Entity Sequence: " + i);
+                write("\n.. Entity Class: " + entity.GetType());
+                write("\n.. Entity Type: " + entity.EntityType);
+                write("\n.. Subentities: " + entity.SubEntityCount);
+            }
+        }
+
+        /// <summary>
+        /// Starts a new database transaction.
+        /// </summary>
+        /// <returns>The new transaction object.</returns>
+        private Transaction startTransaction()
+        {
+            Database db = HostApplicationServices.WorkingDatabase;
+            return db.TransactionManager.StartTransaction();
+        }
+
+        /// <summary>
+        /// Writes a message string to the AutocAD command line window.
+        /// </summary>
+        /// <param name="msg">String to write.</param>
+        private void write(string msg)
+        {
+            _editor.WriteMessage("\n" + msg);
+        }
+
+        /// <summary>
+        /// Returns a reference to the Editor of the current document.
+        /// </summary>
+        private Editor _editor
+        {
+            get
+            {
+                if (m_Editor == null)
+                {
+                    m_Editor = 
+                        Application.DocumentManager.MdiActiveDocument.Editor;
+                }
+                return m_Editor;
+            }
+        }
+
+        private Editor m_Editor = null;
+
+        // To delegate enumeration of entities.
+        //
+        private delegate void EnumerateEntitiesDelegate(Alignment alignment);
+        private EnumerateEntitiesDelegate EnumerateEntities;
+    }
+}
