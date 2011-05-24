@@ -52,7 +52,7 @@ namespace TinyRunner
     /// </summary>
     public class TinyRunnerCommands
     {
-        [CommandMethod("RunTestsCS")]
+        [CommandMethod("RunTestsCS", CommandFlags.Session)]
         public void RunTestsCS()
         {
             executeTestConfiguration(new XMLConfiguration("ColibraTestsCS.xml"), new AutoCADCommandLineResultsCollector());

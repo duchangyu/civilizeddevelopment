@@ -76,4 +76,7 @@
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Database\Alignments\" />
+  </ItemGroup>
 </Project>

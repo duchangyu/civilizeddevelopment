@@ -35,58 +35,48 @@
 // U.S. or other applicable export control laws.
 //
 using System;
+using System.IO;
 
-using acadappsvcs = Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.Civil.ApplicationServices;
 
-namespace Colibra 
+using Colibra;
+using TinyTest;
+
+namespace ColibraShould
 {
-    /// <summary>
-    /// Encapsulates access to the AutoCAD and Civil 3D document objects.
-    /// </summary>
-    public class Document 
+    [TestClass]
+    public class DocumentShould 
     {
-        internal Document(acadappsvcs.Document acadDoc, CivilDocument civilDoc)
+        public DocumentShould()
         {
-            m_ThisAcadDocument = acadDoc;
-            m_ThisCivilDocument = civilDoc;
+            m_DocumentWithAlignments = DocumentManager.OpenDocument(_DocumentWithAlignmentsName);
         }
 
-        /// <summary>
-        /// Returns the name of the document.
-        /// </summary>
-        public string Name 
-        { 
-            get
-            {
-                return m_ThisAcadDocument.Name;
+        [TestMethod]
+        public void ProvideAccessToAlignmentsObjectIds()
+        {
+            int expectedAlignmentCount = 2;
+            ObjectIdCollection alignmentIds = _DocumentWithAlignments.GetAlignmentIds();
+            Assert.AreEqual(_DocumentWithAlignmentsName, m_DocumentWithAlignments.Name);
+            Assert.AreEqual(expectedAlignmentCount, alignmentIds.Count, "Incorrect number of alignments returned.");
+        }
+
+        private string _DocumentWithAlignmentsName 
+        {
+            get {
+                return Path.Combine(AbsoluteLocation.DataDirectory, "TwoAlignments.dwg");
             }
+            
         }
 
-        /// <summary>
-        /// Activates the document.
-        /// </summary>
-        public void Activate()
+        private Document _DocumentWithAlignments 
         {
-            DocumentManager._activateDocument(this);
-        }
-
-        public ObjectIdCollection GetAlignmentIds()
-        {
-            return m_ThisCivilDocument.GetAlignmentIds();
-        }
-
-        internal acadappsvcs.Document _acaddoc 
-        {
-            get
-            {
-                return m_ThisAcadDocument;
+            get {
+                return m_DocumentWithAlignments;
             }
+            
         }
 
-
-        private acadappsvcs.Document m_ThisAcadDocument;
-        private CivilDocument m_ThisCivilDocument;
+        private Document m_DocumentWithAlignments;
     }
 }
