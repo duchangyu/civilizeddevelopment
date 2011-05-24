@@ -1,10 +1,13 @@
 ﻿using System;
+using System.IO;
+using System.Text;
 
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
 
+using Autodesk.Civil.ApplicationServices;
 using Autodesk.Civil.Land.DatabaseServices;
 
 [assembly: CommandClass(typeof(Autodesk.CivilizedDevelopment.AlignmentEntitiesCommands))]
@@ -13,6 +16,12 @@ namespace Autodesk.CivilizedDevelopment
 {
     public class AlignmentEntitiesCommands
     {
+        public AlignmentEntitiesCommands()
+        {
+            _log = false;
+            m_OutputBuilder = new StringBuilder();
+        }
+
         [CommandMethod("CDS_DisplayAlignmentEntities")]
         public void CDS_DisplayAlignmentEntities()
         {
@@ -27,6 +36,15 @@ namespace Autodesk.CivilizedDevelopment
             doDisplayAlignmentEntities();
         }
 
+        [CommandMethod("CDS_DisplayAllAlignments")]
+        public void CDS_DisplayAllAlignments()
+        {
+            EnumerateEntities += enumerateEntitiesById;
+            _log = true;
+            doDisplayAllAlignments();
+            writeToLogFile("AllAlignments.log");
+        }
+
         private void doDisplayAlignmentEntities()
         {
             ObjectId alignmentId = promptForAlignment();
@@ -34,6 +52,27 @@ namespace Autodesk.CivilizedDevelopment
             {
                 displayAlignmentEntities(alignmentId);
             }
+        }
+
+        private void doDisplayAllAlignments()
+        {
+            ObjectIdCollection alignmentIds = CivilApplication.ActiveDocument.GetAlignmentIds();
+            using (Transaction tr = startTransaction())
+            {
+                foreach (ObjectId alignmentId in alignmentIds)
+                {
+                    displayAlignmentEntities(alignmentId);
+                }
+            }
+        }
+
+        private void writeToLogFile(string fileName)
+        {
+            using (StreamWriter writer = new StreamWriter(fileName, false))
+            {
+                writer.Write(m_OutputBuilder.ToString());
+            }
+            
         }
 
         private ObjectId promptForAlignment()
@@ -108,7 +147,16 @@ namespace Autodesk.CivilizedDevelopment
         private void write(string msg)
         {
             _editor.WriteMessage("\n" + msg);
+            if (_log)
+            {
+                m_OutputBuilder.AppendLine(msg);
+            }
         }
+
+        /// <summary>
+        /// Indicates if the output should be logged to a log fiel.
+        /// </summary>
+        private bool _log { get; set; }
 
         /// <summary>
         /// Returns a reference to the Editor of the current document.
@@ -127,10 +175,12 @@ namespace Autodesk.CivilizedDevelopment
         }
 
         private Editor m_Editor = null;
+        private StringBuilder m_OutputBuilder;
 
         // To delegate enumeration of entities.
         //
         private delegate void EnumerateEntitiesDelegate(Alignment alignment);
         private EnumerateEntitiesDelegate EnumerateEntities;
+        
     }
 }
