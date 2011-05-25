@@ -36,72 +36,25 @@
 //
 using System;
 
-using acadappsvcs = Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.Civil.ApplicationServices;
 
-namespace Colibra 
+namespace Colibra
 {
-    /// <summary>
-    /// Encapsulates access to the AutoCAD and Civil 3D document objects.
-    /// </summary>
-    public class Document 
+    public class AlignmentList
     {
-        internal Document(acadappsvcs.Document acadDoc, CivilDocument civilDoc)
+        internal AlignmentList(ObjectIdCollection alignmentIds)
         {
-            m_ThisAcadDocument = acadDoc;
-            m_ThisCivilDocument = civilDoc;
+            m_AlignmentIds = alignmentIds;
         }
 
         /// <summary>
-        /// Returns the name of the document.
+        /// Returns the number of alignments in the drawing.
         /// </summary>
-        public string Name 
-        { 
-            get
-            {
-                return m_ThisAcadDocument.Name;
-            }
-        }
-
-        /// <summary>
-        /// Returns the list of alignments in the drawing.
-        /// </summary>
-        public AlignmentList Alignments 
+        public int Count
         {
-            get 
-            {
-                return new AlignmentList(m_ThisCivilDocument.GetAlignmentIds());
-            }
+            get { return m_AlignmentIds.Count; }
         }
 
-        /// <summary>
-        /// Activates the document.
-        /// </summary>
-        public void Activate()
-        {
-            DocumentManager._activateDocument(this);
-        }
-
-        /// <summary>
-        /// Returns a reference to the AutoCAD document represented
-        /// by this object.
-        /// </summary>
-        /// <para>
-        /// This method provides internal access to the AutoCAD document
-        /// object. The property is for internal use and should not be
-        /// exposed to users of Colibra.
-        /// </para>
-        internal acadappsvcs.Document _acaddoc 
-        {
-            get
-            {
-                return m_ThisAcadDocument;
-            }
-        }
-
-
-        private acadappsvcs.Document m_ThisAcadDocument;
-        private CivilDocument m_ThisCivilDocument;
+        private ObjectIdCollection m_AlignmentIds;
     }
 }

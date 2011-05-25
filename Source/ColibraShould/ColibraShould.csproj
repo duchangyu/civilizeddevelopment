@@ -55,14 +55,10 @@
     <Compile Include="Application\DocumentManagerShould.cs" />
     <Compile Include="Application\DocumentShould.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Database\Alignments\AlignmentListShould.cs" />
     <Compile Include="TestUtilities\AbsoluteLocation.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="acdbmgd, Version=18.1.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2011\acdbmgd.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
@@ -74,8 +70,5 @@
       <Project>{BC6CE277-0A11-4AE7-8DD1-9D100227DB39}</Project>
       <Name>TinyTest %28TinyTest\TinyTest%29</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Database\Alignments\" />
   </ItemGroup>
 </Project>

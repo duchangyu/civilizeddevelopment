@@ -52,6 +52,7 @@
     <Compile Include="Application\DocumentManager.cs" />
     <Compile Include="Application\Document.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Database\Alignments\AlignmentList.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="acdbmgd, Version=18.1.0.0, Culture=neutral, processorArchitecture=AMD64">
@@ -75,8 +76,5 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Database\Alignments\" />
   </ItemGroup>
 </Project>

@@ -37,8 +37,6 @@
 using System;
 using System.IO;
 
-using Autodesk.AutoCAD.DatabaseServices;
-
 using Colibra;
 using TinyTest;
 
@@ -56,9 +54,7 @@ namespace ColibraShould
         public void ProvideAccessToAlignmentsObjectIds()
         {
             int expectedAlignmentCount = 2;
-            ObjectIdCollection alignmentIds = _DocumentWithAlignments.GetAlignmentIds();
-            Assert.AreEqual(_DocumentWithAlignmentsName, m_DocumentWithAlignments.Name);
-            Assert.AreEqual(expectedAlignmentCount, alignmentIds.Count, "Incorrect number of alignments returned.");
+            Assert.AreEqual(expectedAlignmentCount, m_DocumentWithAlignments.Alignments.Count);
         }
 
         private string _DocumentWithAlignmentsName 
