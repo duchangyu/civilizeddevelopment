@@ -35,65 +35,35 @@
 // U.S. or other applicable export control laws.
 //
 using System;
-using System.IO;
 
-using Colibra;
-using TinyTest;
+using Autodesk.AutoCAD.DatabaseServices;
+using c3ddb = Autodesk.Civil.Land.DatabaseServices;
 
-namespace ColibraShould
+namespace Colibra 
 {
-    [TestClass]
-    public class AlignmentListShould
+    public class Alignment
     {
-        public AlignmentListShould()
+        internal Alignment(ObjectId alignmentId)
         {
-            _DocumentWithAlignments = DocumentManager.OpenDocument(_DocumentWithAlignmentsName);
+            m_AlignmentId = alignmentId;
         }
 
-        [TestMethod]
-        public void ReturnTheCorrectNumberOfAlignmentsInDrawing()
-        {
-            int expectedNumberOfAlignments = 2;
-            Assert.AreEqual(expectedNumberOfAlignments, _DocumentWithAlignments.Alignments.Count);
-        }
-
-        [TestMethod]
-        public void ReturnCorrectAlignmentByName()
-        {
-            _DocumentWithAlignments.BeginAccess();
-            string expectedName = "Alignment - (1)";
-            Alignment alignment = _DocumentWithAlignments.Alignments[expectedName];
-            Assert.AreEqual(expectedName, alignment.Name, "Incorrect alignment returned");
-            _DocumentWithAlignments.EndAccess();
-        }
-
-        [TestMethod]
-        public void ReturnTrueIfSpecifiedAlignmentExistsIntheDrawing()
-        {
-            _DocumentWithAlignments.BeginAccess();
-            Assert.IsTrue(_DocumentWithAlignments.Alignments.Contains("Alignment - (2)"), 
-                "The specified alignment exists in the drawing.");
-            _DocumentWithAlignments.EndAccess();
-        }
-
-        [TestMethod]
-        public void ReturnFalseIfSpecifiedAlignmentDoesNotExistInDrawing()
-        {
-            _DocumentWithAlignments.BeginAccess();
-            Assert.IsFalse(_DocumentWithAlignments.Alignments.Contains("Inexistent Alignment"),
-                "The specified alignment name does not exists in the drawing.");
-            _DocumentWithAlignments.EndAccess();
-        }
-
-        private string _DocumentWithAlignmentsName
+        public string Name 
         {
             get
             {
-                return Path.Combine(AbsoluteLocation.DataDirectory, "TwoAlignments.dwg");
+                return _instance.Name;
             }
-
         }
 
-        private Document _DocumentWithAlignments { get; set; }
+        private c3ddb.Alignment _instance 
+        {
+            get
+            {
+                return m_AlignmentId.GetObject(OpenMode.ForRead) as c3ddb.Alignment;
+            }
+        }
+
+        private ObjectId m_AlignmentId;
     }
 }

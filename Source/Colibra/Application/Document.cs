@@ -51,6 +51,7 @@ namespace Colibra
         {
             m_ThisAcadDocument = acadDoc;
             m_ThisCivilDocument = civilDoc;
+            m_ActiveTransaction = null;
         }
 
         /// <summary>
@@ -71,7 +72,7 @@ namespace Colibra
         {
             get 
             {
-                return new AlignmentList(m_ThisCivilDocument.GetAlignmentIds());
+                return new AlignmentList(this);
             }
         }
 
@@ -81,6 +82,20 @@ namespace Colibra
         public void Activate()
         {
             DocumentManager._activateDocument(this);
+        }
+
+        public void BeginAccess()
+        {
+            if (m_ActiveTransaction == null)
+            {
+                m_ActiveTransaction = m_ThisAcadDocument.TransactionManager.StartTransaction();
+            }
+        }
+
+        public void EndAccess()
+        {
+            m_ActiveTransaction.Dispose();
+            m_ActiveTransaction = null;
         }
 
         /// <summary>
@@ -100,8 +115,26 @@ namespace Colibra
             }
         }
 
+        /// <summary>
+        /// Returns a reference to the Civil document represented
+        /// by this object.
+        /// </summary>
+        /// <para>
+        /// This method provides internal access the the Civil document
+        /// object. The property is for internal use and should not be
+        /// exposed to users of Colibra.
+        /// </para>
+        internal CivilDocument _civildoc
+        {
+            get
+            {
+                return m_ThisCivilDocument;
+            }
+        }
+
 
         private acadappsvcs.Document m_ThisAcadDocument;
         private CivilDocument m_ThisCivilDocument;
+        private Transaction m_ActiveTransaction;
     }
 }

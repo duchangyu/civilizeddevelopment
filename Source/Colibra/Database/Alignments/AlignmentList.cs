@@ -37,14 +37,15 @@
 using System;
 
 using Autodesk.AutoCAD.DatabaseServices;
+using c3ddb = Autodesk.Civil.Land.DatabaseServices;
 
 namespace Colibra
 {
     public class AlignmentList
     {
-        internal AlignmentList(ObjectIdCollection alignmentIds)
+        internal AlignmentList(Document parent)
         {
-            m_AlignmentIds = alignmentIds;
+            m_ParentDocument = parent;
         }
 
         /// <summary>
@@ -52,9 +53,54 @@ namespace Colibra
         /// </summary>
         public int Count
         {
-            get { return m_AlignmentIds.Count; }
+            get { return _alignmentIds.Count; }
         }
 
-        private ObjectIdCollection m_AlignmentIds;
+        /// <summary>
+        /// Returns the Alignment with the specified name.
+        /// </summary>
+        /// <param name="alignmentName"></param>
+        /// <returns></returns>
+        public Alignment this[string alignmentName]
+        {
+            get 
+            {
+                ObjectId alignmentId = findAlignment(alignmentName);
+                if (alignmentId != ObjectId.Null)
+                {
+                    return new Alignment(alignmentId);
+                }
+                return null;
+            }
+        }
+
+        public bool Contains(string alignmentName)
+        {
+            ObjectId alignmentId = findAlignment(alignmentName);
+            return alignmentId != ObjectId.Null;
+        }
+
+        private ObjectIdCollection _alignmentIds
+        {
+            get
+            {
+                return m_ParentDocument._civildoc.GetAlignmentIds();
+            }
+        }
+
+        private ObjectId findAlignment(string alignmentName)
+        {
+            foreach (ObjectId alignmentId in _alignmentIds)
+            {
+                c3ddb.Alignment alignment = alignmentId.GetObject(OpenMode.ForRead) as c3ddb.Alignment;
+                if (alignment.Name == alignmentName)
+                {
+                    return alignmentId;
+                }
+            }
+            return ObjectId.Null;
+        }
+
+        private Document m_ParentDocument;
     }
 }
