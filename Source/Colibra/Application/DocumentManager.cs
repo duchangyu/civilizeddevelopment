@@ -42,6 +42,9 @@ using Autodesk.Civil.ApplicationServices;
 
 namespace Colibra
 {
+    /// <summary>
+    /// This class manages and provides access to Document objects.
+    /// </summary>
     public class DocumentManager 
     {
         /// <summary>
@@ -76,6 +79,10 @@ namespace Colibra
             return m_ActiveDocument;
         }
 
+        /// <summary>
+        /// Activates the specified Document.
+        /// </summary>
+        /// <param name="doc">Document to be activated.</param>
         internal static void _activateDocument(Document doc)
         {
             acadappsvcs.Application.DocumentManager.MdiActiveDocument = doc._acaddoc;

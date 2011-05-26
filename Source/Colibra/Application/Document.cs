@@ -47,6 +47,19 @@ namespace Colibra
     /// </summary>
     public class Document 
     {
+        /// <summary>
+        /// Initializes the object from an AutoCAD document and a Civil 3D
+        /// document.
+        /// </summary>
+        /// <param name="acadDoc">Represented AutoCAD document.</param>
+        /// <param name="civilDoc">Represented Civil 3D document.</param>
+        /// <para>
+        /// The class encapsulates access to the AutoCAD and Civil 3D
+        /// document objects. The Document object is instantiated by the
+        /// 'DocumentManager' class, which access the AutoCAD and Civil 3D
+        /// document objects representing the same drawing and instantiates
+        /// a new Document wrapper.
+        /// </para>
         internal Document(acadappsvcs.Document acadDoc, CivilDocument civilDoc)
         {
             m_ThisAcadDocument = acadDoc;
@@ -84,18 +97,17 @@ namespace Colibra
             DocumentManager._activateDocument(this);
         }
 
-        public void BeginAccess()
+        /// <summary>
+        /// Starts a document transaction.
+        /// </summary>
+        /// <returns>The newly created Transaction object.</returns>
+        public Transaction StartTransaction()
         {
             if (m_ActiveTransaction == null)
             {
-                m_ActiveTransaction = m_ThisAcadDocument.TransactionManager.StartTransaction();
+                m_ActiveTransaction = new Transaction(this);
             }
-        }
-
-        public void EndAccess()
-        {
-            m_ActiveTransaction.Dispose();
-            m_ActiveTransaction = null;
+            return m_ActiveTransaction;
         }
 
         /// <summary>
@@ -130,6 +142,20 @@ namespace Colibra
             {
                 return m_ThisCivilDocument;
             }
+        }
+
+        /// <summary>
+        /// Terminates the current active transaction.
+        /// </summary>
+        /// <para>
+        /// This method is used internally by the Transaction object
+        /// to clear the current transaction when the Transaction
+        /// object is being disposed. No other objects in the library
+        /// should invoke this method.
+        /// </para>
+        internal void _closeTransaction()
+        {
+            m_ActiveTransaction = null;
         }
 
 

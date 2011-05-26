@@ -41,8 +41,17 @@ using c3ddb = Autodesk.Civil.Land.DatabaseServices;
 
 namespace Colibra
 {
+    /// <summary>
+    /// Collection class that represents all the alignments in
+    /// a drawing.
+    /// </summary>
     public class AlignmentList
     {
+        /// <summary>
+        /// Constructor that initializes the collection from a Document
+        /// object.
+        /// </summary>
+        /// <param name="parent"></param>
         internal AlignmentList(Document parent)
         {
             m_ParentDocument = parent;
@@ -74,12 +83,23 @@ namespace Colibra
             }
         }
 
+        /// <summary>
+        /// Indicates whether the specified alignment is found in
+        /// the collection.
+        /// </summary>
+        /// <param name="alignmentName">Name of the alignment.</param>
+        /// <returns>True if the collection contains an alignment
+        /// with the specified name, or false otherwise.
+        /// </returns>
         public bool Contains(string alignmentName)
         {
             ObjectId alignmentId = findAlignment(alignmentName);
             return alignmentId != ObjectId.Null;
         }
 
+        /// <summary>
+        /// Accessor to the collection of alignment ids.
+        /// </summary>
         private ObjectIdCollection _alignmentIds
         {
             get
@@ -88,6 +108,13 @@ namespace Colibra
             }
         }
 
+        /// <summary>
+        /// Finds an alignment by name and returns its object id.
+        /// </summary>
+        /// <param name="alignmentName">Name of the alignment to find.</param>
+        /// <returns>The object id of the alignment or ObjectId.Null if
+        /// the alignment is not found.
+        /// </returns>
         private ObjectId findAlignment(string alignmentName)
         {
             foreach (ObjectId alignmentId in _alignmentIds)

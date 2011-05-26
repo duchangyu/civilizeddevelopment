@@ -35,68 +35,53 @@
 // U.S. or other applicable export control laws.
 //
 using System;
-using System.IO;
 
-using Colibra;
-using TinyTest;
+using acaddb = Autodesk.AutoCAD.DatabaseServices;
 
-namespace ColibraShould
+namespace Colibra
 {
-    [TestClass]
-    public class AlignmentListShould
+    /// <summary>
+    /// Encapsulates a Transaction to eliminate dependencies on
+    /// AutoCAD specific code.
+    /// </summary>
+    public class Transaction : IDisposable
     {
-        public AlignmentListShould()
+        /// <summary>
+        /// Class constructor that initializes the transaction object.
+        /// </summary>
+        /// <param name="transaction">Parent document for the transaction.</param>
+        internal Transaction(Document parent)
         {
-            _DocumentWithAlignments = DocumentManager.OpenDocument(_DocumentWithAlignmentsName);
+            m_ParentDocument = parent;
+            m_TheTransaction = m_ParentDocument._acaddoc.TransactionManager.StartTransaction();
         }
 
-        [TestMethod]
-        public void ReturnTheCorrectNumberOfAlignmentsInDrawing()
+        /// <summary>
+        /// Aborts a currently active transaction.
+        /// </summary>
+        public void Abort()
         {
-            int expectedNumberOfAlignments = 2;
-            Assert.AreEqual(expectedNumberOfAlignments, _DocumentWithAlignments.Alignments.Count);
+            m_TheTransaction.Abort();
         }
 
-        [TestMethod]
-        public void ReturnCorrectAlignmentByName()
+        /// <summary>
+        /// Commits changes made to the document during the transaction scope.
+        /// </summary>
+        public void Commit()
         {
-            using(Transaction tr = _DocumentWithAlignments.StartTransaction())
-            {
-                string expectedName = "Alignment - (1)";
-                Alignment alignment = _DocumentWithAlignments.Alignments[expectedName];
-                Assert.AreEqual(expectedName, alignment.Name, "Incorrect alignment returned");
-            }
+            m_TheTransaction.Commit();
         }
 
-        [TestMethod]
-        public void ReturnTrueIfSpecifiedAlignmentExistsIntheDrawing()
+        /// <summary>
+        /// Disposes the transaction object and closes the transaction.
+        /// </summary>
+        public void Dispose()
         {
-            using(Transaction tr = _DocumentWithAlignments.StartTransaction())
-            {
-                Assert.IsTrue(_DocumentWithAlignments.Alignments.Contains("Alignment - (2)"),
-                "The specified alignment exists in the drawing.");
-            }
+            m_ParentDocument._closeTransaction();
+            m_TheTransaction.Dispose();
         }
 
-        [TestMethod]
-        public void ReturnFalseIfSpecifiedAlignmentDoesNotExistInDrawing()
-        {
-            using(Transaction tr = _DocumentWithAlignments.StartTransaction())
-            {
-                Assert.IsFalse(_DocumentWithAlignments.Alignments.Contains("Inexistent Alignment"),
-                "The specified alignment name does not exists in the drawing.");
-            }
-        }
-
-        private string _DocumentWithAlignmentsName
-        {
-            get
-            {
-                return Path.Combine(AbsoluteLocation.DataDirectory, "TwoAlignments.dwg");
-            }
-
-        }
-
-        private Document _DocumentWithAlignments { get; set; }
+        private Document m_ParentDocument;
+        private acaddb.Transaction m_TheTransaction;
     }
 }

@@ -41,22 +41,40 @@ using c3ddb = Autodesk.Civil.Land.DatabaseServices;
 
 namespace Colibra 
 {
+    /// <summary>
+    /// Encapsulates a Civil 3D alignment object.
+    /// </summary>
     public class Alignment
     {
+        /// <summary>
+        /// Class constructor that initializes the object
+        /// from the object id of the alignment it represents.
+        /// </summary>
+        /// <param name="alignmentId">Id of the wrapped alignment.</param>
+        /// <para>
+        /// The constructor is internal and invoked by the AlignmentList 
+        /// class to wrap and initialize access to an alignment object.
+        /// </para>
         internal Alignment(ObjectId alignmentId)
         {
             m_AlignmentId = alignmentId;
         }
 
+        /// <summary>
+        /// Returns the alignment name.
+        /// </summary>
         public string Name 
         {
             get
             {
-                return _instance.Name;
+                return instance.Name;
             }
         }
 
-        private c3ddb.Alignment _instance 
+        /// <summary>
+        /// Provides access to the alignment object instance.
+        /// </summary>
+        private c3ddb.Alignment instance 
         {
             get
             {

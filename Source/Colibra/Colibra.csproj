@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Application\DocumentManager.cs" />
     <Compile Include="Application\Document.cs" />
+    <Compile Include="Application\Transaction.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Database\Alignments\Alignment.cs" />
     <Compile Include="Database\Alignments\AlignmentList.cs" />
