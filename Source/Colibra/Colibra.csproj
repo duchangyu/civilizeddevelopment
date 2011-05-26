@@ -55,6 +55,25 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Database\Alignments\Alignment.cs" />
     <Compile Include="Database\Alignments\AlignmentList.cs" />
+    <Compile Include="Database\Alignments\Entities\AAlignmentEntity.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityCCRC.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityCLC.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityCRC.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityCS.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityCSS.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityCurve.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityLine.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityLS.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySC.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySCS.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySCSCS.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySCSSCS.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySL.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySLS.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySpiral.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySSC.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySSCSS.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySS.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="acdbmgd, Version=18.1.0.0, Culture=neutral, processorArchitecture=AMD64">
