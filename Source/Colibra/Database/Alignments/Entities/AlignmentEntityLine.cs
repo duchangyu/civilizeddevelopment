@@ -40,8 +40,16 @@ using Autodesk.Civil.Land.DatabaseServices;
 
 namespace Colibra
 {
+    /// <summary>
+    /// Represents an alignment entity with sub-entity of type
+    /// Line.
+    /// </summary>
     public class AlignmentEntityLine : AAlignmentEntity
     {
+        /// <summary>
+        /// Initializes the class with the wrapped entity.
+        /// </summary>
+        /// <param name="entity">Entity to be wrapped.</param>
         internal AlignmentEntityLine(AlignmentEntity entity)
             : base(entity)
         {

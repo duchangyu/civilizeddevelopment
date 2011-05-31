@@ -42,32 +42,39 @@ using c3ddb = Autodesk.Civil.Land.DatabaseServices;
 namespace Colibra
 {
     /// <summary>
-    /// 
+    /// This class represents a collection of entities in an Alignment.
     /// </summary>
     public class AlignmentEntityList : IEnumerable<AAlignmentEntity>
     {
         /// <summary>
-        /// 
+        /// Initializes the class with the collection of 
+        /// alignment entities.
         /// </summary>
-        /// <param name="alignment"></param>
+        /// <param name="alignment">Alignment entities.</param>
         internal AlignmentEntityList(c3ddb.AlignmentEntityCollection entities)
         {
             m_Entities = entities;
         }
 
         /// <summary>
-        /// 
+        /// Returns an enumerator object to allow enumerating
+        /// the entities in an Alignment.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>An AlignmentEntityEnumerator to enumerate 
+        /// the entities.
+        /// </returns>
         public IEnumerator<AAlignmentEntity> GetEnumerator()
         {
             return new AlignmentEntityEnumerator(m_Entities);
         }
 
         /// <summary>
-        /// 
+        /// Returns an enumerator object to allow enumerating
+        /// the entities in an Alignment.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>An AlignmentEntityEnumerator to enumerate
+        /// the entities.
+        /// </returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return new AlignmentEntityEnumerator(m_Entities);
@@ -77,14 +84,14 @@ namespace Colibra
     }
 
     /// <summary>
-    /// 
+    /// Alignment entity enumerator object.
     /// </summary>
     public class AlignmentEntityEnumerator : IEnumerator<AAlignmentEntity>
     {
         /// <summary>
-        /// 
+        /// Initializes the object from the entities collection.
         /// </summary>
-        /// <param name="alignment"></param>
+        /// <param name="alignment">Collection of entities in the alignment.</param>
         internal AlignmentEntityEnumerator(c3ddb.AlignmentEntityCollection entities)
         {
             m_Entities = entities;
@@ -92,7 +99,7 @@ namespace Colibra
         }
 
         /// <summary>
-        /// 
+        /// Returns the current alignment entity.
         /// </summary>
         public AAlignmentEntity Current
         {
@@ -100,7 +107,7 @@ namespace Colibra
         }
 
         /// <summary>
-        /// 
+        /// Returns the current alignment entity.
         /// </summary>
         object System.Collections.IEnumerator.Current
         {
@@ -108,7 +115,7 @@ namespace Colibra
         }
 
         /// <summary>
-        /// 
+        /// Disposes the object.
         /// </summary>
         public void Dispose()
         {
@@ -117,9 +124,11 @@ namespace Colibra
         }
         
         /// <summary>
-        /// 
+        /// Move to the next alignment entity in the collection.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>True if there is another entity in the collection, 
+        /// and false when the end of the collection is reached.
+        /// </returns>
         public bool MoveNext()
         {
             m_CurrentEntityIndex++;
@@ -127,7 +136,8 @@ namespace Colibra
         }
 
         /// <summary>
-        /// 
+        /// Resets the collection to begin enumeration from
+        /// the beginning.
         /// </summary>
         public void Reset()
         {
@@ -146,77 +156,77 @@ namespace Colibra
             switch(entity.EntityType)
             {
                 case c3ddb.AlignmentEntityType.Line:
-                    wrappedEntity = new AlignmentEntityLine();
+                    wrappedEntity = new AlignmentEntityLine(entity);
                     break;
 
                 case c3ddb.AlignmentEntityType.Arc:
-                    wrappedEntity = new AlignmentEntityCurve();
+                    wrappedEntity = new AlignmentEntityCurve(entity);
                     break;
 
                 case c3ddb.AlignmentEntityType.Spiral:
-                    wrappedEntity = new AlignmentEntitySpiral();
+                    wrappedEntity = new AlignmentEntitySpiral(entity);
                     break;
 
                 case c3ddb.AlignmentEntityType.SpiralCurveSpiral:
-                    wrappedEntity = new AlignmentEntitySCS();
+                    wrappedEntity = new AlignmentEntitySCS(entity);
                     break;
 
                 case c3ddb.AlignmentEntityType.SpiralLineSpiral:
-                    wrappedEntity = new AlignmentEntitySLS();
+                    wrappedEntity = new AlignmentEntitySLS(entity);
                     break;
 
                 case c3ddb.AlignmentEntityType.SpiralLine:
-                    wrappedEntity = new AlignmentEntitySL();
+                    wrappedEntity = new AlignmentEntitySL(entity);
                     break;
 
                 case c3ddb.AlignmentEntityType.LineSpiral:
-                    wrappedEntity = new AlignmentEntityLS();
+                    wrappedEntity = new AlignmentEntityLS(entity);
                     break;
 
                 case c3ddb.AlignmentEntityType.SpiralCurve:
-                    wrappedEntity = new AlignmentEntitySC();
+                    wrappedEntity = new AlignmentEntitySC(entity);
                     break;
 
                 case c3ddb.AlignmentEntityType.CurveSpiral:
-                    wrappedEntity = new AlignmentEntityCS();
+                    wrappedEntity = new AlignmentEntityCS(entity);
                     break;
 
                 case c3ddb.AlignmentEntityType.SpiralSpiralCurveSpiralSpiral:
-                    wrappedEntity = new AlignmentEntitySSCSS();
+                    wrappedEntity = new AlignmentEntitySSCSS(entity);
                     break;
 
                 case c3ddb.AlignmentEntityType.SpiralCurveSpiralCurveSpiral:
-                    wrappedEntity = new AlignmentEntitySCSCS();
+                    wrappedEntity = new AlignmentEntitySCSCS(entity);
                     break;
 
                 case c3ddb.AlignmentEntityType.SpiralCurveSpiralSpiralCurveSpiral:
-                    wrappedEntity = new AlignmentEntitySCSSCS();
+                    wrappedEntity = new AlignmentEntitySCSSCS(entity);
                     break;
 
                 case c3ddb.AlignmentEntityType.SpiralSpiral:
-                    wrappedEntity = new AlignmentEntitySS();
+                    wrappedEntity = new AlignmentEntitySS(entity);
                     break;
 
                 case c3ddb.AlignmentEntityType.SpiralSpiralCurve:
-                    wrappedEntity = new AlignmentEntitySSC();
+                    wrappedEntity = new AlignmentEntitySSC(entity);
                     break;
 
                 case c3ddb.AlignmentEntityType.CurveSpiralSpiral:
-                    wrappedEntity = new AlignmentEntityCSS();
+                    wrappedEntity = new AlignmentEntityCSS(entity);
                     break;
 
                 // Introduced in 2012.
                 //
                 //case c3ddb.AlignmentEntityType.CurveLineCurve:
-                //    wrappedEntity = new AlignmentEntityCLC();
+                //    wrappedEntity = new AlignmentEntityCLC(entity);
                 //    break;
 
                 //case c3ddb.AlignmentEntityType.CurveReverseCurve:
-                //    wrappedEntity = new AlignmentEntityCRC();
+                //    wrappedEntity = new AlignmentEntityCRC(entity);
                 //    break;
 
                 //case c3ddb.AlignmentEntityType.CurveCurveReverseCurve:
-                //    wrappedEntity = new AlignmentEntityCCR();
+                //    wrappedEntity = new AlignmentEntityCCR(entity);
                 //    break;
 
                 default:

@@ -40,8 +40,21 @@ using Autodesk.Civil.Land.DatabaseServices;
 
 namespace Colibra
 {
+    /// <summary>
+    /// Abstract base class for all alignment entities.
+    /// </summary>
+    /// <para>
+    /// This class serves as a wrapper for alignment entity objects.
+    /// The class it self is abstract so it cannot be instantiated,
+    /// but sub classes must provide the wrapped entity, which will
+    /// be managed in this class.
+    /// </para>
     public abstract class AAlignmentEntity
     {
+        /// <summary>
+        /// Initializes the object from an alignment entity.
+        /// </summary>
+        /// <param name="entity">Entity to wrap.</param>
         internal AAlignmentEntity(AlignmentEntity entity)
         {
             m_TheEntity = entity;

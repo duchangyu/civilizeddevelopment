@@ -40,9 +40,17 @@ using Autodesk.Civil.Land.DatabaseServices;
 
 namespace Colibra
 {
-    public class AlignmentEntityCCR : AAlignmentEntity
+    /// <summary>
+    /// Represents an alignment entity with sub-entities of type
+    /// Curve - Curve - Reversed Curve.
+    /// </summary>
+    public class AlignmentEntityCCRC : AAlignmentEntity
     {
-        internal AlignmentEntityCCR(AlignmentEntity entity)
+        /// <summary>
+        /// Initializes the class with the wrapped object.
+        /// </summary>
+        /// <param name="entity">Entity to be wrapped.</param>
+        internal AlignmentEntityCCRC(AlignmentEntity entity)
             : base(entity)
         {
 

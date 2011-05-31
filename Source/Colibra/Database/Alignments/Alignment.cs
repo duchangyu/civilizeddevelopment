@@ -60,6 +60,9 @@ namespace Colibra
             m_AlignmentId = alignmentId;
         }
 
+        /// <summary>
+        /// Returns a list of entities in the alignment.
+        /// </summary>
         public AlignmentEntityList Entities
         {
             get 

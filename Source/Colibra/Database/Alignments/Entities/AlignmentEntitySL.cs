@@ -40,8 +40,16 @@ using Autodesk.Civil.Land.DatabaseServices;
 
 namespace Colibra
 {
+    /// <summary>
+    /// Represents an alignment entity with sub-entities of type
+    /// Spiral - Line.
+    /// </summary>
     public class AlignmentEntitySL : AAlignmentEntity
     {
+        /// <summary>
+        /// Initializes the class with the wrapped entity.
+        /// </summary>
+        /// <param name="entity">Entity to be wrapped.</param>
         internal AlignmentEntitySL(AlignmentEntity entity)
             : base(entity)
         {
