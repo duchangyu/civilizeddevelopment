@@ -36,10 +36,16 @@
 //
 using System;
 
+using Autodesk.Civil.Land.DatabaseServices;
+
 namespace Colibra
 {
     public class AlignmentEntitySL : AAlignmentEntity
     {
+        internal AlignmentEntitySL(AlignmentEntity entity)
+            : base(entity)
+        {
 
+        }
     }
 }

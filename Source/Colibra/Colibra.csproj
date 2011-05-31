@@ -63,6 +63,7 @@
     <Compile Include="Database\Alignments\Entities\AlignmentEntityCSS.cs" />
     <Compile Include="Database\Alignments\Entities\AlignmentEntityCurve.cs" />
     <Compile Include="Database\Alignments\Entities\AlignmentEntityLine.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityList.cs" />
     <Compile Include="Database\Alignments\Entities\AlignmentEntityLS.cs" />
     <Compile Include="Database\Alignments\Entities\AlignmentEntitySC.cs" />
     <Compile Include="Database\Alignments\Entities\AlignmentEntitySCS.cs" />
