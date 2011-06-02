@@ -1,0 +1,24 @@
+syntax: glob
+
+# Ignore all the produced dlls.
+*.dll
+
+# Ignore Visual Studio user files.
+*.suo
+*.csproj.user
+*.FileListAbsolute.txt
+*.cache
+NetSamples\obj\**.*
+
+# Ignore all pdbs.
+*.pdb
+
+# Ignore configuration files posted by the build.
+Bin\ColibraTestsCS.xml
+Bin\ColibraTestsVB.xml
+Bin\FrameworkTests.xml
+
+# Ignore AutoCAD recovery files
+*.dwl
+*.dwl2
+*.err

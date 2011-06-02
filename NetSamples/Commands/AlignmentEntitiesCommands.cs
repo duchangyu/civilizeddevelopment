@@ -27,6 +27,7 @@ namespace Autodesk.CivilizedDevelopment
         {
             EnumerateEntities += enumerateEntitiesById;
             doDisplayAlignmentEntities();
+            EnumerateEntities -= enumerateEntitiesById;
         }
 
         [CommandMethod("CDS_DisplayAlignmentEntitiesByOrder")]
@@ -34,6 +35,7 @@ namespace Autodesk.CivilizedDevelopment
         {
             EnumerateEntities += enumerateEntitiesByOrder;
             doDisplayAlignmentEntities();
+            EnumerateEntities -= enumerateEntitiesByOrder;
         }
 
         [CommandMethod("CDS_DisplayAllAlignments")]
@@ -43,6 +45,7 @@ namespace Autodesk.CivilizedDevelopment
             _log = true;
             doDisplayAllAlignments();
             writeToLogFile("AllAlignments.log");
+            EnumerateEntities -= enumerateEntitiesByOrder;
         }
 
         private void doDisplayAlignmentEntities()
@@ -101,8 +104,11 @@ namespace Autodesk.CivilizedDevelopment
             {
                 Alignment alignment = 
                     alignmentId.GetObject(OpenMode.ForRead) as Alignment;
+                write("\n----------------------------------------------------");
                 write("\nAlignment Name: " + alignment.Name);
                 EnumerateEntities(alignment);
+                write("\n----------------------------------------------------");
+                tr.Commit();
             }
         }
 
@@ -123,6 +129,7 @@ namespace Autodesk.CivilizedDevelopment
             for (int i = 0; i < entities.Count; i++)
             {
                 AlignmentEntity entity = entities.GetEntityByOrder(i);
+                write("\n.. Entity ID: " + entity.EntityId);
                 write("\n.. Entity Sequence: " + i);
                 write("\n.. Entity Class: " + entity.GetType());
                 write("\n.. Entity Type: " + entity.EntityType);
@@ -167,9 +174,10 @@ namespace Autodesk.CivilizedDevelopment
             {
                 if (m_Editor == null)
                 {
-                    m_Editor = 
+                    m_Editor =
                         Application.DocumentManager.MdiActiveDocument.Editor;
                 }
+
                 return m_Editor;
             }
         }
