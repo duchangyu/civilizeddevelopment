@@ -79,17 +79,6 @@ namespace Colibra
         }
 
         /// <summary>
-        /// Returns the list of alignments in the drawing.
-        /// </summary>
-        public AlignmentList Alignments 
-        {
-            get 
-            {
-                return new AlignmentList(this);
-            }
-        }
-
-        /// <summary>
         /// Activates the document.
         /// </summary>
         public void Activate()

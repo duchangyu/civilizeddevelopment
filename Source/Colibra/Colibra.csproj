@@ -53,8 +53,6 @@
     <Compile Include="Application\Document.cs" />
     <Compile Include="Application\Transaction.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Database\Alignments\Alignment.cs" />
-    <Compile Include="Database\Alignments\AlignmentList.cs" />
     <Compile Include="Database\Alignments\Entities\AAlignmentEntity.cs" />
     <Compile Include="Database\Alignments\Entities\AlignmentEntityCCRC.cs" />
     <Compile Include="Database\Alignments\Entities\AlignmentEntityCLC.cs" />
