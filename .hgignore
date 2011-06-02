@@ -23,8 +23,9 @@ Bin\ColibraTestsCS.xml
 Bin\ColibraTestsVB.xml
 Bin\FrameworkTests.xml
 
-# Ignore AutoCAD recovery and eror files
+# Ignore AutoCAD recovery, backup, and error files
 *.dwl
 *.dwl2
+*.bak
 *.err
 
