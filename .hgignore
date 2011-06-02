@@ -6,6 +6,7 @@ syntax: glob
 # Ignore Visual Studio user files.
 *.suo
 *.csproj.user
+*.vbproj.user
 *.FileListAbsolute.txt
 *.cache
 Source\Colibra\obj\**.*
