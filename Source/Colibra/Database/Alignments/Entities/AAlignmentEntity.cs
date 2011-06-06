@@ -60,6 +60,20 @@ namespace Colibra
             m_TheEntity = entity;
         }
 
+        public void WriteInfo(IAlignmentEntityInfoWriter writer)
+        {
+            writeCommonInfo(writer);
+            WriteCustomInfo(writer);
+        }
+
+        protected abstract void WriteCustomInfo(IAlignmentEntityInfoWriter writer);
+
+        private void writeCommonInfo(IAlignmentEntityInfoWriter writer)
+        {
+
+        }
+        
+
         private AlignmentEntity m_TheEntity;
     }
 }

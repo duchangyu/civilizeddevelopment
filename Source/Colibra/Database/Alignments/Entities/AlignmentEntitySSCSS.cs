@@ -55,5 +55,10 @@ namespace Colibra
         {
 
         }
+
+        protected override void WriteCustomInfo(IAlignmentEntityInfoWriter writer)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -35,30 +35,36 @@
 // U.S. or other applicable export control laws.
 //
 using System;
+using System.Collections.Generic;
 
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.Civil.Land.DatabaseServices;
 
 namespace Colibra
 {
-    /// <summary>
-    /// Represents an alignment entity with sub-entities of type
-    /// Spiral - Line.
-    /// </summary>
-    public class AlignmentEntitySL : AAlignmentEntity
+    public class AlignmentEntitiesProcessor
     {
-        /// <summary>
-        /// Initializes the class with the wrapped entity.
-        /// </summary>
-        /// <param name="entity">Entity to be wrapped.</param>
-        internal AlignmentEntitySL(AlignmentEntity entity)
-            : base(entity)
+        public AlignmentEntitiesProcessor(ObjectId alignmentId)
         {
-
+            m_TheAlignmentId = alignmentId;
         }
 
-        protected override void WriteCustomInfo(IAlignmentEntityInfoWriter writer)
+        public void WriteInfo(IAlignmentEntityInfoWriter writer)
         {
-            throw new NotImplementedException();
+            foreach (AAlignmentEntity entity in _entities)
+            {
+                entity.WriteInfo(writer);
+            }
         }
+
+        private IEnumerable<AAlignmentEntity> _entities
+        {
+            get
+            {
+                return new List<AAlignmentEntity>();
+            }
+        }
+
+        private ObjectId m_TheAlignmentId;
     }
 }
