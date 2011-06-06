@@ -49,6 +49,14 @@ namespace Colibra
     public class ByNameObjectSelector<T> : IObjectSelector
     {
         /// <summary>
+        /// Initializes the selector object.
+        /// </summary>
+        public ByNameObjectSelector()
+        {
+            SelectedId = acaddb.ObjectId.Null;
+        }
+
+        /// <summary>
         /// Allows setting or getting the name of the object to be selected.
         /// </summary>
         public string ObjectName { get; set; }
@@ -63,14 +71,14 @@ namespace Colibra
         public bool Select(Document document)
         {
             acaddb.ObjectId objectId = findObjectInDocument(document);
-            this.Selected = objectId;
+            this.SelectedId = objectId;
             return objectId != acaddb.ObjectId.Null;
         }
 
         /// <summary>
         /// Returns the object id of the selected object.
         /// </summary>
-        public acaddb.ObjectId Selected
+        public acaddb.ObjectId SelectedId
         {
             get; internal set;
         }
