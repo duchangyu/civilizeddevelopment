@@ -78,6 +78,14 @@ namespace Colibra
             }
         }
 
+        public ObjectNodeProvider NodeProvider
+        {
+            get
+            {
+                return new ObjectNodeProvider(this);
+            }
+        }
+
         /// <summary>
         /// Activates the document.
         /// </summary>

@@ -75,10 +75,29 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Application\DocumentManagerShould.cs" />
+    <Compile Include="Application\ObjectNodeProviderShould.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Selection\ByNameObjectSelectorShould.cs" />
     <Compile Include="TestUtilities\AbsoluteLocation.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="acdbmgd, Version=18.2.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2012\acdbmgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="acmgd">
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2012\acmgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AecBaseMgd">
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2012\AecBaseMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AeccDbMgd">
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2012\AeccDbMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>

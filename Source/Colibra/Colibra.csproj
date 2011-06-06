@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="Application\DocumentManager.cs" />
     <Compile Include="Application\Document.cs" />
+    <Compile Include="Application\ObjectNodeProvider.cs" />
     <Compile Include="Application\Transaction.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Database\Alignments\Entities\AAlignmentEntity.cs" />
@@ -95,6 +96,8 @@
     <Compile Include="Database\Alignments\Entities\AlignmentEntitySSC.cs" />
     <Compile Include="Database\Alignments\Entities\AlignmentEntitySSCSS.cs" />
     <Compile Include="Database\Alignments\Entities\AlignmentEntitySS.cs" />
+    <Compile Include="Selection\ByNameObjectSelector.cs" />
+    <Compile Include="Selection\IObjectSelector.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="acdbmgd, Version=18.2.0.0, Culture=neutral, processorArchitecture=AMD64">

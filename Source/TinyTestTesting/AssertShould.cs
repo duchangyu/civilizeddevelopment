@@ -187,5 +187,26 @@ namespace TinyTestTesting
             }
             throw new AssertionFailureException("Assert.AreEqual did not fail with different strings.");
         }
+
+        [TestMethod]
+        public void PassAreEqualIfTypesAreEqual()
+        {
+            Assert.AreEqual(this.GetType(), this.GetType(), "Should PASS");
+        }
+
+        [TestMethod]
+        public void FailAreEqualIfTypesAreNotEqual()
+        {
+            try
+            {
+                Assert.AreEqual(this.GetType(), typeof(System.String), "Should FAIL");
+            }
+            catch
+            {
+                // We expect the assertion to fail.
+                return;
+            }
+            throw new AssertionFailureException("Assert.AreEqual did not fail with different types.");
+        }
     }
 }

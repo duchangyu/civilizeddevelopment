@@ -176,14 +176,46 @@ namespace TinyTest
             }
         }
 
+        /// <summary>
+        /// Compares the specified strings for equality.
+        /// </summary>
+        /// <param name="expected">Expected string.</param>
+        /// <param name="actual">Actual string.</param>
         public static void AreEqual(string expected, string actual)
         {
             AreEqual(expected, actual, String.Empty);
         }
 
+        /// <summary>
+        /// Compares the specified strings for equality.
+        /// </summary>
+        /// <param name="expected">Expected string.</param>
+        /// <param name="actual">Actual string.</param>
+        /// <param name="message">Additional information in case of failure.</param>
         public static void AreEqual(string expected, string actual, string message)
         {
             executeAssertion<string>(expected, actual, message);
+        }
+
+        /// <summary>
+        /// Compares the specified types for equality.
+        /// </summary>
+        /// <param name="expected">Expected type.</param>
+        /// <param name="actual">Actual type.</param>
+        public static void AreEqual(Type expected, Type actual)
+        {
+            AreEqual(expected, actual, String.Empty);
+        }
+
+        /// <summary>
+        /// Compares the specified types for equality.
+        /// </summary>
+        /// <param name="expected">Expected type.</param>
+        /// <param name="actual">Actual type.</param>
+        /// <param name="message">Additional information in case of failure.</param>
+        public static void AreEqual(Type expected, Type actual, string message)
+        {
+            executeAssertion<Type>(expected, actual, message);
         }
 
         private static void executeAssertion<T>(T expected, T actual, string message)
