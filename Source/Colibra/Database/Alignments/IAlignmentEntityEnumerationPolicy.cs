@@ -37,60 +37,12 @@
 using System;
 using System.Collections.Generic;
 
-using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.Civil.Land.DatabaseServices;
 
 namespace Colibra
 {
-    /// <summary>
-    /// Implements methods to process all the entities in an alignment.
-    /// </summary>
-    public class AlignmentEntityProcessor
+    public interface IAlignmentEntityEnumerationPolicy : IEnumerable<AAlignmentEntity>
     {
-        /// <summary>
-        /// Class constructor that initializes the class with the object
-        /// id of an alignment.
-        /// </summary>
-        /// <param name="alignmentId">Object id of the alignment to process.
-        /// </param>
-        public AlignmentEntityProcessor(ObjectId alignmentId)
-        {
-            m_TheAlignmentId = alignmentId;
-            EnumerationPolicy = new BySequenceEnumerationPolicy();
-        }
-
-        IAlignmentEntityEnumerationPolicy EnumerationPolicy { get; set; }
-
-        /// <summary>
-        /// Writes the information about the alignment entities.
-        /// </summary>
-        /// <param name="writer"></param>
-        public void WriteInfo(IAlignmentEntityInfoWriter writer)
-        {
-            writer.WriteAlignmentName(_alignment.Name);
-            foreach (AAlignmentEntity entity in _entities)
-            {
-                entity.WriteInfo(writer);
-            }
-        }
-
-        private Alignment _alignment
-        {
-            get
-            {
-                return m_TheAlignmentId.GetObject(OpenMode.ForRead) as Alignment;
-            }
-        }
-
-        private IEnumerable<AAlignmentEntity> _entities
-        {
-            get
-            {
-                EnumerationPolicy.Initialize(_alignment.Entities);
-                return EnumerationPolicy;
-            }
-        }
-
-        private ObjectId m_TheAlignmentId;
+        void Initialize(AlignmentEntityCollection entities);
     }
 }
