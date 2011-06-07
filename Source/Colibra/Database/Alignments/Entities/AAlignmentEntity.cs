@@ -51,28 +51,32 @@ namespace Colibra
     /// </para>
     public abstract class AAlignmentEntity
     {
-        /// <summary>
-        /// Initializes the object from an alignment entity.
-        /// </summary>
-        /// <param name="entity">Entity to wrap.</param>
-        internal AAlignmentEntity(AlignmentEntity entity)
-        {
-            m_TheEntity = entity;
-        }
-
         public void WriteInfo(IAlignmentEntityInfoWriter writer)
         {
             writeCommonInfo(writer);
             WriteCustomInfo(writer);
         }
 
+        /// <summary>
+        /// Assigns the wrapped entity.
+        /// </summary>
+        /// <param name="entity">Entity to wrap.</param>
+        internal void AssignEntity(AlignmentEntity entity)
+        {
+            m_TheEntity = entity;
+        }
+
+        /// <summary>
+        /// This method must be implemented in derived classes to write
+        /// the custom entity information.
+        /// </summary>
+        /// <param name="writer"></param>
         protected abstract void WriteCustomInfo(IAlignmentEntityInfoWriter writer);
 
         private void writeCommonInfo(IAlignmentEntityInfoWriter writer)
         {
 
         }
-        
 
         private AlignmentEntity m_TheEntity;
     }

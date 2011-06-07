@@ -42,13 +42,26 @@ using Autodesk.Civil.Land.DatabaseServices;
 
 namespace Colibra
 {
+    /// <summary>
+    /// Implements methods to process all the entities in an alignment.
+    /// </summary>
     public class AlignmentEntitiesProcessor
     {
+        /// <summary>
+        /// Class constructor that initializes the class with the object
+        /// id of an alignment.
+        /// </summary>
+        /// <param name="alignmentId">Object id of the alignment to process.
+        /// </param>
         public AlignmentEntitiesProcessor(ObjectId alignmentId)
         {
             m_TheAlignmentId = alignmentId;
         }
 
+        /// <summary>
+        /// Writes the information about the alignment entities.
+        /// </summary>
+        /// <param name="writer"></param>
         public void WriteInfo(IAlignmentEntityInfoWriter writer)
         {
             foreach (AAlignmentEntity entity in _entities)

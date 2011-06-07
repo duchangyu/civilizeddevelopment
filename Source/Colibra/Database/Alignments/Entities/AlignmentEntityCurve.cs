@@ -47,12 +47,6 @@ namespace Colibra
     /// </summary>
     public class AlignmentEntityCurve : AAlignmentEntity
     {
-        internal AlignmentEntityCurve(AlignmentEntity entity)
-            : base(entity)
-        {
-
-        }
-
         protected override void WriteCustomInfo(IAlignmentEntityInfoWriter writer)
         {
             throw new NotImplementedException();

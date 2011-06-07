@@ -77,6 +77,7 @@
     <Compile Include="Application\Transaction.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Database\Alignments\AlignmentEntityProcessor.cs" />
+    <Compile Include="Database\Alignments\AlignmentEntityWrapperFactory.cs" />
     <Compile Include="Database\Alignments\Entities\AAlignmentEntity.cs" />
     <Compile Include="Database\Alignments\Entities\AlignmentEntityCCRC.cs" />
     <Compile Include="Database\Alignments\Entities\AlignmentEntityCLC.cs" />
@@ -85,7 +86,6 @@
     <Compile Include="Database\Alignments\Entities\AlignmentEntityCSS.cs" />
     <Compile Include="Database\Alignments\Entities\AlignmentEntityCurve.cs" />
     <Compile Include="Database\Alignments\Entities\AlignmentEntityLine.cs" />
-    <Compile Include="Database\Alignments\Entities\AlignmentEntityList.cs" />
     <Compile Include="Database\Alignments\Entities\AlignmentEntityLS.cs" />
     <Compile Include="Database\Alignments\Entities\AlignmentEntitySC.cs" />
     <Compile Include="Database\Alignments\Entities\AlignmentEntitySCS.cs" />

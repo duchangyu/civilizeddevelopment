@@ -46,16 +46,6 @@ namespace Colibra
     /// </summary>
     public class AlignmentEntitySS : AAlignmentEntity
     {
-        /// <summary>
-        /// Initializes the class with the wrapped entity.
-        /// </summary>
-        /// <param name="entity">Entity to be wrapped.</param>
-        internal AlignmentEntitySS(AlignmentEntity entity)
-            : base(entity)
-        {
-
-        }
-
         protected override void WriteCustomInfo(IAlignmentEntityInfoWriter writer)
         {
             throw new NotImplementedException();
