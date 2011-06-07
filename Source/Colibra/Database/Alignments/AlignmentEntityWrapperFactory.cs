@@ -42,6 +42,11 @@ namespace Colibra
 {
     internal class AlignmentEntityWrapperFactory
     {
+        /// <summary>
+        /// Creates an AAlignmentEntity wraping an alignment entity.
+        /// </summary>
+        /// <param name="entity">Entity to be wrapped.</param>
+        /// <returns>A wrapper AAlignmentEntity object.</returns>
         public static AAlignmentEntity WrapEntity(AlignmentEntity entity)
         {
             AAlignmentEntity wrapped = CreateWrapper(entity.EntityType);
@@ -49,6 +54,19 @@ namespace Colibra
             return wrapped;
         }
 
+        /// <summary>
+        /// Factory method that creates the correct wrapper for a specified
+        /// entity type.
+        /// </summary>
+        /// <remarks>
+        /// This method was provided to be able to test the correct wrapper
+        /// class is created for all supported entity types. Users should
+        /// not call this method directly because it returns an empty
+        /// wrapper. Instead, users should call WrapEntity(), which
+        /// initializes the wrapper after is created.
+        /// </remarks>
+        /// <param name="type"></param>
+        /// <returns></returns>
         internal static AAlignmentEntity CreateWrapper(AlignmentEntityType type)
         {
             switch(type)

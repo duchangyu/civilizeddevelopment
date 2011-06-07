@@ -40,6 +40,46 @@ namespace Colibra
 {
     public interface IAlignmentEntityInfoWriter
     {
+        /// <summary>
+        /// Implement to write the alignment name.
+        /// </summary>
+        /// <param name="name">Name of the alignment.</param>
+        void WriteAlignmentName(string name);
 
+        /// <summary>
+        /// Implement to write the entity id.
+        /// </summary>
+        /// <param name="id">Id of the entity.</param>
+        void WriteEntityId(int id);
+
+        /// <summary>
+        /// Implement to write the class type of the wrapped entity.
+        /// </summary>
+        /// <param name="classType">Type of the wrapped entity.</param>
+        void WriteWrappedEntityClassType(Type classType);
+
+        /// <summary>
+        /// Implement to write the sub-entity count.
+        /// </summary>
+        /// <param name="count">Count of sub-entities.</param>
+        void WriteSubEntityCount(int count);
+
+        /// <summary>
+        /// Implement to write the curve group name.
+        /// </summary>
+        /// <param name="name">Name of the curve group.</param>
+        void WriteCurveGroupName(string name);
+
+        /// <summary>
+        /// Implement to terminate writing information about an entity.
+        /// </summary>
+        /// <remarks>
+        /// The entities write the information in a specified order; however,
+        /// writers may decide to modify the order of the information due to its
+        /// requirements. In this case, the writer may cache the information, and
+        /// reorder the output when this method is called, which means all the
+        /// information from an entity has been provided.
+        /// </remarks>
+        void EntityInfoDone();
     }
 }

@@ -48,7 +48,8 @@ namespace Colibra
     {
         protected override void WriteCustomInfo(IAlignmentEntityInfoWriter writer)
         {
-            throw new NotImplementedException();
+            writer.WriteCurveGroupName(
+                "Spiral - Curve - Spiral - Spiral - Curve - Spiral");
         }
     }
 }

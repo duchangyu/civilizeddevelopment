@@ -35,7 +35,9 @@
 // U.S. or other applicable export control laws.
 //
 using System;
+using System.IO;
 
+using acaddb = Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.Civil.Land.DatabaseServices;
 
 using Colibra;
@@ -181,6 +183,19 @@ namespace ColibraShould
             Assert.Fail("Exception not thrown on not implemented entity.");
         }
 
+        [TestMethod]
+        public void WrapEntityCorrectly()
+        {
+            Document testDoc = getTestDocument();
+            using (Transaction tr = testDoc.StartTransaction())
+            {
+                AlignmentEntity entity = getTestEntity(testDoc);
+                AAlignmentEntity wrapper = AlignmentEntityWrapperFactory.WrapEntity(entity);
+
+                Assert.IsTrue(wrapper.IsValid, "Entity not wrapped correctly.");
+            }
+        }
+
         private void _given(AlignmentEntityType entityType)
         {
             m_RequestedEntityType = entityType;
@@ -192,6 +207,31 @@ namespace ColibraShould
                 AlignmentEntityWrapperFactory.CreateWrapper(m_RequestedEntityType);
             Assert.AreEqual(wrapperType, entity.GetType(), 
                 "Incorrect entity type created.");
+        }
+
+        private string _testDocumentName
+        {
+            get
+            {
+                return Path.Combine(AbsoluteLocation.DataDirectory, 
+                    "TwoAlignments.dwg");
+            }
+        }
+
+        private Document getTestDocument()
+        {
+            return DocumentManager.OpenDocument(_testDocumentName);
+        }
+
+        private AlignmentEntity getTestEntity(Document document)
+        {
+            ByNameObjectSelector<Alignment> selector = 
+                new ByNameObjectSelector<Alignment>();
+            selector.ObjectName = "Alignment - (1)";
+            selector.Select(document);
+            Alignment alignment = selector.SelectedId.GetObject(
+                acaddb.OpenMode.ForRead) as Alignment;
+            return alignment.Entities[0];
         }
 
         private AlignmentEntityType m_RequestedEntityType;

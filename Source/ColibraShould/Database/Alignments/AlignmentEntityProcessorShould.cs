@@ -35,61 +35,83 @@
 // U.S. or other applicable export control laws.
 //
 using System;
-using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
-using Autodesk.AutoCAD.DatabaseServices;
+using acaddb = Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.Civil.Land.DatabaseServices;
 
-namespace Colibra
+using Colibra;
+using TinyTest;
+
+namespace ColibraShould
 {
-    /// <summary>
-    /// Implements methods to process all the entities in an alignment.
-    /// </summary>
-    public class AlignmentEntityProcessor
+    [TestClass]
+    public class AlignmentEntityProcessorShould
     {
-        /// <summary>
-        /// Class constructor that initializes the class with the object
-        /// id of an alignment.
-        /// </summary>
-        /// <param name="alignmentId">Object id of the alignment to process.
-        /// </param>
-        public AlignmentEntityProcessor(ObjectId alignmentId)
+        [TestMethod]
+        public void WriteInformationCorrectly()
         {
-            m_TheAlignmentId = alignmentId;
-        }
-
-        /// <summary>
-        /// Writes the information about the alignment entities.
-        /// </summary>
-        /// <param name="writer"></param>
-        public void WriteInfo(IAlignmentEntityInfoWriter writer)
-        {
-            writer.WriteAlignmentName(_alignment.Name);
-            foreach (AAlignmentEntity entity in _entities)
+            Document doc = getTestDocument();
+            using (Transaction tr = doc.StartTransaction())
             {
-                entity.WriteInfo(writer);
+                ByNameObjectSelector<Alignment> selector = 
+                    new ByNameObjectSelector<Alignment>();
+                selector.ObjectName = "Alignment - (1)";
+                selector.Select(doc);
+                AlignmentEntityProcessor processor = 
+                    new AlignmentEntityProcessor(selector.SelectedId);
+                AlignmentEntityInfoWriterMock writer = 
+                    new AlignmentEntityInfoWriterMock();
+                processor.WriteInfo(writer);
+
+                Assert.AreEqual(_expectedOutput, writer.Output, 
+                    "Incorrect information written.");
             }
         }
 
-        private Alignment _alignment
+        private string _expectedOutput
         {
             get
             {
-                return m_TheAlignmentId.GetObject(OpenMode.ForRead) as Alignment;
+                StringBuilder builder = new StringBuilder();
+                builder.Append("Alignment - (1)");
+                builder.Append(1);
+                builder.Append("Autodesk.Civil.Land.DatabaseServices.AlignmentLine");
+                builder.Append(1);
+                builder.Append("Line");
+                builder.Append(2);
+                builder.Append("Autodesk.Civil.Land.DatabaseServices.AlignmentLine");
+                builder.Append(1);
+                builder.Append("Line");
+                builder.Append(3);
+                builder.Append("Autodesk.Civil.Land.DatabaseServices.AlignmentLine");
+                builder.Append(1);
+                builder.Append("Line");
+                builder.Append(4);
+                builder.Append("Autodesk.Civil.Land.DatabaseServices.AlignmentArc");
+                builder.Append(1);
+                builder.Append("Curve");
+                builder.Append(5);
+                builder.Append("Autodesk.Civil.Land.DatabaseServices.AlignmentArc");
+                builder.Append(1);
+                builder.Append("Curve");
+                return builder.ToString();
             }
         }
 
-        private IEnumerable<AAlignmentEntity> _entities
+        private string _testDocumentName
         {
             get
             {
-                foreach (AlignmentEntity entity in _alignment.Entities)
-                {
-                    yield return AlignmentEntityWrapperFactory.WrapEntity(entity);
-                }
+                return Path.Combine(AbsoluteLocation.DataDirectory, 
+                    "TwoAlignments.dwg");
             }
         }
 
-        private ObjectId m_TheAlignmentId;
+        private Document getTestDocument()
+        {
+            return DocumentManager.OpenDocument(_testDocumentName);
+        }
     }
 }

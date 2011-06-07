@@ -51,10 +51,28 @@ namespace Colibra
     /// </para>
     public abstract class AAlignmentEntity
     {
+        internal AAlignmentEntity()
+        {
+            m_TheEntity = null;
+        }
+
+        /// <summary>
+        /// Returns whether the wrapper entity is valid (has been assigned).
+        /// </summary>
+        public bool IsValid
+        {
+            get { return m_TheEntity != null; }
+        }
+
+        /// <summary>
+        /// Writes the alignment entity information to the specified writer.
+        /// </summary>
+        /// <param name="writer">Writer to which write the inforamtion.</param>
         public void WriteInfo(IAlignmentEntityInfoWriter writer)
         {
             writeCommonInfo(writer);
             WriteCustomInfo(writer);
+            writer.EntityInfoDone();
         }
 
         /// <summary>
@@ -75,7 +93,9 @@ namespace Colibra
 
         private void writeCommonInfo(IAlignmentEntityInfoWriter writer)
         {
-
+            writer.WriteEntityId(m_TheEntity.EntityId);
+            writer.WriteWrappedEntityClassType(m_TheEntity.GetType());
+            writer.WriteSubEntityCount(m_TheEntity.SubEntityCount);
         }
 
         private AlignmentEntity m_TheEntity;

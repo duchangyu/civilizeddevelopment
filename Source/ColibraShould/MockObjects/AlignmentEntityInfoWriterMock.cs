@@ -35,20 +35,54 @@
 // U.S. or other applicable export control laws.
 //
 using System;
+using System.Text;
 
-using Autodesk.Civil.Land.DatabaseServices;
+using Colibra;
 
-namespace Colibra 
+namespace ColibraShould
 {
-    /// <summary>
-    /// Represents an alignment entity with sub-entities of type
-    /// Curve - Spiral.
-    /// </summary>
-    public class AlignmentEntityCS : AAlignmentEntity
+    public class AlignmentEntityInfoWriterMock : IAlignmentEntityInfoWriter
     {
-        protected override void WriteCustomInfo(IAlignmentEntityInfoWriter writer)
+        public AlignmentEntityInfoWriterMock()
         {
-            writer.WriteCurveGroupName("Curve - Spiral");
+            m_OutputBuilder = new StringBuilder();
         }
+
+        public string Output
+        {
+            get { return m_OutputBuilder.ToString(); }
+        }
+
+        public void WriteAlignmentName(string name)
+        {
+            m_OutputBuilder.Append(name);
+        }
+
+        public void WriteEntityId(int id)
+        {
+            m_OutputBuilder.Append(id);
+        }
+
+        public void WriteWrappedEntityClassType(Type classType)
+        {
+            m_OutputBuilder.Append(classType);
+        }
+
+        public void WriteSubEntityCount(int count)
+        {
+            m_OutputBuilder.Append(count);
+        }
+
+        public void WriteCurveGroupName(string name)
+        {
+            m_OutputBuilder.Append(name);
+        }
+
+        public void EntityInfoDone()
+        {
+            return;
+        }
+
+        private StringBuilder m_OutputBuilder;
     }
 }
