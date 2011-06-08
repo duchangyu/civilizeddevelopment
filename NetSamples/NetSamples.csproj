@@ -71,9 +71,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Commands\AlignmentEntitiesCommands.cs" />
+    <Compile Include="Commands\AlignmentEntitiesCommandsColibra.cs" />
     <Compile Include="NetSamplesApp.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Accessibility">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="acdbmgd">
       <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2012\acdbmgd.dll</HintPath>
       <Private>False</Private>
@@ -89,6 +93,9 @@
     <Reference Include="AeccDbMgd">
       <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2012\AeccDbMgd.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="Colibra">
+      <HintPath>..\..\Colibra\Dev\Bin\Colibra.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup />
