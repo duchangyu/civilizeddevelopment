@@ -115,7 +115,7 @@ namespace Colibra
 
         private void write(string message)
         {
-            _editor.WriteMessage(message);
+            _editor.WriteMessage("\n" + message);
         }
 
         private Editor _editor { get; set; }
