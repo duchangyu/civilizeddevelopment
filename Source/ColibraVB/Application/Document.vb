@@ -36,6 +36,7 @@
 '
 
 Imports acadappsvcs = Autodesk.AutoCAD.ApplicationServices
+Imports Autodesk.AutoCAD.DatabaseServices
 Imports Autodesk.Civil.ApplicationServices
 
 Namespace Colibra
@@ -43,9 +44,23 @@ Namespace Colibra
     ''' Encapsulates access to the AutoCAD and Civil 3D document objects.
     ''' </summary>
     Public Class Document
-        Friend Sub New(ByVal acadDoc As acadappsvcs.Document, ByVal civilDoc As CivilDocument)
+        ''' <summary>
+        ''' Initializes the object from an AutoCAD document and a Civil 3D
+        ''' document.
+        ''' </summary>
+        ''' <param name="acadDoc">Represented AutoCAD document.</param>
+        ''' <param name="civilDoc">Represented Civil 3D document.</param>
+        ''' <para>
+        ''' The class encapsulates access to the AutoCAD and Civil 3D
+        ''' document objects. The Document object is instantiated by the
+        ''' 'DocumentManager' class, which access the AutoCAD and Civil 3D
+        ''' document objects representing the same drawing and instantiates
+        ''' a new Document wrapper.
+        ''' </para>
+        Friend Sub New(acadDoc As acadappsvcs.Document, civilDoc As CivilDocument)
             m_ThisAcadDocument = acadDoc
             m_ThisCivilDocument = civilDoc
+            m_ActiveTransaction = Nothing
         End Sub
 
         ''' <summary>
@@ -57,6 +72,12 @@ Namespace Colibra
             End Get
         End Property
 
+        Public ReadOnly Property NodeProvider() As ObjectNodeProvider
+            Get
+                Return New ObjectNodeProvider(Me)
+            End Get
+        End Property
+
         ''' <summary>
         ''' Activates the document.
         ''' </summary>
@@ -64,14 +85,63 @@ Namespace Colibra
             DocumentManager._activateDocument(Me)
         End Sub
 
+        ''' <summary>
+        ''' Starts a document transaction.
+        ''' </summary>
+        ''' <returns>The newly created Transaction object.</returns>
+        Public Function StartTransaction() As Transaction
+            If m_ActiveTransaction Is Nothing Then
+                m_ActiveTransaction = New Transaction(Me)
+            End If
+            Return m_ActiveTransaction
+        End Function
+
+        ''' <summary>
+        ''' Returns a reference to the AutoCAD document represented
+        ''' by this object.
+        ''' </summary>
+        ''' <para>
+        ''' This method provides internal access to the AutoCAD document
+        ''' object. The property is for internal use and should not be
+        ''' exposed to users of Colibra.
+        ''' </para>
         Friend ReadOnly Property _acaddoc() As acadappsvcs.Document
             Get
                 Return m_ThisAcadDocument
             End Get
         End Property
 
+        ''' <summary>
+        ''' Returns a reference to the Civil document represented
+        ''' by this object.
+        ''' </summary>
+        ''' <para>
+        ''' This method provides internal access the the Civil document
+        ''' object. The property is for internal use and should not be
+        ''' exposed to users of Colibra.
+        ''' </para>
+        Friend ReadOnly Property _civildoc() As CivilDocument
+            Get
+                Return m_ThisCivilDocument
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' Terminates the current active transaction.
+        ''' </summary>
+        ''' <para>
+        ''' This method is used internally by the Transaction object
+        ''' to clear the current transaction when the Transaction
+        ''' object is being disposed. No other objects in the library
+        ''' should invoke this method.
+        ''' </para>
+        Friend Sub _closeTransaction()
+            m_ActiveTransaction = Nothing
+        End Sub
+
 
         Private m_ThisAcadDocument As acadappsvcs.Document
         Private m_ThisCivilDocument As CivilDocument
+        Private m_ActiveTransaction As Transaction
     End Class
 End Namespace

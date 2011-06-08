@@ -34,37 +34,46 @@
 ' resulting binaries, or any related technical documentation,  in violation of
 ' U.S. or other applicable export control laws.
 '
-Imports System.Reflection
-Imports System.Runtime.CompilerServices
-Imports System.Runtime.InteropServices
+Imports System.IO
 
-' General Information about an assembly is controlled through the following 
-' set of attributes. Change these attribute values to modify the information
-' associated with an assembly.
-<Assembly: AssemblyTitle("Colibra")> 
-<Assembly: AssemblyDescription("Civil Object Library")> 
-<Assembly: AssemblyConfiguration("")> 
-<Assembly: AssemblyCompany("Autodesk, Inc")> 
-<Assembly: AssemblyProduct("Colibra")> 
-<Assembly: AssemblyCopyright("Copyright © Autodesk 2011")> 
-<Assembly: AssemblyTrademark("")> 
-<Assembly: AssemblyCulture("")> 
+Imports Autodesk.Civil.Land.DatabaseServices
 
-' Setting ComVisible to false makes the types in this assembly not visible 
-' to COM components.  If you need to access a type in this assembly from 
-' COM, set the ComVisible attribute to true on that type.
-<Assembly: ComVisible(False)> 
+Imports Colibra
+Imports TinyTest
 
-' The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("51457b1a-e079-4137-8d33-a8327fb6b0df")> 
+Namespace ColibraShould
+    <TestClass()> _
+    Public Class ByNameObjectSelectorShould
+        Public Sub New()
+            m_SelectionDocument = DocumentManager.OpenDocument(_selectionDocumentName)
+        End Sub
 
-' Version information for an assembly consists of the following four values:
-'
-'      Major Version
-'      Minor Version 
-'      Build Number
-'      Revision
-'
-<Assembly: AssemblyVersion("1.0.3.0")> 
-<Assembly: AssemblyFileVersion("1.0.3.0")> 
-<Assembly: InternalsVisibleTo("ColibraVBShould")> 
+        <TestMethod()> _
+        Public Sub ReturnTrueIfSpecifiedObjectExists()
+            Using tr As Transaction = m_SelectionDocument.StartTransaction()
+                Dim selector As New ByNameObjectSelector(Of Alignment)()
+                selector.ObjectName = "Alignment - (1)"
+
+                Assert.IsTrue(selector.[Select](m_SelectionDocument), "Failed to find object.")
+            End Using
+        End Sub
+
+        <TestMethod()> _
+        Public Sub ReturnFalseIfSpecifiedObjectDoesNotExist()
+            Using tr As Transaction = m_SelectionDocument.StartTransaction()
+                Dim selector As New ByNameObjectSelector(Of Alignment)()
+                selector.ObjectName = "Inexistent Alignment"
+
+                Assert.IsFalse(selector.[Select](m_SelectionDocument), "Inexistent object cannot be selected.")
+            End Using
+        End Sub
+
+        Private ReadOnly Property _selectionDocumentName() As String
+            Get
+                Return Path.Combine(AbsoluteLocation.DataDirectory, "TwoAlignments.dwg")
+            End Get
+        End Property
+
+        Private m_SelectionDocument As Document
+    End Class
+End Namespace

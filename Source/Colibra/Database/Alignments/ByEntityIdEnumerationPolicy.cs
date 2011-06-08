@@ -35,6 +35,7 @@
 // U.S. or other applicable export control laws.
 //
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 using Autodesk.Civil.Land.DatabaseServices;
@@ -70,7 +71,8 @@ namespace Colibra
         /// Returns an alignment entity enumerator.
         /// </summary>
         /// <returns>Returns the enumerator object.</returns>
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        System.Collections.IEnumerator 
+            System.Collections.IEnumerable.GetEnumerator()
         {
             return new ByEntityIdEnumerator(m_TheEntities);
         }

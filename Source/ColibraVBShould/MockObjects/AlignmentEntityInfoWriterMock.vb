@@ -34,37 +34,47 @@
 ' resulting binaries, or any related technical documentation,  in violation of
 ' U.S. or other applicable export control laws.
 '
-Imports System.Reflection
-Imports System.Runtime.CompilerServices
-Imports System.Runtime.InteropServices
+Imports System.Text
 
-' General Information about an assembly is controlled through the following 
-' set of attributes. Change these attribute values to modify the information
-' associated with an assembly.
-<Assembly: AssemblyTitle("Colibra")> 
-<Assembly: AssemblyDescription("Civil Object Library")> 
-<Assembly: AssemblyConfiguration("")> 
-<Assembly: AssemblyCompany("Autodesk, Inc")> 
-<Assembly: AssemblyProduct("Colibra")> 
-<Assembly: AssemblyCopyright("Copyright © Autodesk 2011")> 
-<Assembly: AssemblyTrademark("")> 
-<Assembly: AssemblyCulture("")> 
+Imports Colibra
 
-' Setting ComVisible to false makes the types in this assembly not visible 
-' to COM components.  If you need to access a type in this assembly from 
-' COM, set the ComVisible attribute to true on that type.
-<Assembly: ComVisible(False)> 
+Namespace ColibraShould
+    Public Class AlignmentEntityInfoWriterMock
+        Implements IAlignmentEntityInfoWriter
+        Public Sub New()
+            m_OutputBuilder = New StringBuilder()
+        End Sub
 
-' The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("51457b1a-e079-4137-8d33-a8327fb6b0df")> 
+        Public ReadOnly Property Output() As String
+            Get
+                Return m_OutputBuilder.ToString()
+            End Get
+        End Property
 
-' Version information for an assembly consists of the following four values:
-'
-'      Major Version
-'      Minor Version 
-'      Build Number
-'      Revision
-'
-<Assembly: AssemblyVersion("1.0.3.0")> 
-<Assembly: AssemblyFileVersion("1.0.3.0")> 
-<Assembly: InternalsVisibleTo("ColibraVBShould")> 
+        Public Sub WriteAlignmentName(name As String) Implements IAlignmentEntityInfoWriter.WriteAlignmentName
+            m_OutputBuilder.Append(name)
+        End Sub
+
+        Public Sub WriteEntityId(id As Integer) Implements IAlignmentEntityInfoWriter.WriteEntityId
+            m_OutputBuilder.Append(id)
+        End Sub
+
+        Public Sub WriteWrappedEntityClassType(classType As Type) Implements IAlignmentEntityInfoWriter.WriteWrappedEntityClassType
+            m_OutputBuilder.Append(classType)
+        End Sub
+
+        Public Sub WriteSubEntityCount(count As Integer) Implements IAlignmentEntityInfoWriter.WriteSubEntityCount
+            m_OutputBuilder.Append(count)
+        End Sub
+
+        Public Sub WriteCurveGroupName(name As String) Implements IAlignmentEntityInfoWriter.WriteCurveGroupName
+            m_OutputBuilder.Append(name)
+        End Sub
+
+        Public Sub EntityInfoDone() Implements IAlignmentEntityInfoWriter.EntityInfoDone
+            Return
+        End Sub
+
+        Private m_OutputBuilder As StringBuilder
+    End Class
+End Namespace

@@ -34,37 +34,35 @@
 ' resulting binaries, or any related technical documentation,  in violation of
 ' U.S. or other applicable export control laws.
 '
-Imports System.Reflection
-Imports System.Runtime.CompilerServices
-Imports System.Runtime.InteropServices
 
-' General Information about an assembly is controlled through the following 
-' set of attributes. Change these attribute values to modify the information
-' associated with an assembly.
-<Assembly: AssemblyTitle("Colibra")> 
-<Assembly: AssemblyDescription("Civil Object Library")> 
-<Assembly: AssemblyConfiguration("")> 
-<Assembly: AssemblyCompany("Autodesk, Inc")> 
-<Assembly: AssemblyProduct("Colibra")> 
-<Assembly: AssemblyCopyright("Copyright © Autodesk 2011")> 
-<Assembly: AssemblyTrademark("")> 
-<Assembly: AssemblyCulture("")> 
+Imports Autodesk.AutoCAD.DatabaseServices
+Imports Autodesk.Civil.ApplicationServices
+Imports Autodesk.Civil.Land.DatabaseServices
 
-' Setting ComVisible to false makes the types in this assembly not visible 
-' to COM components.  If you need to access a type in this assembly from 
-' COM, set the ComVisible attribute to true on that type.
-<Assembly: ComVisible(False)> 
+Namespace Colibra
+    Public Class ObjectNodeProvider
+        Friend Sub New(owner As Document)
+            m_OwnerDocument = owner
+        End Sub
 
-' The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("51457b1a-e079-4137-8d33-a8327fb6b0df")> 
+        Public Function GetNode(objectType As Type) As ObjectIdCollection
+            Return getNodeForType(objectType)
+        End Function
 
-' Version information for an assembly consists of the following four values:
-'
-'      Major Version
-'      Minor Version 
-'      Build Number
-'      Revision
-'
-<Assembly: AssemblyVersion("1.0.3.0")> 
-<Assembly: AssemblyFileVersion("1.0.3.0")> 
-<Assembly: InternalsVisibleTo("ColibraVBShould")> 
+        Private Function getNodeForType(objectType As Type) As ObjectIdCollection
+            If objectType Is GetType(Alignment) Then
+                Return _civildoc.GetAlignmentIds()
+            Else
+                Throw New NotImplementedException("Object type not registered")
+            End If
+        End Function
+
+        Private ReadOnly Property _civildoc() As CivilDocument
+            Get
+                Return m_OwnerDocument._civildoc
+            End Get
+        End Property
+
+        Private m_OwnerDocument As Document
+    End Class
+End Namespace

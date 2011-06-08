@@ -34,37 +34,48 @@
 ' resulting binaries, or any related technical documentation,  in violation of
 ' U.S. or other applicable export control laws.
 '
-Imports System.Reflection
-Imports System.Runtime.CompilerServices
-Imports System.Runtime.InteropServices
 
-' General Information about an assembly is controlled through the following 
-' set of attributes. Change these attribute values to modify the information
-' associated with an assembly.
-<Assembly: AssemblyTitle("Colibra")> 
-<Assembly: AssemblyDescription("Civil Object Library")> 
-<Assembly: AssemblyConfiguration("")> 
-<Assembly: AssemblyCompany("Autodesk, Inc")> 
-<Assembly: AssemblyProduct("Colibra")> 
-<Assembly: AssemblyCopyright("Copyright © Autodesk 2011")> 
-<Assembly: AssemblyTrademark("")> 
-<Assembly: AssemblyCulture("")> 
+Imports acaddb = Autodesk.AutoCAD.DatabaseServices
 
-' Setting ComVisible to false makes the types in this assembly not visible 
-' to COM components.  If you need to access a type in this assembly from 
-' COM, set the ComVisible attribute to true on that type.
-<Assembly: ComVisible(False)> 
+Namespace Colibra
+    ''' <summary>
+    ''' Encapsulates a Transaction to eliminate dependencies on
+    ''' AutoCAD specific code.
+    ''' </summary>
+    Public Class Transaction
+        Implements IDisposable
+        ''' <summary>
+        ''' Class constructor that initializes the transaction object.
+        ''' </summary>
+        ''' <param name="transaction">Parent document for the transaction.</param>
+        Friend Sub New(parent As Document)
+            m_ParentDocument = parent
+            m_TheTransaction = m_ParentDocument._acaddoc.TransactionManager.StartTransaction()
+        End Sub
 
-' The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("51457b1a-e079-4137-8d33-a8327fb6b0df")> 
+        ''' <summary>
+        ''' Aborts a currently active transaction.
+        ''' </summary>
+        Public Sub Abort()
+            m_TheTransaction.Abort()
+        End Sub
 
-' Version information for an assembly consists of the following four values:
-'
-'      Major Version
-'      Minor Version 
-'      Build Number
-'      Revision
-'
-<Assembly: AssemblyVersion("1.0.3.0")> 
-<Assembly: AssemblyFileVersion("1.0.3.0")> 
-<Assembly: InternalsVisibleTo("ColibraVBShould")> 
+        ''' <summary>
+        ''' Commits changes made to the document during the transaction scope.
+        ''' </summary>
+        Public Sub Commit()
+            m_TheTransaction.Commit()
+        End Sub
+
+        ''' <summary>
+        ''' Disposes the transaction object and closes the transaction.
+        ''' </summary>
+        Public Sub Dispose() Implements IDisposable.Dispose
+            m_ParentDocument._closeTransaction()
+            m_TheTransaction.Dispose()
+        End Sub
+
+        Private m_ParentDocument As Document
+        Private m_TheTransaction As acaddb.Transaction
+    End Class
+End Namespace

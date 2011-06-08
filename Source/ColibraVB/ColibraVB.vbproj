@@ -99,7 +99,37 @@
   <ItemGroup>
     <Compile Include="Application\Document.vb" />
     <Compile Include="Application\DocumentManager.vb" />
+    <Compile Include="Application\ObjectNodeProvider.vb" />
+    <Compile Include="Application\Transaction.vb" />
     <Compile Include="AssemblyInfo.vb" />
+    <Compile Include="Database\Alignments\AlignmentEntityProcessor.vb" />
+    <Compile Include="Database\Alignments\AlignmentEntityWrapperFactory.vb" />
+    <Compile Include="Database\Alignments\ByEntityIdEnumerationPolicy.vb" />
+    <Compile Include="Database\Alignments\BySequenceEnumerationPolicy.vb" />
+    <Compile Include="Database\Alignments\Entities\AAlignmentEntity.vb" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityCCRC.vb" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityCLC.vb" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityCRC.vb" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityCS.vb" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityCSS.vb" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityCurve.vb" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityLine.vb" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityLS.vb" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySC.vb" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySCS.vb" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySCSCS.vb" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySCSSCS.vb" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySL.vb" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySLS.vb" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySpiral.vb" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySS.vb" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySSC.vb" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySSCSS.vb" />
+    <Compile Include="Database\Alignments\IAlignmentEntityEnumerationPolicy.vb" />
+    <Compile Include="Database\Alignments\IAlignmentEntityInfoWriter.vb" />
+    <Compile Include="Selection\ByNameObjectSelector.vb" />
+    <Compile Include="Selection\IObjectSelector.vb" />
+    <Compile Include="Selection\SingleObjectSelector.vb" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="My Project\" />

@@ -34,37 +34,49 @@
 ' resulting binaries, or any related technical documentation,  in violation of
 ' U.S. or other applicable export control laws.
 '
-Imports System.Reflection
-Imports System.Runtime.CompilerServices
-Imports System.Runtime.InteropServices
 
-' General Information about an assembly is controlled through the following 
-' set of attributes. Change these attribute values to modify the information
-' associated with an assembly.
-<Assembly: AssemblyTitle("Colibra")> 
-<Assembly: AssemblyDescription("Civil Object Library")> 
-<Assembly: AssemblyConfiguration("")> 
-<Assembly: AssemblyCompany("Autodesk, Inc")> 
-<Assembly: AssemblyProduct("Colibra")> 
-<Assembly: AssemblyCopyright("Copyright © Autodesk 2011")> 
-<Assembly: AssemblyTrademark("")> 
-<Assembly: AssemblyCulture("")> 
+Namespace Colibra
+    Public Interface IAlignmentEntityInfoWriter
+        ''' <summary>
+        ''' Implement to write the alignment name.
+        ''' </summary>
+        ''' <param name="name">Name of the alignment.</param>
+        Sub WriteAlignmentName(name As String)
 
-' Setting ComVisible to false makes the types in this assembly not visible 
-' to COM components.  If you need to access a type in this assembly from 
-' COM, set the ComVisible attribute to true on that type.
-<Assembly: ComVisible(False)> 
+        ''' <summary>
+        ''' Implement to write the entity id.
+        ''' </summary>
+        ''' <param name="id">Id of the entity.</param>
+        Sub WriteEntityId(id As Integer)
 
-' The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("51457b1a-e079-4137-8d33-a8327fb6b0df")> 
+        ''' <summary>
+        ''' Implement to write the class type of the wrapped entity.
+        ''' </summary>
+        ''' <param name="classType">Type of the wrapped entity.</param>
+        Sub WriteWrappedEntityClassType(classType As Type)
 
-' Version information for an assembly consists of the following four values:
-'
-'      Major Version
-'      Minor Version 
-'      Build Number
-'      Revision
-'
-<Assembly: AssemblyVersion("1.0.3.0")> 
-<Assembly: AssemblyFileVersion("1.0.3.0")> 
-<Assembly: InternalsVisibleTo("ColibraVBShould")> 
+        ''' <summary>
+        ''' Implement to write the sub-entity count.
+        ''' </summary>
+        ''' <param name="count">Count of sub-entities.</param>
+        Sub WriteSubEntityCount(count As Integer)
+
+        ''' <summary>
+        ''' Implement to write the curve group name.
+        ''' </summary>
+        ''' <param name="name">Name of the curve group.</param>
+        Sub WriteCurveGroupName(name As String)
+
+        ''' <summary>
+        ''' Implement to terminate writing information about an entity.
+        ''' </summary>
+        ''' <remarks>
+        ''' The entities write the information in a specified order; however,
+        ''' writers may decide to modify the order of the information due to its
+        ''' requirements. In this case, the writer may cache the information, and
+        ''' reorder the output when this method is called, which means all the
+        ''' information from an entity has been provided.
+        ''' </remarks>
+        Sub EntityInfoDone()
+    End Interface
+End Namespace

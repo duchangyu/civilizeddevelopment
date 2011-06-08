@@ -40,6 +40,10 @@ using Autodesk.Civil.Land.DatabaseServices;
 
 namespace Colibra
 {
+    /// <summary>
+    /// Factory class that creates the wrapping adapters for alignment
+    /// entity objects.
+    /// </summary>
     internal class AlignmentEntityWrapperFactory
     {
         /// <summary>

@@ -89,7 +89,8 @@ namespace Colibra
         /// the custom entity information.
         /// </summary>
         /// <param name="writer"></param>
-        protected abstract void WriteCustomInfo(IAlignmentEntityInfoWriter writer);
+        protected abstract void WriteCustomInfo(
+            IAlignmentEntityInfoWriter writer);
 
         private void writeCommonInfo(IAlignmentEntityInfoWriter writer)
         {

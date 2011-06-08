@@ -34,63 +34,74 @@
 ' resulting binaries, or any related technical documentation,  in violation of
 ' U.S. or other applicable export control laws.
 '
-Imports System.Threading
 
-Imports acadappsvcs = Autodesk.AutoCAD.ApplicationServices
+Imports acaddb = Autodesk.AutoCAD.DatabaseServices
 Imports Autodesk.Civil.ApplicationServices
+Imports c3ddb = Autodesk.Civil.DatabaseServices
 
 Namespace Colibra
     ''' <summary>
-    ''' This class manages and provides access to Document objects.
+    ''' Implements IObjectSelecto to allow selecting civil objects by name.
     ''' </summary>
-    Public Class DocumentManager
+    ''' <typeparam name="T">Type of civil object to select.</typeparam>
+    Public Class ByNameObjectSelector(Of T)
+        Implements IObjectSelector
         ''' <summary>
-        ''' Returns the active document.
+        ''' Initializes the selector object.
         ''' </summary>
-        Public Shared ReadOnly Property ActiveDocument() As Document
+        Public Sub New()
+            SelectedId = acaddb.ObjectId.Null
+        End Sub
+
+        ''' <summary>
+        ''' Allows setting or getting the name of the object to be selected.
+        ''' </summary>
+        Public Property ObjectName() As String
             Get
-                If m_ActiveDocument Is Nothing Then
-                    ' We were never called, so lets initialize the class to the
-                    ' current active document in AutoCAD.
-                    '
-
-                    createNewAndActivateFromAutoCADDocument(acadappsvcs.Application.DocumentManager.MdiActiveDocument)
-                End If
-                Return m_ActiveDocument
+                Return m_ObjectName
             End Get
+            Set(value As String)
+                m_ObjectName = Value
+            End Set
         End Property
+        Private m_ObjectName As String
 
         ''' <summary>
-        ''' Opens a document from a DWG file name. Opening a DWG creates a new Document object
-        ''' and activates it.
+        ''' Selects an object by name from the specified document.
         ''' </summary>
-        ''' <param name="fileName">DWG file to open.</param>
-        ''' <returns>Returns the created Document object.</returns>
-        Public Shared Function OpenDocument(fileName As String) As Document
-            Dim acadDoc As acadappsvcs.Document = acadappsvcs.Application.DocumentManager.Open(fileName)
-            createNewAndActivateFromAutoCADDocument(acadDoc)
-            Return m_ActiveDocument
+        ''' <param name="document">Document containing object to be selected.
+        ''' </param>
+        ''' <returns>True if the document contains the object specified or
+        ''' false otherwise.</returns>
+        Public Function [Select](document As Document) As Boolean Implements IObjectSelector.Select
+            Dim objectId As acaddb.ObjectId = findObjectInDocument(document)
+            Me.SelectedId = objectId
+            Return objectId <> acaddb.ObjectId.Null
         End Function
 
         ''' <summary>
-        ''' Activates the specified Document.
+        ''' Returns the object id of the selected object.
         ''' </summary>
-        ''' <param name="doc">Document to be activated.</param>
-        Friend Shared Sub _activateDocument(doc As Document)
-            acadappsvcs.Application.DocumentManager.MdiActiveDocument = doc._acaddoc
-            m_ActiveDocument = doc
-        End Sub
+        Public Property SelectedId() As acaddb.ObjectId
+            Get
+                Return m_SelectedId
+            End Get
+            Friend Set(value As acaddb.ObjectId)
+                m_SelectedId = Value
+            End Set
+        End Property
+        Private m_SelectedId As acaddb.ObjectId
 
-        Private Shared Sub createNewAndActivateFromAutoCADDocument(acadDoc As acadappsvcs.Document)
-            Dim civilDoc As CivilDocument = getCivilDocumentAndActivate(acadDoc)
-            m_ActiveDocument = New Document(acadDoc, civilDoc)
-        End Sub
-
-        Private Shared Function getCivilDocumentAndActivate(acadDoc As acadappsvcs.Document) As CivilDocument
-            acadappsvcs.Application.DocumentManager.MdiActiveDocument = acadDoc
-            Return CivilApplication.ActiveDocument
+        Private Function findObjectInDocument(document As Document) As acaddb.ObjectId
+            Dim provider As ObjectNodeProvider = document.NodeProvider
+            Dim objectNode As acaddb.ObjectIdCollection = provider.GetNode(GetType(T))
+            For Each id As acaddb.ObjectId In objectNode
+                Dim entity As c3ddb.Entity = TryCast(id.GetObject(acaddb.OpenMode.ForRead), c3ddb.Entity)
+                If entity.Name = ObjectName Then
+                    Return id
+                End If
+            Next
+            Return acaddb.ObjectId.Null
         End Function
-
-        Private Shared m_ActiveDocument As Document = Nothing
     End Class
 End Namespace

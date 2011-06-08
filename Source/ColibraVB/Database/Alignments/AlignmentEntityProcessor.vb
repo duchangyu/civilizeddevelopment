@@ -34,37 +34,61 @@
 ' resulting binaries, or any related technical documentation,  in violation of
 ' U.S. or other applicable export control laws.
 '
-Imports System.Reflection
-Imports System.Runtime.CompilerServices
-Imports System.Runtime.InteropServices
+Imports System.Collections.Generic
 
-' General Information about an assembly is controlled through the following 
-' set of attributes. Change these attribute values to modify the information
-' associated with an assembly.
-<Assembly: AssemblyTitle("Colibra")> 
-<Assembly: AssemblyDescription("Civil Object Library")> 
-<Assembly: AssemblyConfiguration("")> 
-<Assembly: AssemblyCompany("Autodesk, Inc")> 
-<Assembly: AssemblyProduct("Colibra")> 
-<Assembly: AssemblyCopyright("Copyright © Autodesk 2011")> 
-<Assembly: AssemblyTrademark("")> 
-<Assembly: AssemblyCulture("")> 
+Imports Autodesk.AutoCAD.DatabaseServices
+Imports Autodesk.Civil.Land.DatabaseServices
 
-' Setting ComVisible to false makes the types in this assembly not visible 
-' to COM components.  If you need to access a type in this assembly from 
-' COM, set the ComVisible attribute to true on that type.
-<Assembly: ComVisible(False)> 
+Namespace Colibra
+    ''' <summary>
+    ''' Implements methods to process all the entities in an alignment.
+    ''' </summary>
+    Public Class AlignmentEntityProcessor
+        ''' <summary>
+        ''' Class constructor that initializes the class with the object
+        ''' id of an alignment.
+        ''' </summary>
+        ''' <param name="alignmentId">Object id of the alignment to process.
+        ''' </param>
+        Public Sub New(alignmentId As ObjectId)
+            m_TheAlignmentId = alignmentId
+            EnumerationPolicy = New BySequenceEnumerationPolicy()
+        End Sub
 
-' The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("51457b1a-e079-4137-8d33-a8327fb6b0df")> 
+        Private Property EnumerationPolicy() As IAlignmentEntityEnumerationPolicy
+            Get
+                Return m_EnumerationPolicy
+            End Get
+            Set(value As IAlignmentEntityEnumerationPolicy)
+                m_EnumerationPolicy = Value
+            End Set
+        End Property
+        Private m_EnumerationPolicy As IAlignmentEntityEnumerationPolicy
 
-' Version information for an assembly consists of the following four values:
-'
-'      Major Version
-'      Minor Version 
-'      Build Number
-'      Revision
-'
-<Assembly: AssemblyVersion("1.0.3.0")> 
-<Assembly: AssemblyFileVersion("1.0.3.0")> 
-<Assembly: InternalsVisibleTo("ColibraVBShould")> 
+        ''' <summary>
+        ''' Writes the information about the alignment entities.
+        ''' </summary>
+        ''' <param name="writer"></param>
+        Public Sub WriteInfo(writer As IAlignmentEntityInfoWriter)
+            writer.WriteAlignmentName(_alignment.Name)
+            For Each entity As AAlignmentEntity In _entities
+                entity.WriteInfo(writer)
+            Next
+        End Sub
+
+        Private ReadOnly Property _alignment() As Alignment
+            Get
+                Return TryCast(m_TheAlignmentId.GetObject(OpenMode.ForRead), Alignment)
+            End Get
+        End Property
+
+        Private ReadOnly Property _entities() As IEnumerable(Of AAlignmentEntity)
+            Get
+                EnumerationPolicy.Initialize(_alignment.Entities)
+                Return EnumerationPolicy
+            End Get
+        End Property
+
+        Private m_TheAlignmentId As ObjectId
+    End Class
+End Namespace

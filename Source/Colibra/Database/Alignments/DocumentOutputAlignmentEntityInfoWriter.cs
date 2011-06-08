@@ -35,82 +35,93 @@
 // U.S. or other applicable export control laws.
 //
 using System;
-using System.IO;
-using System.Reflection;
 
-using Autodesk.AutoCAD.Runtime;
+using Autodesk.AutoCAD.EditorInput;
 
-using TinyTest;
-
-[assembly: CommandClass(typeof(TinyRunner.TinyRunnerCommands))]
-
-namespace TinyRunner
+namespace Colibra
 {
     /// <summary>
-    /// Command class that implements commands that allow to run
-    /// unit tests inside of AutoCAD.
+    /// Writes alignment entity information to the output window of the
+    /// specified document.
     /// </summary>
-    public class TinyRunnerCommands
+    public class DocumentOutputAlignmentEntityInfoWriter : IAlignmentEntityInfoWriter
     {
-        [CommandMethod("RunTestsCS", CommandFlags.Session)]
-        public void RunTestsCS()
+        /// <summary>
+        /// Initializes the class to the document we are going to show the
+        /// output.
+        /// </summary>
+        /// <param name="document">Document where we will show the output.
+        /// </param>
+        public DocumentOutputAlignmentEntityInfoWriter(Document document)
         {
-            executeTestConfiguration(new XMLConfiguration("ColibraTestsCS.xml"), new AutoCADCommandLineResultsCollector());
-        }
-
-        [CommandMethod("RunTestsVB", CommandFlags.Session)]
-        public void RunTestsVB()
-        {
-            executeTestConfiguration(new XMLConfiguration("ColibraTestsVB.xml"), new AutoCADCommandLineResultsCollector());
+            _editor = document._acaddoc.Editor;
         }
 
         /// <summary>
-        /// This command runs the tests that validate the implementation
-        /// of the unit test framework. It does not run the Colibra
-        /// unit tests.
+        /// Writes the alignment name.
         /// </summary>
-        [CommandMethod("RunFrameworkTests")]
-        public void RunFrameworkTests()
+        /// <param name="name">Name of the alignment.</param>
+        public void WriteAlignmentName(string name)
         {
-            executeTestConfiguration(new XMLConfiguration("FrameworkTests.xml"), new AutoCADCommandLineResultsCollector());
+            write(String.Format("Alignment Name: {0}", name));
         }
 
-        private void executeTestConfiguration(ITestRunConfiguration configuration, ITestResultCollector collector)
+        /// <summary>
+        /// Writes the entity id.
+        /// </summary>
+        /// <param name="id">Entity Id.</param>
+        public void WriteEntityId(int id)
         {
-            // We set the working directory to the location of this running assembly
-            // to allow the framework to easily find the files that are needed (configuration
-            // files, DLL's, etc. After we execute the tests, we want to restore the working
-            // directory to where it was.
-            //
-            setWorkingDirectoryToThisAssemblyLocation();
-            executeTests(configuration, collector);
-            restoreWorkingDirectory();
+            _entityId = id.ToString();
         }
 
-
-        private void setWorkingDirectoryToThisAssemblyLocation()
+        /// <summary>
+        /// Writes the entity class type.
+        /// </summary>
+        /// <param name="classType">Entity class type.</param>
+        public void WriteWrappedEntityClassType(Type classType)
         {
-            m_StartUpWorkingDir = Directory.GetCurrentDirectory();
-            Assembly thisAssembly = Assembly.GetExecutingAssembly();
-            string assemblyDir = Path.GetDirectoryName(
-                thisAssembly.Location);
-            Directory.SetCurrentDirectory(assemblyDir);
+            _entityClassType = classType.ToString();
         }
 
-
-        private void restoreWorkingDirectory()
+        /// <summary>
+        /// Writes the sub entity count.
+        /// </summary>
+        /// <param name="count">Number of subentities.</param>
+        public void WriteSubEntityCount(int count)
         {
-            Directory.SetCurrentDirectory(m_StartUpWorkingDir);
+            _subEntityCount = count.ToString();
         }
 
-
-        private void executeTests(ITestRunConfiguration configuration, ITestResultCollector collector)
+        /// <summary>
+        /// Writes the curve group name.
+        /// </summary>
+        /// <param name="name">Curve group name.</param>
+        public void WriteCurveGroupName(string name)
         {
-            TestEngine engine = new TestEngine(configuration);
-            engine.Execute(collector);
+            _curveGroupName = name;
         }
 
+        /// <summary>
+        /// Flushes all the information to the output.
+        /// </summary>
+        public void EntityInfoDone()
+        {
+            write("-- Entity Id: " + _entityId);
+            write("-- Curve Group: " + _curveGroupName);
+            write("-- Class Type: " + _entityClassType);
+            write("-- Sub-Entity Count: " + _subEntityCount);
+        }
 
-        private string m_StartUpWorkingDir;
+        private void write(string message)
+        {
+            _editor.WriteMessage(message);
+        }
+
+        private Editor _editor { get; set; }
+        private string _entityId { get; set; }
+        private string _entityClassType { get; set; }
+        private string _subEntityCount { get; set; }
+        private string _curveGroupName { get; set; }
     }
 }

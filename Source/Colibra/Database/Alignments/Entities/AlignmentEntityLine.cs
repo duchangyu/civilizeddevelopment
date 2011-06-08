@@ -46,7 +46,8 @@ namespace Colibra
     /// </summary>
     public class AlignmentEntityLine : AAlignmentEntity
     {
-        protected override void WriteCustomInfo(IAlignmentEntityInfoWriter writer)
+        protected override void WriteCustomInfo(
+            IAlignmentEntityInfoWriter writer)
         {
             writer.WriteCurveGroupName("Line");
         }

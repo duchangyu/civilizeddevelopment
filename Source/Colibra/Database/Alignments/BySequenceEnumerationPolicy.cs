@@ -69,7 +69,8 @@ namespace Colibra
         /// Returns the enumerator.
         /// </summary>
         /// <returns>Returns enumerator object.</returns>
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        System.Collections.IEnumerator 
+            System.Collections.IEnumerable.GetEnumerator()
         {
             return new ByEntityIdEnumerator(m_TheEntities);
         }

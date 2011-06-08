@@ -34,37 +34,61 @@
 ' resulting binaries, or any related technical documentation,  in violation of
 ' U.S. or other applicable export control laws.
 '
-Imports System.Reflection
-Imports System.Runtime.CompilerServices
-Imports System.Runtime.InteropServices
+Imports System.IO
 
-' General Information about an assembly is controlled through the following 
-' set of attributes. Change these attribute values to modify the information
-' associated with an assembly.
-<Assembly: AssemblyTitle("Colibra")> 
-<Assembly: AssemblyDescription("Civil Object Library")> 
-<Assembly: AssemblyConfiguration("")> 
-<Assembly: AssemblyCompany("Autodesk, Inc")> 
-<Assembly: AssemblyProduct("Colibra")> 
-<Assembly: AssemblyCopyright("Copyright © Autodesk 2011")> 
-<Assembly: AssemblyTrademark("")> 
-<Assembly: AssemblyCulture("")> 
+Imports acaddb = Autodesk.AutoCAD.DatabaseServices
+Imports c3dlanddb = Autodesk.Civil.Land.DatabaseServices
+Imports c3ddb = Autodesk.Civil.DatabaseServices
 
-' Setting ComVisible to false makes the types in this assembly not visible 
-' to COM components.  If you need to access a type in this assembly from 
-' COM, set the ComVisible attribute to true on that type.
-<Assembly: ComVisible(False)> 
+Imports Colibra
+Imports TinyTest
 
-' The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("51457b1a-e079-4137-8d33-a8327fb6b0df")> 
+Namespace ColibraShould
+    <TestClass()> _
+    Public Class ObjectNodeProviderShould
+        Public Sub New()
+            m_TestDocument = DocumentManager.OpenDocument(_testDocumentName)
+        End Sub
 
-' Version information for an assembly consists of the following four values:
-'
-'      Major Version
-'      Minor Version 
-'      Build Number
-'      Revision
-'
-<Assembly: AssemblyVersion("1.0.3.0")> 
-<Assembly: AssemblyFileVersion("1.0.3.0")> 
-<Assembly: InternalsVisibleTo("ColibraVBShould")> 
+        <TestMethod()> _
+        Public Sub ReturnTheCorrectObjectIdCollection()
+            Using tr As Transaction = m_TestDocument.StartTransaction()
+                Dim wantedType As Type = GetType(c3dlanddb.Alignment)
+                _givenNodeType(wantedType)
+                _verifyObjectTypeIs(wantedType)
+            End Using
+        End Sub
+
+        <TestMethod()> _
+        Public Sub ThrowExceptionIfNodeTypeNotRegistered()
+            Dim provider As ObjectNodeProvider = m_TestDocument.NodeProvider
+            Try
+                provider.GetNode(GetType([String]))
+            Catch exception As NotImplementedException
+                ' Expected to throw.
+                Return
+            End Try
+            Assert.Fail("Exception not thrown un unregistered type.")
+        End Sub
+
+        Private Sub _givenNodeType(nodeType As Type)
+            m_RequestedType = nodeType
+        End Sub
+
+        Private Sub _verifyObjectTypeIs(requestedType As Type)
+            Dim node As acaddb.ObjectIdCollection = m_TestDocument.NodeProvider.GetNode(m_RequestedType)
+            Dim id As acaddb.ObjectId = node(0)
+            Dim entity As c3ddb.Entity = TryCast(id.GetObject(acaddb.OpenMode.ForRead), c3ddb.Entity)
+            Assert.AreEqual(requestedType, entity.[GetType](), "Incorrect node returned.")
+        End Sub
+
+        Private ReadOnly Property _testDocumentName() As String
+            Get
+                Return Path.Combine(AbsoluteLocation.DataDirectory, "OneEach.dwg")
+            End Get
+        End Property
+
+        Private m_TestDocument As Document
+        Private m_RequestedType As Type
+    End Class
+End Namespace

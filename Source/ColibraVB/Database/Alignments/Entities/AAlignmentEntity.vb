@@ -34,37 +34,65 @@
 ' resulting binaries, or any related technical documentation,  in violation of
 ' U.S. or other applicable export control laws.
 '
-Imports System.Reflection
-Imports System.Runtime.CompilerServices
-Imports System.Runtime.InteropServices
 
-' General Information about an assembly is controlled through the following 
-' set of attributes. Change these attribute values to modify the information
-' associated with an assembly.
-<Assembly: AssemblyTitle("Colibra")> 
-<Assembly: AssemblyDescription("Civil Object Library")> 
-<Assembly: AssemblyConfiguration("")> 
-<Assembly: AssemblyCompany("Autodesk, Inc")> 
-<Assembly: AssemblyProduct("Colibra")> 
-<Assembly: AssemblyCopyright("Copyright © Autodesk 2011")> 
-<Assembly: AssemblyTrademark("")> 
-<Assembly: AssemblyCulture("")> 
+Imports Autodesk.Civil.Land.DatabaseServices
 
-' Setting ComVisible to false makes the types in this assembly not visible 
-' to COM components.  If you need to access a type in this assembly from 
-' COM, set the ComVisible attribute to true on that type.
-<Assembly: ComVisible(False)> 
+Namespace Colibra
+    ''' <summary>
+    ''' Abstract base class for all alignment entities.
+    ''' </summary>
+    ''' <para>
+    ''' This class serves as a wrapper for alignment entity objects.
+    ''' The class it self is abstract so it cannot be instantiated,
+    ''' but sub classes must provide the wrapped entity, which will
+    ''' be managed in this class.
+    ''' </para>
+    Public MustInherit Class AAlignmentEntity
+        Friend Sub New()
+            m_TheEntity = Nothing
+        End Sub
 
-' The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("51457b1a-e079-4137-8d33-a8327fb6b0df")> 
+        ''' <summary>
+        ''' Returns whether the wrapper entity is valid (has been assigned).
+        ''' </summary>
+        Public ReadOnly Property IsValid() As Boolean
+            Get
+                Return m_TheEntity IsNot Nothing
+            End Get
+        End Property
 
-' Version information for an assembly consists of the following four values:
-'
-'      Major Version
-'      Minor Version 
-'      Build Number
-'      Revision
-'
-<Assembly: AssemblyVersion("1.0.3.0")> 
-<Assembly: AssemblyFileVersion("1.0.3.0")> 
-<Assembly: InternalsVisibleTo("ColibraVBShould")> 
+        ''' <summary>
+        ''' Writes the alignment entity information to the specified writer.
+        ''' </summary>
+        ''' <param name="writer">Writer to which write the inforamtion.</param>
+        Public Sub WriteInfo(writer As IAlignmentEntityInfoWriter)
+            writeCommonInfo(writer)
+            WriteCustomInfo(writer)
+            writer.EntityInfoDone()
+        End Sub
+
+        ''' <summary>
+        ''' Assigns the wrapped entity.
+        ''' </summary>
+        ''' <param name="entity">Entity to wrap.</param>
+        Friend Sub AssignEntity(entity As AlignmentEntity)
+            m_TheEntity = entity
+        End Sub
+
+        ''' <summary>
+        ''' This method must be implemented in derived classes to write
+        ''' the custom entity information.
+        ''' </summary>
+        ''' <param name="writer"></param>
+        Protected MustOverride Sub WriteCustomInfo( _
+            writer As IAlignmentEntityInfoWriter)
+
+        Private Sub writeCommonInfo(writer As IAlignmentEntityInfoWriter)
+            writer.WriteEntityId(m_TheEntity.EntityId)
+            writer.WriteWrappedEntityClassType(m_TheEntity.[GetType]())
+            writer.WriteSubEntityCount(m_TheEntity.SubEntityCount)
+        End Sub
+
+        Private m_TheEntity As AlignmentEntity
+    End Class
+End Namespace
