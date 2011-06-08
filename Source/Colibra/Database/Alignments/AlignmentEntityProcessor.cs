@@ -59,7 +59,7 @@ namespace Colibra
             EnumerationPolicy = new BySequenceEnumerationPolicy();
         }
 
-        IAlignmentEntityEnumerationPolicy EnumerationPolicy { get; set; }
+        public IAlignmentEntityEnumerationPolicy EnumerationPolicy { get; set; }
 
         /// <summary>
         /// Writes the information about the alignment entities.

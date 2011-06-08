@@ -55,12 +55,12 @@ Namespace Colibra
             EnumerationPolicy = New BySequenceEnumerationPolicy()
         End Sub
 
-        Private Property EnumerationPolicy() As IAlignmentEntityEnumerationPolicy
+        Public Property EnumerationPolicy() As IAlignmentEntityEnumerationPolicy
             Get
                 Return m_EnumerationPolicy
             End Get
             Set(value As IAlignmentEntityEnumerationPolicy)
-                m_EnumerationPolicy = Value
+                m_EnumerationPolicy = value
             End Set
         End Property
         Private m_EnumerationPolicy As IAlignmentEntityEnumerationPolicy
