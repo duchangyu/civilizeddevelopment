@@ -60,7 +60,7 @@ Namespace Colibra
         ''' <returns>Returns enumerator object.</returns>
         Public Function GetEnumerator() As IEnumerator(Of AAlignmentEntity) _
             Implements IAlignmentEntityEnumerationPolicy.GetEnumerator
-            Return New ByEntityIdEnumerator(m_TheEntities)
+            Return New BySequenceEnumerator(m_TheEntities)
         End Function
 
         ''' <summary>
@@ -70,7 +70,7 @@ Namespace Colibra
         Private Function System_Collections_IEnumerable_GetEnumerator() _
             As System.Collections.IEnumerator _
             Implements System.Collections.IEnumerable.GetEnumerator
-            Return New ByEntityIdEnumerator(m_TheEntities)
+            Return New BySequenceEnumerator(m_TheEntities)
         End Function
 
         Private m_TheEntities As AlignmentEntityCollection

@@ -62,7 +62,7 @@ namespace Colibra
         /// <returns>Returns enumerator object.</returns>
         public IEnumerator<AAlignmentEntity> GetEnumerator()
         {
-            return new ByEntityIdEnumerator(m_TheEntities);
+            return new BySequenceEnumerator(m_TheEntities);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Colibra
         System.Collections.IEnumerator 
             System.Collections.IEnumerable.GetEnumerator()
         {
-            return new ByEntityIdEnumerator(m_TheEntities);
+            return new BySequenceEnumerator(m_TheEntities);
         }
 
         private AlignmentEntityCollection m_TheEntities;
