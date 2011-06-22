@@ -35,7 +35,6 @@
 // U.S. or other applicable export control laws.
 //
 using System;
-using System.Threading;
 
 using acadappsvcs = Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.Civil.ApplicationServices;
