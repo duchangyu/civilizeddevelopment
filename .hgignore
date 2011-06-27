@@ -9,6 +9,7 @@ syntax: glob
 *.vbproj.user
 *.FileListAbsolute.txt
 *.cache
+*.docstates
 Source\Colibra\obj\**.*
 Source\ColibraShould\obj\**.*
 Source\ColibraVB\obj\**.*
