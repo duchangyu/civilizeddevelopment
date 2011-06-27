@@ -9,6 +9,7 @@ syntax: glob
 *.FileListAbsolute.txt
 *.cache
 NetSamples\obj\**.*
+*.docstates
 
 # Ignore all pdbs.
 *.pdb
