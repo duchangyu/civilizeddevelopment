@@ -10,6 +10,7 @@ syntax: glob
 *.FileListAbsolute.txt
 *.cache
 *.docstates
+*.force
 Source\Colibra\obj\**.*
 Source\ColibraShould\obj\**.*
 Source\ColibraVB\obj\**.*
@@ -20,9 +21,9 @@ Source\ColibraVBShould\obj\**.*
 *.pdb
 
 # Ignore configuration files posted by the build.
-Bin\ColibraTestsCS.xml
-Bin\ColibraTestsVB.xml
-Bin\FrameworkTests.xml
+bin\ColibraTestsCS.xml
+bin\ColibraTestsVB.xml
+bin\FrameworkTests.xml
 
 # Ignore AutoCAD recovery, backup, and error files
 *.dwl
