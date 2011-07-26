@@ -1,0 +1,7 @@
+*.sln
+*.cs
+*.vb
+*.csproj
+*.vbproj
+*.dwg
+*.cd

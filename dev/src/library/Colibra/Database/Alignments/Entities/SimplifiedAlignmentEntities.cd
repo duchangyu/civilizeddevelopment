@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Colibra.AAlignmentEntity" Collapsed="true">
+    <Position X="5.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAgAAAABAAAgAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Database\Alignments\Entities\AAlignmentEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Colibra.AlignmentEntityLine" Collapsed="true">
+    <Position X="2" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Database\Alignments\Entities\AlignmentEntityLine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Colibra.AlignmentEntityCurve" Collapsed="true">
+    <Position X="4.25" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Database\Alignments\Entities\AlignmentEntityCurve.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Colibra.AlignmentEntitySpiral" Collapsed="true">
+    <Position X="6.5" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Database\Alignments\Entities\AlignmentEntitySpiral.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Colibra.AlignmentEntitySS" Collapsed="true">
+    <Position X="8.75" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Database\Alignments\Entities\AlignmentEntitySS.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

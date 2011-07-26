@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9D9A9E44-10B7-4129-A80A-995415E4AEC1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Colibra</RootNamespace>
+    <AssemblyName>Colibra</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>
+    </StartupObject>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <Compile Include="Application\DocumentManager.cs" />
+    <Compile Include="Application\Document.cs" />
+    <Compile Include="Application\ObjectNodeProvider.cs" />
+    <Compile Include="Application\Transaction.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Database\Alignments\AlignmentEntityProcessor.cs" />
+    <Compile Include="Database\Alignments\AlignmentEntityWrapperFactory.cs" />
+    <Compile Include="Database\Alignments\ByEntityIdEnumerationPolicy.cs" />
+    <Compile Include="Database\Alignments\BySequenceEnumerationPolicy.cs" />
+    <Compile Include="Database\Alignments\DocumentOutputAlignmentEntityInfoWriter.cs" />
+    <Compile Include="Database\Alignments\Entities\AAlignmentEntity.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityCCRC.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityCLC.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityCRC.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityCS.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityCSS.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityCurve.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityLine.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntityLS.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySC.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySCS.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySCSCS.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySCSSCS.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySL.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySLS.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySpiral.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySSC.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySSCSS.cs" />
+    <Compile Include="Database\Alignments\Entities\AlignmentEntitySS.cs" />
+    <Compile Include="Database\Alignments\IAlignmentEntityEnumerationPolicy.cs" />
+    <Compile Include="Database\Alignments\IAlignmentEntityInfoWriter.cs" />
+    <Compile Include="Selection\ByNameObjectSelector.cs" />
+    <Compile Include="Selection\IObjectSelector.cs" />
+    <Compile Include="Selection\SingleObjectSelector.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="acdbmgd, Version=18.2.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2012\acdbmgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="acmgd">
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2012\acmgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AecBaseMgd">
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2012\AecBaseMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AeccDbMgd">
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2012\AeccDbMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Database\Alignments\Entities\SimplifiedAlignmentEntities.cd" />
+  </ItemGroup>
+</Project>
