@@ -8,7 +8,7 @@
     <ProjectGuid>{C4935C36-7D9B-4938-B80A-FF40E845CF9D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NetSamples</RootNamespace>
+    <RootNamespace>Autodesk.CivilizedDevelopment</RootNamespace>
     <AssemblyName>NetSamples</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
@@ -72,12 +72,13 @@
   <ItemGroup>
     <Compile Include="Commands\AlignmentEntitiesCommands.cs" />
     <Compile Include="Commands\AlignmentEntitiesCommandsColibra.cs" />
+    <Compile Include="Commands\SurfaceEntitiesCommands.cs" />
     <Compile Include="NetSamplesApp.cs" />
+    <Compile Include="Samples\DatabaseTypeCommand.cs" />
+    <Compile Include="Samples\SurfacePointsAndTriangles.cs" />
+    <Compile Include="Samples\SurfaceProperties.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Accessibility">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
     <Reference Include="acdbmgd">
       <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2012\acdbmgd.dll</HintPath>
       <Private>False</Private>
@@ -97,8 +98,8 @@
     <Reference Include="Colibra">
       <HintPath>..\..\Colibra\Dev\Bin\Colibra.dll</HintPath>
     </Reference>
+    <Reference Include="System" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
