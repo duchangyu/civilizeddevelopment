@@ -71,7 +71,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy $(SolutionDir)Configuration\FrameworkTests.xml $(SolutionDir)..\Bin</PostBuildEvent>
+    <PostBuildEvent>copy $(ProjDir)FrameworkTests.xml $(OutDir)</PostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -79,7 +79,7 @@
     <Compile Include="BasicFrameworkTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TinyTest\TinyTest.csproj">
+    <ProjectReference Include="..\..\..\src\tt\TinyTest\TinyTest.csproj">
       <Project>{BC6CE277-0A11-4AE7-8DD1-9D100227DB39}</Project>
       <Name>TinyTest %28TinyTest\TinyTest%29</Name>
     </ProjectReference>
@@ -103,5 +103,8 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FrameworkTests.xml" />
   </ItemGroup>
 </Project>

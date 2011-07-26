@@ -107,11 +107,11 @@
     <Compile Include="TestUtilities\AbsoluteLocation.vb" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ColibraVB\ColibraVB.vbproj">
+    <ProjectReference Include="..\..\..\src\library\ColibraVB\ColibraVB.vbproj">
       <Project>{A8FAE4A7-4759-4B50-A751-276220E58975}</Project>
       <Name>ColibraVB</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TinyTest\TinyTest.csproj">
+    <ProjectReference Include="..\..\..\src\tt\TinyTest\TinyTest.csproj">
       <Project>{BC6CE277-0A11-4AE7-8DD1-9D100227DB39}</Project>
       <Name>TinyTest %28TinyTest\TinyTest%29</Name>
     </ProjectReference>
@@ -136,6 +136,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="ColibraTestsVB.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -145,6 +148,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy $(SolutionDir)Configuration\ColibraTestsVB.xml $(SolutionDir)..\Bin</PostBuildEvent>
+    <PostBuildEvent>copy $(ProjDir)ColibraTestsVB.xml $(OutDir)</PostBuildEvent>
   </PropertyGroup>
 </Project>

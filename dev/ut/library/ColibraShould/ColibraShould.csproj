@@ -71,7 +71,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy $(SolutionDir)Configuration\ColibraTestsCS.xml $(SolutionDir)..\Bin</PostBuildEvent>
+    <PostBuildEvent>copy $(ProjDir)ColibraTestsCS.xml $(OutDir)</PostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Application\DocumentManagerShould.cs" />
@@ -104,16 +104,18 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Colibra\Colibra.csproj">
+    <ProjectReference Include="..\..\..\src\library\Colibra\Colibra.csproj">
       <Project>{9D9A9E44-10B7-4129-A80A-995415E4AEC1}</Project>
       <Name>Colibra</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TinyTest\TinyTest.csproj">
+    <ProjectReference Include="..\..\..\src\tt\TinyTest\TinyTest.csproj">
       <Project>{BC6CE277-0A11-4AE7-8DD1-9D100227DB39}</Project>
       <Name>TinyTest %28TinyTest\TinyTest%29</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="ColibraTestsCS.xml" />
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
