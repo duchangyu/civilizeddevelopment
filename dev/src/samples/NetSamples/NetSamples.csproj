@@ -73,6 +73,7 @@
     <Compile Include="Commands\AlignmentEntitiesCommands.cs" />
     <Compile Include="Commands\AlignmentEntitiesCommandsColibra.cs" />
     <Compile Include="NetSamplesApp.cs" />
+    <Compile Include="Samples\CalculateWaterdrops.cs" />
     <Compile Include="Samples\DatabaseTypeCommand.cs" />
     <Compile Include="Samples\SurfacePointsAndTriangles.cs" />
     <Compile Include="Samples\SurfaceProperties.cs" />
