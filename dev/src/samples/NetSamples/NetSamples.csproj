@@ -70,13 +70,15 @@
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Commands\AlignmentEntitiesCommands.cs" />
-    <Compile Include="Commands\AlignmentEntitiesCommandsColibra.cs" />
+    <Compile Include="Samples\Alignments\AlignmentEntitiesCommands.cs" />
+    <Compile Include="Samples\Alignments\AlignmentEntitiesCommandsColibra.cs" />
     <Compile Include="NetSamplesApp.cs" />
-    <Compile Include="Samples\CalculateWaterdrops.cs" />
-    <Compile Include="Samples\DatabaseTypeCommand.cs" />
-    <Compile Include="Samples\SurfacePointsAndTriangles.cs" />
-    <Compile Include="Samples\SurfaceProperties.cs" />
+    <Compile Include="Samples\Surfaces\CalculateWaterdrops.cs" />
+    <Compile Include="Samples\Surfaces\CreateElevationRanges.cs" />
+    <Compile Include="Samples\Misc\DatabaseTypeCommand.cs" />
+    <Compile Include="Samples\Surfaces\SurfacePointsAndTriangles.cs" />
+    <Compile Include="Samples\Surfaces\SurfaceProperties.cs" />
+    <Compile Include="Utilities\SimpleDrawingCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="acdbmgd">
@@ -103,9 +105,7 @@
       <Name>Colibra</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Issues\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

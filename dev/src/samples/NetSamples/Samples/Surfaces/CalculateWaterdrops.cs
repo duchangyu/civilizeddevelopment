@@ -14,7 +14,7 @@ using Autodesk.Civil.Land.DatabaseServices;
 
 namespace Autodesk.CivilizedDevelopment
 {
-    public class CalculateWaterdrops
+    public class CalculateWaterdrops : SimpleDrawingCommand
     {
         [CommandMethod("CDS_CalculateWaterdrops")]
         public void CDS_CalculateWaterdrops()
@@ -108,14 +108,14 @@ namespace Autodesk.CivilizedDevelopment
         private void markSinks(Transaction ts, Point3dCollection sinks)
         {
             // now lets mark each endpoint
-            BlockTable acBlkTbl = _currentDb.BlockTableId
+            BlockTable acBlkTbl = _database.BlockTableId
                 .GetObject(OpenMode.ForRead) as BlockTable;
             BlockTableRecord acBlkTblRec = 
                 acBlkTbl[BlockTableRecord.ModelSpace]
                 .GetObject(OpenMode.ForWrite) as BlockTableRecord;
             // set the point style
-            _currentDoc.Database.Pdmode = 35;
-            _currentDoc.Database.Pdsize = 10;
+            _document.Database.Pdmode = 35;
+            _document.Database.Pdsize = 10;
             foreach (Point3d sink in sinks)
             {
                 DBPoint sinkPoint = new DBPoint(sink);
@@ -124,48 +124,6 @@ namespace Autodesk.CivilizedDevelopment
                 acBlkTblRec.AppendEntity(sinkPoint);
                 ts.AddNewlyCreatedDBObject(sinkPoint, true);
             }
-        }
-
-        private CivilDocument _civilDoc
-        {
-            get
-            {
-                return CivilApplication.ActiveDocument;
-            }
-        }
-
-        private Document _currentDoc
-        {
-            get
-            {
-                return Application.DocumentManager.MdiActiveDocument;
-            }
-        }
-
-        private Database _currentDb
-        {
-            get
-            {
-                return _currentDoc.Database;
-            }
-        }
-
-        private Editor _editor
-        {
-            get
-            {
-                return _currentDoc.Editor;
-            }
-        }
-
-        private Transaction startTransaction()
-        {
-            return _currentDb.TransactionManager.StartTransaction();
-        }
-
-        private void write(string message)
-        {
-            _editor.WriteMessage(message);
         }
 
         private ObjectId promptForTinSurface()

@@ -9,12 +9,12 @@ using Autodesk.AutoCAD.Runtime;
 
 namespace Autodesk.CivilizedDevelopment
 {
-    public class DatabaseTypeCommand
+    public class DatabaseTypeCommand : SimpleDrawingCommand
     {
         [CommandMethod("CDS_ShowDatabaseType")]
         public void CDS_ShowDatabaseType()
         {
-            if (isCivilDatabase(_currentDb))
+            if (isCivilDatabase(_database))
             {
                 write("\nCurrent document is a Civil 3D drawing.");
             }
@@ -32,40 +32,6 @@ namespace Autodesk.CivilizedDevelopment
                     .GetObject(OpenMode.ForRead) as DBDictionary;
                 return namedObjectDict.Contains("Root");
             }
-        }
-
-        private Document _currentDoc
-        {
-            get
-            {
-                return Application.DocumentManager.MdiActiveDocument;
-            }
-        }
-
-        private Database _currentDb
-        {
-            get
-            {
-                return _currentDoc.Database;
-            }
-        }
-
-        private Editor _editor
-        {
-            get
-            {
-                return _currentDoc.Editor;
-            }
-        }
-
-        private Transaction startTransaction()
-        {
-            return _currentDb.TransactionManager.StartTransaction();
-        }
-
-        private void write(string message)
-        {
-            _editor.WriteMessage(message);
         }
     }
 }

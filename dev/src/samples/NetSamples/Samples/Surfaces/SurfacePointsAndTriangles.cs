@@ -13,7 +13,7 @@ using Colibra;
 
 namespace Autodesk.CivilizedDevelopment
 {
-    public class SurfacePointsAndTriangles
+    public class SurfacePointsAndTriangles : SimpleDrawingCommand
     {
         [CommandMethod("CDS_SurfaceTrianglesAndPointsDemo")]
         public void CDS_SurfaceTrianglesAndPointsDemo()
@@ -22,7 +22,7 @@ namespace Autodesk.CivilizedDevelopment
             ObjectId surfaceId = promptForSurface(doc);
             if (surfaceId == ObjectId.Null)
             {
-                _output("\nNo TIN surface selected.");
+                write("\nNo TIN surface selected.");
                 return;
             }
 
@@ -50,23 +50,11 @@ namespace Autodesk.CivilizedDevelopment
             return selector.SelectedId;
         }
 
-        private Editor _editor
-        {
-            get { 
-                return Application.DocumentManager.MdiActiveDocument.Editor; 
-            }
-        }
-
-        private void _output(string msg)
-        {
-            _editor.WriteMessage(msg);
-        }
-
         private void displayVertex(TinSurfaceVertex vertex)
         {
             string msg = String.Format("\nVertex: ({0},{1},{2})",
                 vertex.Location.X, vertex.Location.Y, vertex.Location.Z);
-            _output(msg);
+            write(msg);
         }
     }
 }
