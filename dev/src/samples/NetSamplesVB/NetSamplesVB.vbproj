@@ -7,15 +7,31 @@
     </ProductVersion>
     <SchemaVersion>
     </SchemaVersion>
-    <ProjectGuid>{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}</ProjectGuid>
+    <ProjectGuid>{932FD76F-241A-48E2-9922-7E135BF67F73}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Autodesk.CivilizedDevelopment</RootNamespace>
     <AssemblyName>NetSamplesVB</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Empty</MyType>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -23,7 +39,7 @@
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\Bin\</OutputPath>
     <DocumentationFile>
     </DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
@@ -78,7 +94,7 @@
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <CodeAnalysisLogFile>bin\Release\NetSamplesVB.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisLogFile>bin\Release\NetSamplesVB.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.vb</CodeAnalysisModuleSuppressionsFile>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
@@ -93,37 +109,61 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="My Project\" />
-    <Folder Include="Samples\" />
-    <Folder Include="Utilities\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="acdbmgd">
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2012\acdbmgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="acmgd">
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2012\acmgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AecBaseMgd">
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2012\AecBaseMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AeccDbMgd">
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2012\AeccDbMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="NetSamplesApp.vb" />
+    <Compile Include="Samples\Misc\DatabaseTypeCommands.vb" />
+    <Compile Include="Samples\Surfaces\CalculateWaterdrops.vb" />
+    <Compile Include="Samples\Surfaces\CreateElevationRanges.vb" />
+    <Compile Include="Samples\Surfaces\SurfacePointsAndTriangles.vb" />
+    <Compile Include="Samples\Surfaces\SurfaceProperties.vb" />
+    <Compile Include="Utilities\SimpleDrawingCommand.vb" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\library\ColibraVB\ColibraVB.vbproj">
       <Project>{A8FAE4A7-4759-4B50-A751-276220E58975}</Project>
       <Name>ColibraVB</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="acdbmgd">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2012\acdbmgd.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="acmgd">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2012\acmgd.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="AecBaseMgd">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2012\AecBaseMgd.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="AeccDbMgd">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2012\AeccDbMgd.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="NetSamplesVBApp.vb" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
