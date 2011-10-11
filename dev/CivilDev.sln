@@ -31,7 +31,7 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ColibraVBShould", "ut\libra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyTestTesting", "ut\tt\TinyTestTesting\TinyTestTesting.csproj", "{600DC9AF-043E-41F2-B3B4-84C9F4F7A4FA}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "NetSamplesVB", "NetSamplesVB\NetSamplesVB.vbproj", "{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "NetSamplesVB", "src\samples\NetSamplesVB\NetSamplesVB.vbproj", "{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -142,16 +142,18 @@ Global
 		{600DC9AF-043E-41F2-B3B4-84C9F4F7A4FA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{600DC9AF-043E-41F2-B3B4-84C9F4F7A4FA}.Release|x64.ActiveCfg = Release|Any CPU
 		{600DC9AF-043E-41F2-B3B4-84C9F4F7A4FA}.Release|x86.ActiveCfg = Release|Any CPU
-		{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}.Debug|Mixed Platforms.ActiveCfg = Debug|x64
+		{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}.Debug|Mixed Platforms.Build.0 = Debug|x64
 		{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}.Debug|x64.ActiveCfg = Debug|x64
+		{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}.Debug|x64.Build.0 = Debug|x64
 		{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}.Debug|x86.ActiveCfg = Debug|x86
 		{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}.Debug|x86.Build.0 = Debug|x86
-		{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}.Release|Any CPU.ActiveCfg = Release|x86
-		{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}.Release|Mixed Platforms.Build.0 = Release|x86
-		{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}.Release|x64.ActiveCfg = Release|x86
+		{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}.Release|Any CPU.ActiveCfg = Release|x64
+		{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}.Release|Mixed Platforms.ActiveCfg = Release|x64
+		{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}.Release|Mixed Platforms.Build.0 = Release|x64
+		{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}.Release|x64.ActiveCfg = Release|x64
+		{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}.Release|x64.Build.0 = Release|x64
 		{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}.Release|x86.ActiveCfg = Release|x86
 		{AA3750CC-9EC3-44CE-97BC-E9C1B55CC8A5}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection

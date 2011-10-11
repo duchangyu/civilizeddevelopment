@@ -97,7 +97,7 @@
     <Folder Include="Utilities\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\library\ColibraVB\ColibraVB.vbproj">
+    <ProjectReference Include="..\..\library\ColibraVB\ColibraVB.vbproj">
       <Project>{A8FAE4A7-4759-4B50-A751-276220E58975}</Project>
       <Name>ColibraVB</Name>
     </ProjectReference>
