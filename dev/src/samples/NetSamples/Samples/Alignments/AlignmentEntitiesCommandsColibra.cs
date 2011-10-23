@@ -10,7 +10,7 @@ using Colibra;
 
 namespace Autodesk.CivilizedDevelopment
 {
-    public class AlignmentEntitiesCommandsColibra
+    public class AlignmentEntitiesCommandsColibra : SimpleDrawingCommand
     {
         [CommandMethod("CDS_WriteAlignmentEntitiesById")]
         public void CDS_WriteAlignmentEntitiesById()
@@ -36,7 +36,7 @@ namespace Autodesk.CivilizedDevelopment
                 new SingleObjectSelector<Alignment>();
                 if (!selector.Select(current))
                 {
-                    _output.WriteMessage("\nNo Alignment was selected.");
+                    write("\nNo Alignment was selected.");
                     return;
                 }
 
@@ -51,15 +51,6 @@ namespace Autodesk.CivilizedDevelopment
                 DocumentOutputAlignmentEntityInfoWriter writer =
                     new DocumentOutputAlignmentEntityInfoWriter(current);
                 processor.WriteInfo(writer);
-            }
-        }
-
-        private Editor _output
-        {
-            get
-            {
-                return Autodesk.AutoCAD.ApplicationServices.Application
-                    .DocumentManager.MdiActiveDocument.Editor;
             }
         }
     }
