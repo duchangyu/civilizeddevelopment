@@ -153,6 +153,7 @@
   <ItemGroup>
     <Compile Include="NetSamplesApp.vb" />
     <Compile Include="Samples\Misc\DatabaseTypeCommands.vb" />
+    <Compile Include="Samples\Styles\DisplayRepresentations.vb" />
     <Compile Include="Samples\Surfaces\CalculateWaterdrops.vb" />
     <Compile Include="Samples\Surfaces\CreateElevationRanges.vb" />
     <Compile Include="Samples\Surfaces\SurfacePointsAndTriangles.vb" />
