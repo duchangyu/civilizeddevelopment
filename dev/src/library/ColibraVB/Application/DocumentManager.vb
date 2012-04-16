@@ -37,6 +37,7 @@
 Imports System.Threading
 
 Imports Autodesk.AutoCAD.ApplicationServices
+Imports Autodesk.AutoCAD.ApplicationServices.DocumentCollectionExtension
 Imports acadappsvcs = Autodesk.AutoCAD.ApplicationServices
 Imports Autodesk.Civil.ApplicationServices
 
@@ -67,11 +68,12 @@ Namespace Colibra
         ''' </summary>
         ''' <param name="fileName">DWG file to open.</param>
         ''' <returns>Returns the created Document object.</returns>
-        Public Shared Function OpenDocument(fileName As String) As Document
-            Dim acadDoc As acadappsvcs.Document = acadappsvcs.Application.DocumentManager.Open(fileName)
-            createNewAndActivateFromAutoCADDocument(acadDoc)
-            Return m_ActiveDocument
-        End Function
+    Public Shared Function OpenDocument(fileName As String) As Document
+      Dim manager As DocumentCollection = acadappsvcs.Application.DocumentManager
+      Dim acadDoc As acadappsvcs.Document = manager.Open(fileName)
+      createNewAndActivateFromAutoCADDocument(acadDoc)
+      Return m_ActiveDocument
+    End Function
 
         ''' <summary>
         ''' Activates the specified Document.

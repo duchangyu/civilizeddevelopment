@@ -5,7 +5,7 @@ Imports Autodesk.AutoCAD.EditorInput
 Imports Autodesk.AutoCAD.Geometry
 Imports Autodesk.AutoCAD.Runtime
 Imports Autodesk.Civil.ApplicationServices
-Imports Autodesk.Civil.Land
+Imports Autodesk.Civil
 Imports Autodesk.Civil.DatabaseServices
 
 <Assembly: CommandClass( _

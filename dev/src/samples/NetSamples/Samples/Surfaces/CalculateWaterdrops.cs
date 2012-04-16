@@ -34,7 +34,7 @@ namespace Autodesk.CivilizedDevelopment
                     // calculate water-drop for the centroid
                     ObjectIdCollection oid = 
                         surface.Analysis.CreateWaterdrop(centroid, 
-                        Autodesk.Civil.Land.WaterdropObjectType.Polyline3D);
+                        Autodesk.Civil.WaterdropObjectType.Polyline3D);
                     // Save all the water-drops
                     foreach (ObjectId id in oid)
                     {
