@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Runtime;
-using Autodesk.Civil.Land.DatabaseServices;
-using Autodesk.Civil.Land.DatabaseServices.Styles;
+using Autodesk.Civil.DatabaseServices;
+using Autodesk.Civil.DatabaseServices.Styles;
 
 [assembly: CommandClass(typeof(Autodesk.CivilizedDevelopment.DisplayRepresentations))]
 

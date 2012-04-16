@@ -38,7 +38,7 @@ using System;
 using System.IO;
 
 using acaddb = Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.Civil.Land.DatabaseServices;
+using Autodesk.Civil.DatabaseServices;
 
 using Colibra;
 using TinyTest;

@@ -35,7 +35,7 @@
 ' U.S. or other applicable export control laws.
 '
 
-Imports Autodesk.Civil.Land.DatabaseServices
+Imports Autodesk.Civil.DatabaseServices
 
 Namespace Colibra
     Friend Class AlignmentEntityWrapperFactory

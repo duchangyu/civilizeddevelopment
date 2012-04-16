@@ -2,7 +2,7 @@
 Imports Autodesk.AutoCAD.DatabaseServices
 Imports Autodesk.AutoCAD.EditorInput
 Imports Autodesk.AutoCAD.Runtime
-Imports Autodesk.Civil.Land.DatabaseServices
+Imports Autodesk.Civil.DatabaseServices
 
 <Assembly: CommandClass(GetType(Autodesk.CivilizedDevelopment.SurfacePropertiesDemo))> 
 

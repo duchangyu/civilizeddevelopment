@@ -37,7 +37,7 @@
 
 Imports Autodesk.AutoCAD.DatabaseServices
 Imports Autodesk.Civil.ApplicationServices
-Imports Autodesk.Civil.Land.DatabaseServices
+Imports Autodesk.Civil.DatabaseServices
 
 Namespace Colibra
     Public Class ObjectNodeProvider

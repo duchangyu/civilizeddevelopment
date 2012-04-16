@@ -2,8 +2,8 @@
 
 Imports Autodesk.AutoCAD.DatabaseServices
 Imports Autodesk.AutoCAD.Runtime
-Imports Autodesk.Civil.Land.DatabaseServices
-Imports Autodesk.Civil.Land.DatabaseServices.Styles
+Imports Autodesk.Civil.DatabaseServices
+Imports Autodesk.Civil.DatabaseServices.Styles
 
 <Assembly: CommandClass(GetType(Autodesk.CivilizedDevelopment.DisplayRepresentations))> 
 

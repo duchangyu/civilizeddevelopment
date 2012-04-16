@@ -6,7 +6,7 @@ Imports Autodesk.AutoCAD.Geometry
 Imports Autodesk.AutoCAD.Runtime
 Imports Autodesk.Civil.ApplicationServices
 Imports Autodesk.Civil.Land
-Imports Autodesk.Civil.Land.DatabaseServices
+Imports Autodesk.Civil.DatabaseServices
 
 <Assembly: CommandClass( _
   GetType(Autodesk.CivilizedDevelopment.CalculateWaterdrops))> 

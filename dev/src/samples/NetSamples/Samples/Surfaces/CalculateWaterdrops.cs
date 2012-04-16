@@ -7,7 +7,7 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.Civil.ApplicationServices;
-using Autodesk.Civil.Land.DatabaseServices;
+using Autodesk.Civil.DatabaseServices;
 
 [assembly: CommandClass(
     typeof(Autodesk.CivilizedDevelopment.CalculateWaterdrops))]

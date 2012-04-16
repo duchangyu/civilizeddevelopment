@@ -39,7 +39,7 @@ using System.IO;
 using System.Text;
 
 using acaddb = Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.Civil.Land.DatabaseServices;
+using Autodesk.Civil.DatabaseServices;
 
 using Colibra;
 using TinyTest;
@@ -77,23 +77,23 @@ namespace ColibraShould
                 StringBuilder builder = new StringBuilder();
                 builder.Append("Alignment - (1)");
                 builder.Append(1);
-                builder.Append("Autodesk.Civil.Land.DatabaseServices.AlignmentLine");
+                builder.Append("Autodesk.Civil.DatabaseServices.AlignmentLine");
                 builder.Append(1);
                 builder.Append("Line");
                 builder.Append(2);
-                builder.Append("Autodesk.Civil.Land.DatabaseServices.AlignmentLine");
+                builder.Append("Autodesk.Civil.DatabaseServices.AlignmentLine");
                 builder.Append(1);
                 builder.Append("Line");
                 builder.Append(3);
-                builder.Append("Autodesk.Civil.Land.DatabaseServices.AlignmentLine");
+                builder.Append("Autodesk.Civil.DatabaseServices.AlignmentLine");
                 builder.Append(1);
                 builder.Append("Line");
                 builder.Append(4);
-                builder.Append("Autodesk.Civil.Land.DatabaseServices.AlignmentArc");
+                builder.Append("Autodesk.Civil.DatabaseServices.AlignmentArc");
                 builder.Append(1);
                 builder.Append("Curve");
                 builder.Append(5);
-                builder.Append("Autodesk.Civil.Land.DatabaseServices.AlignmentArc");
+                builder.Append("Autodesk.Civil.DatabaseServices.AlignmentArc");
                 builder.Append(1);
                 builder.Append("Curve");
                 return builder.ToString();

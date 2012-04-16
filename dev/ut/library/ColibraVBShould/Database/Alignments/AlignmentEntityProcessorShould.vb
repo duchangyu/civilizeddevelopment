@@ -38,65 +38,65 @@ Imports System.IO
 Imports System.Text
 
 Imports acaddb = Autodesk.AutoCAD.DatabaseServices
-Imports Autodesk.Civil.Land.DatabaseServices
+Imports Autodesk.Civil.DatabaseServices
 
 Imports Colibra
 Imports TinyTest
 
 Namespace ColibraShould
-    <TestClass()> _
-    Public Class AlignmentEntityProcessorShould
-        <TestMethod()> _
-        Public Sub WriteInformationCorrectly()
-            Dim doc As Document = getTestDocument()
-            Using tr As Transaction = doc.StartTransaction()
-                Dim selector As New ByNameObjectSelector(Of Alignment)()
-                selector.ObjectName = "Alignment - (1)"
-                selector.[Select](doc)
-                Dim processor As New AlignmentEntityProcessor(selector.SelectedId)
-                Dim writer As New AlignmentEntityInfoWriterMock()
-                processor.WriteInfo(writer)
+  <TestClass()> _
+  Public Class AlignmentEntityProcessorShould
+    <TestMethod()> _
+    Public Sub WriteInformationCorrectly()
+      Dim doc As Document = getTestDocument()
+      Using tr As Transaction = doc.StartTransaction()
+        Dim selector As New ByNameObjectSelector(Of Alignment)()
+        selector.ObjectName = "Alignment - (1)"
+        selector.[Select](doc)
+        Dim processor As New AlignmentEntityProcessor(selector.SelectedId)
+        Dim writer As New AlignmentEntityInfoWriterMock()
+        processor.WriteInfo(writer)
 
-                Assert.AreEqual(_expectedOutput, writer.Output, "Incorrect information written.")
-            End Using
-        End Sub
+        Assert.AreEqual(_expectedOutput, writer.Output, "Incorrect information written.")
+      End Using
+    End Sub
 
-        Private ReadOnly Property _expectedOutput() As String
-            Get
-                Dim builder As New StringBuilder()
-                builder.Append("Alignment - (1)")
-                builder.Append(1)
-                builder.Append("Autodesk.Civil.Land.DatabaseServices.AlignmentLine")
-                builder.Append(1)
-                builder.Append("Line")
-                builder.Append(2)
-                builder.Append("Autodesk.Civil.Land.DatabaseServices.AlignmentLine")
-                builder.Append(1)
-                builder.Append("Line")
-                builder.Append(3)
-                builder.Append("Autodesk.Civil.Land.DatabaseServices.AlignmentLine")
-                builder.Append(1)
-                builder.Append("Line")
-                builder.Append(4)
-                builder.Append("Autodesk.Civil.Land.DatabaseServices.AlignmentArc")
-                builder.Append(1)
-                builder.Append("Curve")
-                builder.Append(5)
-                builder.Append("Autodesk.Civil.Land.DatabaseServices.AlignmentArc")
-                builder.Append(1)
-                builder.Append("Curve")
-                Return builder.ToString()
-            End Get
-        End Property
+    Private ReadOnly Property _expectedOutput() As String
+      Get
+        Dim builder As New StringBuilder()
+        builder.Append("Alignment - (1)")
+        builder.Append(1)
+        builder.Append("Autodesk.Civil.DatabaseServices.AlignmentLine")
+        builder.Append(1)
+        builder.Append("Line")
+        builder.Append(2)
+        builder.Append("Autodesk.Civil.DatabaseServices.AlignmentLine")
+        builder.Append(1)
+        builder.Append("Line")
+        builder.Append(3)
+        builder.Append("Autodesk.Civil.DatabaseServices.AlignmentLine")
+        builder.Append(1)
+        builder.Append("Line")
+        builder.Append(4)
+        builder.Append("Autodesk.Civil.DatabaseServices.AlignmentArc")
+        builder.Append(1)
+        builder.Append("Curve")
+        builder.Append(5)
+        builder.Append("Autodesk.Civil.DatabaseServices.AlignmentArc")
+        builder.Append(1)
+        builder.Append("Curve")
+        Return builder.ToString()
+      End Get
+    End Property
 
-        Private ReadOnly Property _testDocumentName() As String
-            Get
-                Return Path.Combine(AbsoluteLocation.DataDirectory, "TwoAlignments.dwg")
-            End Get
-        End Property
+    Private ReadOnly Property _testDocumentName() As String
+      Get
+        Return Path.Combine(AbsoluteLocation.DataDirectory, "TwoAlignments.dwg")
+      End Get
+    End Property
 
-        Private Function getTestDocument() As Document
-            Return DocumentManager.OpenDocument(_testDocumentName)
-        End Function
-    End Class
+    Private Function getTestDocument() As Document
+      Return DocumentManager.OpenDocument(_testDocumentName)
+    End Function
+  End Class
 End Namespace

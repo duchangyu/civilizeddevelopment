@@ -5,7 +5,7 @@ using AcadDb = Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.Civil.ApplicationServices;
-using Autodesk.Civil.Land.DatabaseServices;
+using Autodesk.Civil.DatabaseServices;
 using Autodesk.AutoCAD.Colors;
 
 [assembly: CommandClass(

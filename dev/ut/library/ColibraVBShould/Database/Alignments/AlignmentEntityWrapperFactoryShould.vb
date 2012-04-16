@@ -37,7 +37,7 @@
 Imports System.IO
 
 Imports acaddb = Autodesk.AutoCAD.DatabaseServices
-Imports Autodesk.Civil.Land.DatabaseServices
+Imports Autodesk.Civil.DatabaseServices
 
 Imports Colibra
 Imports TinyTest

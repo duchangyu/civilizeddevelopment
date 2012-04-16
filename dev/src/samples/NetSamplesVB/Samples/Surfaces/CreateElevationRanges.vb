@@ -3,7 +3,7 @@ Imports AcadDb = Autodesk.AutoCAD.DatabaseServices
 Imports Autodesk.AutoCAD.EditorInput
 Imports Autodesk.AutoCAD.Runtime
 Imports Autodesk.Civil.ApplicationServices
-Imports Autodesk.Civil.Land.DatabaseServices
+Imports Autodesk.Civil.DatabaseServices
 Imports Autodesk.AutoCAD.Colors
 
 <Assembly: CommandClass(GetType(Autodesk.CivilizedDevelopment.CreateElevationRanges))> 
