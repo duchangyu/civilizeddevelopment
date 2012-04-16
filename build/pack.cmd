@@ -3,7 +3,7 @@
 :: Project variables.
 ::
 set project=Colibra
-set vmajor=1
+set vmajor=2
 set vminor=0
 if (%1)==() (
   goto error_no_build_number
