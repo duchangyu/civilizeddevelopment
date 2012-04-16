@@ -111,24 +111,6 @@
     <Folder Include="My Project\" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="acdbmgd">
-      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2012\acdbmgd.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="acmgd">
-      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2012\acmgd.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="AecBaseMgd">
-      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2012\AecBaseMgd.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="AeccDbMgd">
-      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2012\AeccDbMgd.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
@@ -165,6 +147,24 @@
       <Project>{A8FAE4A7-4759-4B50-A751-276220E58975}</Project>
       <Name>ColibraVB</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="accoremgd">
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2013\accoremgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="acdbmgd">
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2013\acdbmgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AecBaseMgd">
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2013\AecBaseMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AeccDbMgd">
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Autodesk\AutoCAD Civil 3D 2013\AeccDbMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
