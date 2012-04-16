@@ -36,6 +36,7 @@
 '
 Imports System.Threading
 
+Imports Autodesk.AutoCAD.ApplicationServices
 Imports acadappsvcs = Autodesk.AutoCAD.ApplicationServices
 Imports Autodesk.Civil.ApplicationServices
 
