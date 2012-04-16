@@ -36,6 +36,7 @@
 //
 using System;
 
+using Autodesk.AutoCAD.ApplicationServices;
 using acadappsvcs = Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.Civil.ApplicationServices;
 
