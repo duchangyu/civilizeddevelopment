@@ -35,23 +35,27 @@
 ' U.S. or other applicable export control laws.
 '
 Imports System.IO
+Imports System.Reflection
 
 Namespace ColibraShould
-    Public Class AbsoluteLocation
-        Public Shared ReadOnly Property BinDirectory() As String
-            Get
-                ' We are assuming that the engine initializer is setting the working directory.
-                ' to the location of the engine dll, which should be the same location as this
-                ' directory. If it changes, this won't work.
-                '
-                Return Directory.GetCurrentDirectory()
-            End Get
-        End Property
+  Public Class AbsoluteLocation
+    Public Shared ReadOnly Property BinDirectory() As String
+      Get
+        Dim thisAssembly As Assembly = Assembly.GetExecutingAssembly()
+        Return Path.GetDirectoryName(thisAssembly.Location)
+      End Get
+    End Property
 
-        Public Shared ReadOnly Property DataDirectory() As String
-            Get
-                Return Path.Combine(BinDirectory, "Data")
-            End Get
-        End Property
-    End Class
+    Public Shared ReadOnly Property ProjectRoot() As String
+      Get
+        Return Path.Combine(BinDirectory, "..")
+      End Get
+    End Property
+
+    Public Shared ReadOnly Property DataDirectory() As String
+      Get
+        Return Path.Combine(ProjectRoot, "Data")
+      End Get
+    End Property
+  End Class
 End Namespace
