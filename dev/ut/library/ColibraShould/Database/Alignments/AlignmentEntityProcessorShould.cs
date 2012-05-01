@@ -61,6 +61,7 @@ namespace ColibraShould
                 selector.Select(doc);
                 AlignmentEntityProcessor processor = 
                     new AlignmentEntityProcessor(selector.SelectedId);
+                processor.EnumerationPolicy = new ByEntityIdEnumerationPolicy();
                 AlignmentEntityInfoWriterMock writer = 
                     new AlignmentEntityInfoWriterMock();
                 processor.WriteInfo(writer);

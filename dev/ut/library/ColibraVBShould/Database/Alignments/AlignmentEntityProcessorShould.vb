@@ -54,6 +54,7 @@ Namespace ColibraShould
         selector.ObjectName = "Alignment - (1)"
         selector.[Select](doc)
         Dim processor As New AlignmentEntityProcessor(selector.SelectedId)
+        processor.EnumerationPolicy = New ByEntityIdEnumerationPolicy()
         Dim writer As New AlignmentEntityInfoWriterMock()
         processor.WriteInfo(writer)
 
