@@ -55,7 +55,7 @@ namespace ColibraShould
         {
             get
             {
-                return Path.Combine(BinDirectory, "..");
+                return Path.GetFullPath(Path.Combine(BinDirectory, ".."));
             }
         }
 

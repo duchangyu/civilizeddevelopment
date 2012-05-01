@@ -48,7 +48,7 @@ Namespace ColibraShould
 
     Public Shared ReadOnly Property ProjectRoot() As String
       Get
-        Return Path.Combine(BinDirectory, "..")
+        Return Path.GetFullPath(Path.Combine(BinDirectory, ".."))
       End Get
     End Property
 
