@@ -55,13 +55,13 @@ namespace TinyRunner
         [CommandMethod("RunTestsCS", CommandFlags.Session)]
         public void RunTestsCS()
         {
-            executeTestConfiguration(new XMLConfiguration("ColibraTestsCS.xml"), new AutoCADCommandLineResultsCollector());
+            executeTestConfiguration(new XMLConfiguration(csConfgurationFile), new AutoCADCommandLineResultsCollector());
         }
 
         [CommandMethod("RunTestsVB", CommandFlags.Session)]
         public void RunTestsVB()
         {
-            executeTestConfiguration(new XMLConfiguration("ColibraTestsVB.xml"), new AutoCADCommandLineResultsCollector());
+            executeTestConfiguration(new XMLConfiguration(vbConfigurationFile), new AutoCADCommandLineResultsCollector());
         }
 
         /// <summary>
@@ -72,35 +72,45 @@ namespace TinyRunner
         [CommandMethod("RunFrameworkTests")]
         public void RunFrameworkTests()
         {
-            executeTestConfiguration(new XMLConfiguration("FrameworkTests.xml"), new AutoCADCommandLineResultsCollector());
+            executeTestConfiguration(new XMLConfiguration(frameworkConfigurationFile), new AutoCADCommandLineResultsCollector());
+        }
+
+        private string vbConfigurationFile
+        {
+            get 
+            { 
+                return Path.Combine(thisAssemblyDirectory, "ColibraTestsVB.xml"); 
+            }
+        }
+
+        private string csConfgurationFile
+        {
+            get 
+            { 
+                return Path.Combine(thisAssemblyDirectory, "ColibraTestsCS.xml"); 
+            }
+        }
+
+        private string frameworkConfigurationFile
+        {
+            get
+            {
+                return Path.Combine(thisAssemblyDirectory, "FrameworkTests.xml");
+            }
+        }
+
+        private string thisAssemblyDirectory
+        {
+            get 
+            {
+                Assembly thisAssembly = Assembly.GetExecutingAssembly();
+                return Path.GetDirectoryName(thisAssembly.Location);
+            }
         }
 
         private void executeTestConfiguration(ITestRunConfiguration configuration, ITestResultCollector collector)
         {
-            // We set the working directory to the location of this running assembly
-            // to allow the framework to easily find the files that are needed (configuration
-            // files, DLL's, etc. After we execute the tests, we want to restore the working
-            // directory to where it was.
-            //
-            setWorkingDirectoryToThisAssemblyLocation();
             executeTests(configuration, collector);
-            restoreWorkingDirectory();
-        }
-
-
-        private void setWorkingDirectoryToThisAssemblyLocation()
-        {
-            m_StartUpWorkingDir = Directory.GetCurrentDirectory();
-            Assembly thisAssembly = Assembly.GetExecutingAssembly();
-            string assemblyDir = Path.GetDirectoryName(
-                thisAssembly.Location);
-            Directory.SetCurrentDirectory(assemblyDir);
-        }
-
-
-        private void restoreWorkingDirectory()
-        {
-            Directory.SetCurrentDirectory(m_StartUpWorkingDir);
         }
 
 

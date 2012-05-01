@@ -36,6 +36,7 @@
 //
 using System;
 using System.IO;
+using System.Reflection;
 
 namespace ColibraShould
 {
@@ -45,11 +46,16 @@ namespace ColibraShould
         {
             get 
             {
-                // We are assuming that the engine initializer is setting the working directory.
-                // to the location of the engine dll, which should be the same location as this
-                // directory. If it changes, this won't work.
-                //
-                return Directory.GetCurrentDirectory();
+                Assembly thisAssembly = Assembly.GetExecutingAssembly();
+                return Path.GetDirectoryName(thisAssembly.Location);
+            }
+        }
+
+        public static string ProjectRoot
+        {
+            get
+            {
+                return Path.Combine(BinDirectory, "..");
             }
         }
 
@@ -57,7 +63,7 @@ namespace ColibraShould
         {
             get
             {
-                return Path.Combine(BinDirectory, "Data");
+                return Path.Combine(ProjectRoot, "Data");
             }
         }
     }
