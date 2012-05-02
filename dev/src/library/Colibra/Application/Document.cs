@@ -60,10 +60,11 @@ namespace Colibra
         /// document objects representing the same drawing and instantiates
         /// a new Document wrapper.
         /// </para>
-        internal Document(acadappsvcs.Document acadDoc, CivilDocument civilDoc)
+        internal Document(acadappsvcs.Document acadDoc)
         {
             m_ThisAcadDocument = acadDoc;
-            m_ThisCivilDocument = civilDoc;
+            m_ThisCivilDocument = CivilDocument.GetCivilDocument(
+                m_ThisAcadDocument.Database);
             m_ActiveTransaction = null;
         }
 

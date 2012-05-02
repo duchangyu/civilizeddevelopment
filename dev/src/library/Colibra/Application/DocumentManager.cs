@@ -59,7 +59,8 @@ namespace Colibra
                     // We were never called, so lets initialize the class to the
                     // current active document in AutoCAD.
                     //
-                    createNewAndActivateFromAutoCADDocument(acadappsvcs.Application.DocumentManager.MdiActiveDocument);
+                    m_ActiveDocument = new Document(acadappsvcs.Application
+                        .DocumentManager.MdiActiveDocument);
                     
                 }
                 return m_ActiveDocument;
@@ -74,9 +75,9 @@ namespace Colibra
         /// <returns>Returns the created Document object.</returns>
         public static Document OpenDocument(string fileName)
         {
-            acadappsvcs.Document acadDoc = acadappsvcs.Application.DocumentManager.Open(fileName);
-            createNewAndActivateFromAutoCADDocument(acadDoc);
-            return m_ActiveDocument;
+            acadappsvcs.Document acadDoc = acadappsvcs.Application
+                .DocumentManager.Open(fileName);
+            return new Document(acadDoc);
         }
 
         /// <summary>
@@ -87,18 +88,6 @@ namespace Colibra
         {
             acadappsvcs.Application.DocumentManager.MdiActiveDocument = doc._acaddoc;
             m_ActiveDocument = doc;
-        }
-
-        private static void createNewAndActivateFromAutoCADDocument(acadappsvcs.Document acadDoc)
-        {
-            CivilDocument civilDoc = getCivilDocumentAndActivate(acadDoc);
-            m_ActiveDocument = new Document(acadDoc, civilDoc);
-        }
-
-        private static CivilDocument getCivilDocumentAndActivate(acadappsvcs.Document acadDoc)
-        {
-            acadappsvcs.Application.DocumentManager.MdiActiveDocument = acadDoc;
-            return CivilApplication.ActiveDocument;
         }
 
         private static Document m_ActiveDocument = null;

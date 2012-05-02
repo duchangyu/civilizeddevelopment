@@ -42,58 +42,48 @@ Imports acadappsvcs = Autodesk.AutoCAD.ApplicationServices
 Imports Autodesk.Civil.ApplicationServices
 
 Namespace Colibra
+  ''' <summary>
+  ''' This class manages and provides access to Document objects.
+  ''' </summary>
+  Public Class DocumentManager
     ''' <summary>
-    ''' This class manages and provides access to Document objects.
+    ''' Returns the active document.
     ''' </summary>
-    Public Class DocumentManager
-        ''' <summary>
-        ''' Returns the active document.
-        ''' </summary>
-        Public Shared ReadOnly Property ActiveDocument() As Document
-            Get
-                If m_ActiveDocument Is Nothing Then
-                    ' We were never called, so lets initialize the class to the
-                    ' current active document in AutoCAD.
-                    '
+    Public Shared ReadOnly Property ActiveDocument() As Document
+      Get
+        If m_ActiveDocument Is Nothing Then
+          ' We were never called, so lets initialize the class to the
+          ' current active document in AutoCAD.
+          '
+          m_ActiveDocument = New Document(acadappsvcs.Application. _
+            DocumentManager.MdiActiveDocument)
+        End If
+        Return m_ActiveDocument
+      End Get
+    End Property
 
-                    createNewAndActivateFromAutoCADDocument(acadappsvcs.Application.DocumentManager.MdiActiveDocument)
-                End If
-                Return m_ActiveDocument
-            End Get
-        End Property
-
-        ''' <summary>
-        ''' Opens a document from a DWG file name. Opening a DWG creates a new Document object
-        ''' and activates it.
-        ''' </summary>
-        ''' <param name="fileName">DWG file to open.</param>
-        ''' <returns>Returns the created Document object.</returns>
+    ''' <summary>
+    ''' Opens a document from a DWG file name. Opening a DWG creates a new Document object
+    ''' and activates it.
+    ''' </summary>
+    ''' <param name="fileName">DWG file to open.</param>
+    ''' <returns>Returns the created Document object.</returns>
     Public Shared Function OpenDocument(fileName As String) As Document
-      Dim manager As DocumentCollection = acadappsvcs.Application.DocumentManager
+      Dim manager As DocumentCollection =
+        acadappsvcs.Application.DocumentManager
       Dim acadDoc As acadappsvcs.Document = manager.Open(fileName)
-      createNewAndActivateFromAutoCADDocument(acadDoc)
-      Return m_ActiveDocument
+      Return New Document(acadDoc)
     End Function
 
-        ''' <summary>
-        ''' Activates the specified Document.
-        ''' </summary>
-        ''' <param name="doc">Document to be activated.</param>
-        Friend Shared Sub _activateDocument(doc As Document)
-            acadappsvcs.Application.DocumentManager.MdiActiveDocument = doc._acaddoc
-            m_ActiveDocument = doc
-        End Sub
+    ''' <summary>
+    ''' Activates the specified Document.
+    ''' </summary>
+    ''' <param name="doc">Document to be activated.</param>
+    Friend Shared Sub _activateDocument(doc As Document)
+      acadappsvcs.Application.DocumentManager.MdiActiveDocument = doc._acaddoc
+      m_ActiveDocument = doc
+    End Sub
 
-        Private Shared Sub createNewAndActivateFromAutoCADDocument(acadDoc As acadappsvcs.Document)
-            Dim civilDoc As CivilDocument = getCivilDocumentAndActivate(acadDoc)
-            m_ActiveDocument = New Document(acadDoc, civilDoc)
-        End Sub
-
-        Private Shared Function getCivilDocumentAndActivate(acadDoc As acadappsvcs.Document) As CivilDocument
-            acadappsvcs.Application.DocumentManager.MdiActiveDocument = acadDoc
-            Return CivilApplication.ActiveDocument
-        End Function
-
-        Private Shared m_ActiveDocument As Document = Nothing
-    End Class
+    Private Shared m_ActiveDocument As Document = Nothing
+  End Class
 End Namespace
