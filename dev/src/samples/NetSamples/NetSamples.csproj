@@ -70,9 +70,11 @@
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Helpers\RandomCoordinateGenerator.cs" />
     <Compile Include="Samples\Alignments\AlignmentEntitiesCommands.cs" />
     <Compile Include="Samples\Alignments\AlignmentEntitiesCommandsColibra.cs" />
     <Compile Include="NetSamplesApp.cs" />
+    <Compile Include="Samples\CogoPoints\CogoPointCommands.cs" />
     <Compile Include="Samples\Styles\DisplayRepresentations.cs" />
     <Compile Include="Samples\Surfaces\CalculateWaterdrops.cs" />
     <Compile Include="Samples\Surfaces\CreateElevationRanges.cs" />
