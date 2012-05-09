@@ -70,6 +70,7 @@
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Helpers\RandomCoordinateGenerator.cs" />
     <Compile Include="Samples\Alignments\AlignmentEntitiesCommands.cs" />
     <Compile Include="Samples\Alignments\AlignmentEntitiesCommandsColibra.cs" />

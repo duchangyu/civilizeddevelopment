@@ -133,6 +133,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyInfo.vb" />
     <Compile Include="Helpers\RandomCoordinateGenerator.vb" />
     <Compile Include="NetSamplesApp.vb" />
     <Compile Include="Samples\CogoPoints\CogoPointsCommands.vb" />

@@ -41,11 +41,11 @@ Imports System.Runtime.InteropServices
 ' General Information about an assembly is controlled through the following 
 ' set of attributes. Change these attribute values to modify the information
 ' associated with an assembly.
-<Assembly: AssemblyTitle("ColibraShould")> 
-<Assembly: AssemblyDescription("Colibra Unit Tests")> 
+<Assembly: AssemblyTitle("NetSamples")> 
+<Assembly: AssemblyDescription("Civil 3D .NET API Samples")> 
 <Assembly: AssemblyConfiguration("")> 
 <Assembly: AssemblyCompany("Autodesk, Inc")> 
-<Assembly: AssemblyProduct("ColibraShould")> 
+<Assembly: AssemblyProduct("NetSamples")> 
 <Assembly: AssemblyCopyright("Copyright © Autodesk 2011")> 
 <Assembly: AssemblyTrademark("")> 
 <Assembly: AssemblyCulture("")> 
@@ -56,7 +56,7 @@ Imports System.Runtime.InteropServices
 <Assembly: ComVisible(False)> 
 
 ' The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("01b1c1e6-bc8d-4c66-91da-115038a00ace")> 
+<Assembly: Guid("51457b1a-e079-4137-8d33-a8327fb6b0df")> 
 
 ' Version information for an assembly consists of the following four values:
 '
