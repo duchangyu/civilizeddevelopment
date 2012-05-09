@@ -52,7 +52,8 @@ Namespace Autodesk.CivilizedDevelopment
 
     <CommandMethod("CDS_OffsetPointElevations")> _
     Public Sub CDS_OffsetPointElevations()
-      Dim result As PromptDoubleResult = _editor.GetDouble(vbLf & "Enter elevation offset: ")
+      Dim result As PromptDoubleResult = _editor.GetDouble(vbLf & _
+        "Enter elevation offset: ")
       If result.Status = PromptStatus.OK Then
         Dim offset As Double = result.Value
         Dim points As CogoPointCollection = _civildoc.CogoPoints
