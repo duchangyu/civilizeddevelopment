@@ -1,4 +1,5 @@
-﻿Imports Autodesk.AutoCAD.DatabaseServices
+﻿Imports Autodesk.AutoCAD.EditorInput
+Imports Autodesk.AutoCAD.DatabaseServices
 Imports Autodesk.AutoCAD.Geometry
 Imports Autodesk.AutoCAD.Runtime
 Imports Autodesk.Civil
@@ -48,6 +49,17 @@ Namespace Autodesk.CivilizedDevelopment
             & "using description key, and not matching parameters.")
       display(pointIds)
     End Sub
+
+    <CommandMethod("CDS_OffsetPointElevations")> _
+    Public Sub CDS_OffsetPointElevations()
+      Dim result As PromptDoubleResult = _editor.GetDouble(vbLf & "Enter elevation offset: ")
+      If result.Status = PromptStatus.OK Then
+        Dim offset As Double = result.Value
+        Dim points As CogoPointCollection = _civildoc.CogoPoints
+        points.SetElevationByOffset(points, offset)
+      End If
+    End Sub
+
 
     Private Sub display(pointId As ObjectId)
       Using tr As Transaction = startTransaction()

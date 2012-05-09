@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.Civil;
@@ -54,6 +56,19 @@ namespace Autodesk.CivilizedDevelopment
             write("\nPoints from coordinate collection with description,"
                 + "using description key, and not matching parameters.");
             display(pointIds);
+        }
+
+        [CommandMethod("CDS_OffsetPointElevations")]
+        public void CDS_OffsetPointElevations()
+        {
+            PromptDoubleResult result = _editor.GetDouble(
+                "\nEnter elevation offset: ");
+            if (result.Status == PromptStatus.OK)
+            {
+                double offset = result.Value;
+                CogoPointCollection points = _civildoc.CogoPoints;
+                points.SetElevationByOffset(points, offset);
+            }
         }
 
         private void display(ObjectId pointId)
