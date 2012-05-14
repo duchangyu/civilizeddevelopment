@@ -94,8 +94,30 @@ namespace Autodesk.CivilizedDevelopment
             {
                 CogoPointCollection points = _civildoc.CogoPoints;
                 points.SetPointNumber(points, result.Value);
+            }            
+        }
+
+        [CommandMethod("CDS_RenumberPoint")]
+        public void CDS_RenumberPoint()
+        {
+            PromptIntegerResult result = _editor.GetInteger(
+                "\nEnter point to renumber:");
+            if (result.Status != PromptStatus.OK)
+            {
+                return;
             }
-            
+            uint currentPointNumber = (uint)result.Value;
+
+            result = _editor.GetInteger("\nEnter new point number:");
+            if (result.Status != PromptStatus.OK)
+            {
+                return;
+            }
+            uint newPointNumber = (uint)result.Value;
+
+            CogoPointCollection points = _civildoc.CogoPoints;
+            ObjectId pointId = points.GetPointByPointNumber(currentPointNumber);
+            points.SetPointNumber(pointId, newPointNumber);
         }
 
         private void display(ObjectId pointId)
