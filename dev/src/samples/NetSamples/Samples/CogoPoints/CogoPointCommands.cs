@@ -71,6 +71,22 @@ namespace Autodesk.CivilizedDevelopment
             }
         }
 
+        [CommandMethod("CDS_CreateFixedPoints")]
+        public void CDS_CreateFixedPoints()
+        {
+            CogoPointCollection points = _civildoc.CogoPoints;
+            for (int i = 0; i < 10; i++)
+            {
+                double coordinate = (i + 1) * 10.0;
+                string description = String.Format("Init at {0}", coordinate);
+                Point3d location = 
+                    new Point3d(coordinate, coordinate, coordinate);
+                points.Add(location, description);
+            }
+        }
+
+        
+
         private void display(ObjectId pointId)
         {
             using (Transaction tr = startTransaction())
