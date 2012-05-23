@@ -42,7 +42,7 @@ namespace TinyTest
     /// Exception that indicates a failure in a unit test. This is an
     /// internal class, and the engine handles this type of exceptions.
     /// </summary>
-    internal class AssertionFailureException : ApplicationException
+    public class AssertionFailureException : ApplicationException
     {
         internal AssertionFailureException(string message)
             : base(message)
