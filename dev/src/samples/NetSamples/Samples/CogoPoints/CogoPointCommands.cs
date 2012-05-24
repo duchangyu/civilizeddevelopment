@@ -7,6 +7,7 @@ using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.Civil;
 using Autodesk.Civil.DatabaseServices;
+using Autodesk.Civil.Settings;
 
 [assembly: CommandClass(
     typeof(Autodesk.CivilizedDevelopment.CogoPointCommands))]
@@ -71,34 +72,8 @@ namespace Autodesk.CivilizedDevelopment
             }
         }
 
-        [CommandMethod("CDS_CreateFixedPoints")]
-        public void CDS_CreateFixedPoints()
-        {
-            CogoPointCollection points = _civildoc.CogoPoints;
-            for (int i = 0; i < 10; i++)
-            {
-                double coordinate = (i + 1) * 10.0;
-                string description = String.Format("Init at {0}", coordinate);
-                Point3d location = 
-                    new Point3d(coordinate, coordinate, coordinate);
-                points.Add(location, description);
-            }
-        }
-
-        [CommandMethod("CDS_RenumberAllPointsByAdditiveFactor")]
-        public void CDS_RenumberAllPointsByAdditiveFactor()
-        {
-            PromptIntegerResult result = _editor.GetInteger(
-                "\nEnter point number additive factor:");
-            if (result.Status == PromptStatus.OK)
-            {
-                CogoPointCollection points = _civildoc.CogoPoints;
-                points.SetPointNumber(points, result.Value);
-            }            
-        }
-
-        [CommandMethod("CDS_RenumberPoint")]
-        public void CDS_RenumberPoint()
+        [CommandMethod("CDS_NaiveRenumberPoint")]
+        public void CDS_NaiveRenumberPoint()
         {
             PromptIntegerResult result = _editor.GetInteger(
                 "\nEnter point to renumber:");
@@ -119,6 +94,101 @@ namespace Autodesk.CivilizedDevelopment
             ObjectId pointId = points.GetPointByPointNumber(currentPointNumber);
             points.SetPointNumber(pointId, newPointNumber);
         }
+        
+        [CommandMethod("CDS_RenumberPoint")]
+        public void CDS_RenumberPoint()
+        {
+            PromptIntegerResult result = _editor.GetInteger(
+                "\nEnter point to renumber:");
+            if (result.Status != PromptStatus.OK)
+            {
+                return;
+            }
+            uint currentPointNumber = (uint)result.Value;
+
+            result = _editor.GetInteger("\nEnter new point number (hint):");
+            if (result.Status != PromptStatus.OK)
+            {
+                return;
+            }
+            uint pointNumberHint = (uint)result.Value;
+
+            try
+            {
+                CogoPointCollection points = _civildoc.CogoPoints;
+                ObjectId pointId = 
+                    points.GetPointByPointNumber(currentPointNumber);
+                points.SetPointNumber(pointId, getNextPointNumberAvailable(pointNumberHint));
+            }
+            catch (ArgumentException ex)
+            {
+                _editor.WriteMessage(ex.Message);
+            }
+           
+        }
+
+        [CommandMethod("CDS_CreateRandomPointsAtSpecifiedNumber")]
+        public void CDS_CreateRandomPointsAtSpecifiedNumber()
+        {
+            PromptIntegerResult result = _editor.GetInteger(
+                "\nEnter number of points to generate: ");
+            if (result.Status != PromptStatus.OK)
+            {
+                return;
+            }
+            int numberOfPoints = result.Value;
+
+            result = _editor.GetInteger(
+                "\nEnter base number for first point: ");
+            if (result.Status != PromptStatus.OK)
+            {
+                return;
+            }
+            uint basePoint = (uint)result.Value;
+
+            ObjectIdCollection createdIds = createPoints(numberOfPoints);
+            renumberPoints(createdIds, basePoint);
+        }
+
+        [CommandMethod("CDS_CreateRandomPointsAtSpecifiedNumberByFactor")]
+        public void CDS_CreateRandomPointsAtSpecifiedNumberByFactor()
+        {
+            PromptIntegerResult result = _editor.GetInteger(
+                "\nEnter number of points to generate: ");
+            if (result.Status != PromptStatus.OK)
+            {
+                return;
+            }
+            int numberOfPoints = result.Value;
+
+            result = _editor.GetInteger(
+                "\nEnter base number for first point: ");
+            if (result.Status != PromptStatus.OK)
+            {
+                return;
+            }
+            uint basePoint = (uint)result.Value;
+
+            ObjectIdCollection createdIds = createPoints(numberOfPoints);
+            uint firstCreatedPointNumber = getPointNumberFor(createdIds[0]);
+            int additiveFactor = (int)(basePoint - firstCreatedPointNumber);
+            CogoPointCollection points = _civildoc.CogoPoints;
+            points.SetPointNumber(ToEnumerable(createdIds), additiveFactor);
+        }
+
+        [CommandMethod("CDS_RenumberAllPointsByAdditiveFactor")]
+        public void CDS_RenumberAllPointsByAdditiveFactor()
+        {
+            PromptIntegerResult result = _editor.GetInteger(
+                "\nEnter point number additive factor:");
+            if (result.Status == PromptStatus.OK)
+            {
+                CogoPointCollection points = _civildoc.CogoPoints;
+                points.SetPointNumber(points, result.Value);
+            }            
+        }
+
+        
 
         private void display(ObjectId pointId)
         {
@@ -153,5 +223,72 @@ namespace Autodesk.CivilizedDevelopment
             write("\n- Description: " + point.FullDescription);
             write("\n- Raw Description: " + point.RawDescription);
         }
+        
+        private uint getNextPointNumberAvailable(uint hint)
+        {
+            uint suggested = hint;
+            CogoPointCollection points = _civildoc.CogoPoints;
+            while (points.Contains(suggested) && suggested < _maxPointNumber)
+            {
+                suggested++;
+            }
+
+            if (suggested == _maxPointNumber)
+            {
+                string msg = String.Format(
+                    "No available point number at {0} or greater value.", 
+                    hint);
+                throw new ArgumentException(msg);
+            }
+
+            return suggested;
+        }
+
+        private ObjectIdCollection createPoints(int numberOfPoints)
+        {
+            
+            RandomCoordinateGenerator generator = 
+                new RandomCoordinateGenerator();
+            Point3dCollection coordinates = 
+                generator.GetCoordinates(numberOfPoints);
+            CogoPointCollection points = _civildoc.CogoPoints;
+            _creationSet++;
+            string description = String.Format("Creation {0}", _creationSet);
+            
+            return points.Add(coordinates, description);
+        }
+
+        private void renumberPoints(ObjectIdCollection pointIds, uint basePoint)
+        {
+            CogoPointCollection points = _civildoc.CogoPoints;
+            uint suggested = basePoint;
+            foreach (ObjectId pointId in pointIds)
+            {
+                suggested = getNextPointNumberAvailable(suggested);
+                points.SetPointNumber(pointId, suggested);
+                suggested++;
+            }
+        }
+
+        private uint getPointNumberFor(ObjectId pointId)
+        {
+            using (Transaction tr = startTransaction())
+            {
+                CogoPoint point = pointId.GetObject(OpenMode.ForRead)
+                    as CogoPoint;
+                return point.PointNumber;
+            }
+        }
+
+        private IEnumerable<ObjectId> ToEnumerable(ObjectIdCollection ids)
+        {
+            foreach (ObjectId id in ids)
+            {
+                yield return id;
+            }
+        }
+
+        private readonly uint _maxPointNumber = UInt32.MaxValue;
+        static int _creationSet = 0;
     }
 }
