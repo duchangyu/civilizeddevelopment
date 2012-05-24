@@ -62,8 +62,8 @@ Namespace Autodesk.CivilizedDevelopment
 
 
     Private Sub initGenerator()
-      Dim seed As Integer = CInt(DateTime.Now.Ticks)
-      m_Generator = New Random(seed)
+      'Dim seed As Integer = CInt(DateTime.Now.Ticks)
+      m_Generator = New Random()
     End Sub
 
     Private m_Generator As Random
