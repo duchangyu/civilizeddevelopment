@@ -153,22 +153,11 @@ Namespace Autodesk.CivilizedDevelopment
       Dim createdIds As ObjectIdCollection = createPoints(numberOfPoints)
       Dim firstCreatedPointNumber As UInteger =
         getPointNumberFor(createdIds(0))
-      Dim additiveFactor As Integer = CInt(basePoint - firstCreatedPointNumber)
+      Dim additiveFactor As Integer =
+        CInt(basePoint - firstCreatedPointNumber)
       Dim points As CogoPointCollection = _civildoc.CogoPoints
       points.SetPointNumber(ToEnumerable(createdIds), additiveFactor)
     End Sub
-
-    <CommandMethod("CDS_RenumberAllPointsByAdditiveFactor")> _
-    Public Sub CDS_RenumberAllPointsByAdditiveFactor()
-      Dim result As PromptIntegerResult = _editor.GetInteger(
-        vbLf & "Enter point number additive factor:")
-      If result.Status = PromptStatus.OK Then
-        Dim points As CogoPointCollection = _civildoc.CogoPoints
-        points.SetPointNumber(points, result.Value)
-      End If
-    End Sub
-
-
 
     Private Sub display(pointId As ObjectId)
       Using tr As Transaction = startTransaction()

@@ -176,20 +176,6 @@ namespace Autodesk.CivilizedDevelopment
             points.SetPointNumber(ToEnumerable(createdIds), additiveFactor);
         }
 
-        [CommandMethod("CDS_RenumberAllPointsByAdditiveFactor")]
-        public void CDS_RenumberAllPointsByAdditiveFactor()
-        {
-            PromptIntegerResult result = _editor.GetInteger(
-                "\nEnter point number additive factor:");
-            if (result.Status == PromptStatus.OK)
-            {
-                CogoPointCollection points = _civildoc.CogoPoints;
-                points.SetPointNumber(points, result.Value);
-            }            
-        }
-
-        
-
         private void display(ObjectId pointId)
         {
             using (Transaction tr = startTransaction())
