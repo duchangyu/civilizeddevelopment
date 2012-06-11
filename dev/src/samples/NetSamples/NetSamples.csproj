@@ -77,6 +77,7 @@
     <Compile Include="NetSamplesApp.cs" />
     <Compile Include="Samples\CogoPoints\CogoPointCommands.cs" />
     <Compile Include="Samples\CogoPoints\DescriptionKeyCommands.cs" />
+    <Compile Include="Samples\CogoPoints\PointGroupCommands.cs" />
     <Compile Include="Samples\Styles\DisplayRepresentations.cs" />
     <Compile Include="Samples\Surfaces\CalculateWaterdrops.cs" />
     <Compile Include="Samples\Surfaces\CreateElevationRanges.cs" />
