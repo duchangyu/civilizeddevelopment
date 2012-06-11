@@ -48,6 +48,9 @@ Namespace Autodesk.CivilizedDevelopment
 
     Private Sub createPointGroup(name As String,
                                  includeRawDescription As String)
+      If _pointGroups.Contains(name) Then
+        Return
+      End If
       Dim groupId As ObjectId = _pointGroups.Add(name)
       Dim query As New StandardPointGroupQuery()
       query.IncludeRawDescriptions = includeRawDescription
@@ -93,14 +96,7 @@ Namespace Autodesk.CivilizedDevelopment
     End Sub
 
     Private Function getPointGroupIdByName(groupName As String) As ObjectId
-      For Each pointGroupId As ObjectId In _civildoc.PointGroups
-        Dim group As PointGroup =
-          TryCast(pointGroupId.GetObject(OpenMode.ForRead), PointGroup)
-        If group.Name = groupName Then
-          Return pointGroupId
-        End If
-      Next
-      Return ObjectId.Null
+      Return _pointGroups(groupName)
     End Function
 
     Private Sub renumberPoints(group As PointGroup, baseNumber As Integer)

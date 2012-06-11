@@ -58,6 +58,10 @@ namespace Autodesk.CivilizedDevelopment
         private void createPointGroup(string name, 
             string includeRawDescription)
         {
+            if (_pointGroups.Contains(name))
+            {
+                return;
+            }
             ObjectId groupId = _pointGroups.Add(name);
             StandardPointGroupQuery query = new StandardPointGroupQuery();
             query.IncludeRawDescriptions = includeRawDescription;
@@ -111,16 +115,7 @@ namespace Autodesk.CivilizedDevelopment
 
         private ObjectId getPointGroupIdByName(string groupName)
         {
-            foreach (ObjectId pointGroupId in _civildoc.PointGroups)
-            {
-                PointGroup group = pointGroupId.GetObject(OpenMode.ForRead)
-                    as PointGroup;
-                if (group.Name == groupName)
-                {
-                    return pointGroupId;
-                }
-            }
-            return ObjectId.Null;
+            return _pointGroups[groupName];
         }
 
         private void renumberPoints(PointGroup group, int baseNumber)
