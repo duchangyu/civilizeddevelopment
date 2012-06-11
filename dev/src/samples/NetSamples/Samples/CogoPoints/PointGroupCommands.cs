@@ -16,20 +16,28 @@ namespace Autodesk.CivilizedDevelopment
         {
             using (Transaction tr = startTransaction())
             {
-                ObjectId groupId = _civildoc.PointGroups.Add("Trees");
-                PointGroup group = groupId.GetObject(OpenMode.ForRead)
-                    as PointGroup;
-                StandardPointGroupQuery query = new StandardPointGroupQuery();
-                query.IncludeRawDescriptions = "TREE*";
-                group.SetQuery(query);
-
-                groupId = _civildoc.PointGroups.Add("Wells");
-                group = groupId.GetObject(OpenMode.ForRead) as PointGroup;
-                query.IncludeRawDescriptions = "WELL*";
-                group.SetQuery(query);
-
+                createPointGroup("Trees", "TREE*");
+                createPointGroup("Wells", "WELL*");
                 tr.Commit();
             }
         }
+
+        private void createPointGroup(string name, string includeRawDescription)
+        {
+            ObjectId groupId = _pointGroups.Add(name);
+            StandardPointGroupQuery query = new StandardPointGroupQuery();
+            query.IncludeRawDescriptions = includeRawDescription;
+            PointGroup group = groupId.GetObject(OpenMode.ForRead) 
+                as PointGroup;
+            group.SetQuery(query);
+        }
+
+        private PointGroupCollection _pointGroups
+        {
+            get
+            {
+                return _civildoc.PointGroups;
+            }
+        }
     }
-}
+};
