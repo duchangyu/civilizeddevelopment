@@ -55,7 +55,8 @@ namespace Autodesk.CivilizedDevelopment
             renumberPointsForGroup(pointGroupName, baseNumber);
         }
 
-        private void createPointGroup(string name, string includeRawDescription)
+        private void createPointGroup(string name, 
+            string includeRawDescription)
         {
             ObjectId groupId = _pointGroups.Add(name);
             StandardPointGroupQuery query = new StandardPointGroupQuery();
@@ -136,7 +137,8 @@ namespace Autodesk.CivilizedDevelopment
         {
             foreach(uint number in numbers)
             {
-                yield return _civildoc.CogoPoints.GetPointByPointNumber(number);
+                yield return _civildoc.CogoPoints
+                    .GetPointByPointNumber(number);
             }
         }
 
