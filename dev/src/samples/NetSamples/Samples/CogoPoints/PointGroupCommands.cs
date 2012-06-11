@@ -11,8 +11,8 @@ namespace Autodesk.CivilizedDevelopment
 {
     public class PointGroupCommands : SimpleDrawingCommand
     {
-        [CommandMethod("CDS_CreatePointGroups")]
-        public void CDS_CreatePointGroups()
+        [CommandMethod("CDS_CreateCivilDevPointGroups")]
+        public void CDS_CreateCivilDevPointGroups()
         {
             using (Transaction tr = startTransaction())
             {
