@@ -6,6 +6,7 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.Civil.DatabaseServices;
 
+
 [assembly: CommandClass(
     typeof(Autodesk.CivilizedDevelopment.PointGroupCommands))]
 
@@ -67,7 +68,10 @@ namespace Autodesk.CivilizedDevelopment
             query.IncludeRawDescriptions = includeRawDescription;
             PointGroup group = groupId.GetObject(OpenMode.ForWrite) 
                 as PointGroup;
-            group.SetQuery(query);            
+            group.SetQuery(query);
+            // NOTE:    Setting a description throws an exception. The
+            //          issue is being researched by the API team.
+            // group.Description = "Set a description";
         }
 
         private PointGroupCollection _pointGroups

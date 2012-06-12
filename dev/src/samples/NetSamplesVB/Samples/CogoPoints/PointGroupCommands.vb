@@ -57,6 +57,9 @@ Namespace Autodesk.CivilizedDevelopment
       Dim group As PointGroup =
         TryCast(groupId.GetObject(OpenMode.ForRead), PointGroup)
       group.SetQuery(query)
+      ' NOTE:     Setting a description throws an exception. The
+      '           issue is being researched by the API team.
+      ' group.Description = "Set a description";
     End Sub
 
     Private ReadOnly Property _pointGroups() As PointGroupCollection
