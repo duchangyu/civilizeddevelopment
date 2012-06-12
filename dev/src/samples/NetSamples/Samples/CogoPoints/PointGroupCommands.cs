@@ -65,9 +65,9 @@ namespace Autodesk.CivilizedDevelopment
             ObjectId groupId = _pointGroups.Add(name);
             StandardPointGroupQuery query = new StandardPointGroupQuery();
             query.IncludeRawDescriptions = includeRawDescription;
-            PointGroup group = groupId.GetObject(OpenMode.ForRead) 
+            PointGroup group = groupId.GetObject(OpenMode.ForWrite) 
                 as PointGroup;
-            group.SetQuery(query);
+            group.SetQuery(query);            
         }
 
         private PointGroupCollection _pointGroups
