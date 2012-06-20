@@ -56,6 +56,56 @@ namespace Autodesk.CivilizedDevelopment
             renumberPointsForGroup(pointGroupName, baseNumber);
         }
 
+        [CommandMethod("CDS_CreatePointGroupsWithQueries")]
+        public void CDS_CreatePointGroupsWithQueries()
+        {
+            using (Transaction tr = startTransaction())
+            {
+                createStandardPointGroup();
+                createCustomPointGroup();
+                tr.Commit();
+            }
+        }
+
+        private void createStandardPointGroup()
+        {
+            StandardPointGroupQuery standard =
+                    new StandardPointGroupQuery();
+            standard.IncludeElevations = ">100.5";
+            standard.IncludeFullDescriptions = "Contains*";
+            standard.IncludeNames = "Tree Cedar*";
+            standard.IncludeNumbers = "<1000";
+            standard.IncludeRawDescriptions = "TREE*";
+            standard.ExcludeElevations = ">300.0";
+            standard.ExcludeFullDescriptions = "Contains POLE*";
+            standard.ExcludeNames = "Tree maples*";
+            standard.ExcludeNumbers = "<200";
+            standard.ExcludeRawDescriptions = "POLE*";
+            createPointGroup("Standard Group", standard);
+        }
+
+        private void createCustomPointGroup()
+        {
+            string queryString =
+                    @"(PointNumber>=100 AND PointNumber<200) OR 
+                        (FullDescription='Contains*' OR RawDescription='WE*')";
+            CustomPointGroupQuery custom = new CustomPointGroupQuery();
+            custom.QueryString = queryString;
+            createPointGroup("Custom Group", custom);
+        }
+
+        private void createPointGroup(string name, PointGroupQuery query)
+        {
+            if (_pointGroups.Contains(name))
+            {
+                return;
+            }
+            ObjectId groupId = _pointGroups.Add(name);
+            PointGroup group = groupId.GetObject(OpenMode.ForRead)
+                as PointGroup;
+            group.SetQuery(query);
+        }
+
         private void createPointGroup(string name, 
             string includeRawDescription)
         {

@@ -46,6 +46,49 @@ Namespace Autodesk.CivilizedDevelopment
       renumberPointsForGroup(pointGroupName, baseNumber)
     End Sub
 
+    <CommandMethod("CDS_CreatePointGroupsWithQueries")> _
+    Public Sub CDS_CreatePointGroupsWithQueries()
+      Using tr As Transaction = startTransaction()
+        createStandardPointGroup()
+        createCustomPointGroup()
+        tr.Commit()
+      End Using
+    End Sub
+
+    Private Sub createStandardPointGroup()
+      Dim standard As New StandardPointGroupQuery()
+      standard.IncludeElevations = ">100.5"
+      standard.IncludeFullDescriptions = "Contains*"
+      standard.IncludeNames = "Tree Cedar*"
+      standard.IncludeNumbers = "<1000"
+      standard.IncludeRawDescriptions = "TREE*"
+      standard.ExcludeElevations = ">300.0"
+      standard.ExcludeFullDescriptions = "Contains POLE*"
+      standard.ExcludeNames = "Tree maples*"
+      standard.ExcludeNumbers = "<200"
+      standard.ExcludeRawDescriptions = "POLE*"
+      createPointGroup("Standard Group", standard)
+    End Sub
+
+    Private Sub createCustomPointGroup()
+      Dim queryString As String = "(PointNumber>=100 AND PointNumber<200) OR " _
+        & vbCr & vbLf & "(FullDescription='Contains*' OR RawDescription='WE*')"
+      Dim [custom] As New CustomPointGroupQuery()
+      [custom].QueryString = queryString
+      createPointGroup("Custom Group", [custom])
+    End Sub
+
+    Private Sub createPointGroup(name As String, query As PointGroupQuery)
+      If _pointGroups.Contains(name) Then
+        Return
+      End If
+      Dim groupId As ObjectId = _pointGroups.Add(name)
+      Dim group As PointGroup = TryCast(groupId.GetObject(OpenMode.ForRead), 
+        PointGroup)
+      group.SetQuery(query)
+    End Sub
+
+
     Private Sub createPointGroup(name As String,
                                  includeRawDescription As String)
       If _pointGroups.Contains(name) Then
