@@ -73,9 +73,9 @@ Namespace Autodesk.CivilizedDevelopment
     Private Sub createCustomPointGroup()
       Dim queryString As String = "(PointNumber>=100 AND PointNumber<200) OR " _
         & vbCr & vbLf & "(FullDescription='Contains*' OR RawDescription='WE*')"
-      Dim [custom] As New CustomPointGroupQuery()
-      [custom].QueryString = queryString
-      createPointGroup("Custom Group", [custom])
+      Dim customQuery As New CustomPointGroupQuery()
+      customQuery.QueryString = queryString
+      createPointGroup("Custom Group", customQuery)
     End Sub
 
     Private Sub createPointGroup(name As String, query As PointGroupQuery)
