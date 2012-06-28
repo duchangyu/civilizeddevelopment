@@ -46,7 +46,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Autodesk, Inc")]
 [assembly: AssemblyProduct("NetSamples")]
-[assembly: AssemblyCopyright("Copyright © Autodesk 2011")]
+[assembly: AssemblyCopyright("Copyright © Autodesk 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -65,5 +65,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("2.0.8.0")]
-[assembly: AssemblyFileVersion("2.0.8.0")]
+[assembly: AssemblyVersion("2.0.9.0")]
+[assembly: AssemblyFileVersion("2.0.9.0")]

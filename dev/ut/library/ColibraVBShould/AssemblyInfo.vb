@@ -46,7 +46,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyConfiguration("")> 
 <Assembly: AssemblyCompany("Autodesk, Inc")> 
 <Assembly: AssemblyProduct("ColibraShould")> 
-<Assembly: AssemblyCopyright("Copyright © Autodesk 2011")> 
+<Assembly: AssemblyCopyright("Copyright © Autodesk 2012")> 
 <Assembly: AssemblyTrademark("")> 
 <Assembly: AssemblyCulture("")> 
 
@@ -65,5 +65,5 @@ Imports System.Runtime.InteropServices
 '      Build Number
 '      Revision
 '
-<Assembly: AssemblyVersion("2.0.8.0")> 
-<Assembly: AssemblyFileVersion("2.0.8.0")> 
+<Assembly: AssemblyVersion("2.0.9.0")> 
+<Assembly: AssemblyFileVersion("2.0.9.0")> 
