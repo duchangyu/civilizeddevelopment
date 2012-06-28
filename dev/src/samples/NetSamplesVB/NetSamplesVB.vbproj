@@ -139,6 +139,7 @@
     <Compile Include="Samples\CogoPoints\CogoPointsCommands.vb" />
     <Compile Include="Samples\CogoPoints\DescriptionKeyCommands.vb" />
     <Compile Include="Samples\CogoPoints\PointGroupCommands.vb" />
+    <Compile Include="Samples\CogoPoints\UserDefinedPropertiesCommands.vb" />
     <Compile Include="Samples\Misc\DatabaseTypeCommands.vb" />
     <Compile Include="Samples\Styles\DisplayRepresentations.vb" />
     <Compile Include="Samples\Surfaces\CalculateWaterdrops.vb" />
