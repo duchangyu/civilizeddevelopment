@@ -1,4 +1,4 @@
 @echo off
-set repository=https://bitbucket.org/IsaacRodriguez/civilizeddevelopment
+set repository=ssh://hg@bitbucket.org/IsaacRodriguez/civilizeddevelopment
 
 hg push %repository%
