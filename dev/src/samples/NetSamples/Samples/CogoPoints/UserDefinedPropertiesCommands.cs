@@ -98,7 +98,7 @@ namespace Autodesk.CivilizedDevelopment
             _hardness = classification.CreateUDP(makeEnumDefinition("Hardness", 
                 "Hardness with respect to anions in metallic cations."));
             _alkalinity = classification.CreateUDP(
-                makePlainDoubleDefinition("Alkalinity", 
+                makeDoubleDefinition("Alkalinity", 
                 "Ability to resist sudden changes in pH."));
         }
 
@@ -150,7 +150,7 @@ namespace Autodesk.CivilizedDevelopment
             return definition;
         }
 
-        private AttributeTypeInfoDouble makePlainDoubleDefinition(
+        private AttributeTypeInfoDouble makeDoubleDefinition(
             string name, string description)
         {
             AttributeTypeInfoDouble definition =
@@ -163,6 +163,7 @@ namespace Autodesk.CivilizedDevelopment
             definition.UpperBoundValue = Double.MaxValue;
             definition.UpperBoundInclusive = true;
             definition.UseDefaultValue = true;
+            definition.DataType = AttributeTypeInfoDoubleDataType.Percent;
             return definition;
         }
 

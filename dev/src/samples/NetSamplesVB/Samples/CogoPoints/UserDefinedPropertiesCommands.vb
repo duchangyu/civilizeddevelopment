@@ -85,7 +85,7 @@ Namespace Autodesk.CivilizedDevelopment
         makeEnumDefinition("Hardness",
           "Hardness with respect to anions in metallic cations."))
       _alkalinity = classification.CreateUDP(
-        makePlainDoubleDefinition("Alkalinity",
+        makeDoubleDefinition("Alkalinity",
           "Ability to resist sudden changes in pH."))
     End Sub
 
@@ -135,7 +135,7 @@ Namespace Autodesk.CivilizedDevelopment
       Return definition
     End Function
 
-    Private Function makePlainDoubleDefinition(name As String,
+    Private Function makeDoubleDefinition(name As String,
         description As String) As AttributeTypeInfoDouble
 
       Dim definition As New AttributeTypeInfoDouble(name)
@@ -147,6 +147,7 @@ Namespace Autodesk.CivilizedDevelopment
       definition.UpperBoundValue = [Double].MaxValue
       definition.UpperBoundInclusive = True
       definition.UseDefaultValue = True
+      definition.DataType = AttributeTypeInfoDoubleDataType.Percent
       Return definition
     End Function
 
