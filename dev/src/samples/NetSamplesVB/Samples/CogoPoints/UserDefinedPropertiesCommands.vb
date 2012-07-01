@@ -120,7 +120,6 @@ Namespace Autodesk.CivilizedDevelopment
       definition.Description = description
       definition.DefaultValue = [String].Empty
       definition.UseDefaultValue = True
-      definition.Description = description
       Return definition
     End Function
 
@@ -128,7 +127,8 @@ Namespace Autodesk.CivilizedDevelopment
         description As String) As AttributeTypeInfoEnum
 
       Dim valueDefinitions As New EnumDefinition()
-      Dim definition As New AttributeTypeInfoEnum(name, valueDefinitions.Values)
+      Dim definition As New AttributeTypeInfoEnum(name,
+        valueDefinitions.Values)
       definition.Description = description
       definition.DefaultValue = valueDefinitions.DefaultValue
       definition.UseDefaultValue = True

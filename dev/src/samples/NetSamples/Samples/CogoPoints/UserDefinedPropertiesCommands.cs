@@ -134,7 +134,6 @@ namespace Autodesk.CivilizedDevelopment
             definition.Description = description;
             definition.DefaultValue = String.Empty;
             definition.UseDefaultValue = true;
-            definition.Description = description;
             return definition;
         }
 
