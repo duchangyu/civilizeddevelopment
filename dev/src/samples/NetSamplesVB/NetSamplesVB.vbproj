@@ -136,6 +136,7 @@
     <Compile Include="AssemblyInfo.vb" />
     <Compile Include="Helpers\RandomCoordinateGenerator.vb" />
     <Compile Include="NetSamplesApp.vb" />
+    <Compile Include="Samples\CogoPoints\CogoPointLabelCommands.vb" />
     <Compile Include="Samples\CogoPoints\CogoPointsCommands.vb" />
     <Compile Include="Samples\CogoPoints\DescriptionKeyCommands.vb" />
     <Compile Include="Samples\CogoPoints\PointGroupCommands.vb" />

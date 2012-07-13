@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.Civil.DatabaseServices;
 using Autodesk.Civil.DatabaseServices.Styles;
@@ -12,80 +13,106 @@ namespace Autodesk.CivilizedDevelopment
 {
     class CogoPointLabelCommands : SimpleDrawingCommand
     {
-        [CommandMethod("CDS_CogoPointLabelDemo")]
-        public void CDS_CogoPointLabelDemo()
+        [CommandMethod("CDS_ShowCogoPointLabelProperties")]
+        public void CDS_ShowCogoPointLabelProperties()
         {
-            createPointLabelStyle();
-            createCogoPoints();
-            createPointGroup();
+            ObjectId pointId = selectCogoPoint();
+            if (pointId == ObjectId.Null)
+            {
+                return;
+            }
+            showLabelProperties(pointId);
         }
 
-        private void createCogoPoints()
+        [CommandMethod("CDS_OverrideLabelsForGroup")]
+        public void CDS_OverrideLabelsForGroup()
         {
-            RandomCoordinateGenerator generator =
-                new RandomCoordinateGenerator();
-            _civildoc.CogoPoints.Add(generator.GetCoordinates(10), 
-                "COORDINATE");
-        }
-
-        private void createPointGroup()
-        {
-            _pointGroupId = _civildoc.PointGroups.Add("Coordinates");
             using (Transaction tr = startTransaction())
             {
-                customizePointGroup();
+                ObjectId pointGroupId = promptForPointGroup();
+                if (pointGroupId == ObjectId.Null)
+                {
+                    return;
+                }
+                overrideLabelsForPointsIn(pointGroupId);
                 tr.Commit();
+            }
+            
+        }
+
+        private ObjectId selectCogoPoint()
+        {
+            PromptEntityOptions options = new PromptEntityOptions(
+                "Select COGO point: ");
+            options.SetRejectMessage("\nInvalid COGO point selected.");
+            options.AddAllowedClass(typeof(CogoPoint), true);
+            PromptEntityResult result = _editor.GetEntity(options);
+            if (result.Status == PromptStatus.OK)
+            {
+                return result.ObjectId;
+            }
+            return ObjectId.Null;
+        }
+
+        private void showLabelProperties(ObjectId pointId)
+        {
+            using (Transaction tr = startTransaction())
+            {
+                CogoPoint point = pointId.GetObject(OpenMode.ForRead)
+                    as CogoPoint;
+                showLabelPropertiesFor(point);
             }
         }
 
-        private void customizePointGroup()
+        private void showLabelPropertiesFor(CogoPoint point)
         {
-            CustomPointGroupQuery query = new CustomPointGroupQuery();
-            query.QueryString = "RawDescription='COORD*'";
-            PointGroup group = _pointGroupId.GetObject(OpenMode.ForWrite)
+            write("\nPoint Label Properties:");
+            write("\n- Style: " + getLabelStyleName(point.LabelStyleId));
+            write("\n- Style override: " 
+                + getLabelStyleName(point.LabelStyleIdOverride));
+            write("\n- Visible: " + point.IsLabelVisible.ToString());
+            write("\n- Location: " + point.LabelLocation.ToString());
+            write("\n- Rotation: " + point.LabelRotation.ToString());
+            write("\n- Dragged: " + point.IsLabelDragged.ToString());
+            write("\n- Pinned: " + point.IsLabelPinned.ToString());
+        }
+
+        private string getLabelStyleName(ObjectId id)
+        {
+            LabelStyle style = id.GetObject(OpenMode.ForRead) as LabelStyle;
+            return style.Name;
+        }
+
+        private ObjectId promptForPointGroup()
+        {
+            PromptResult result = _editor.GetString(
+                "\nEnter point group name: ");
+            if (result.Status == PromptStatus.OK)
+            {
+                return findGroup(result.StringResult);
+            }
+            return ObjectId.Null;
+        }
+
+        private void overrideLabelsForPointsIn(ObjectId pointGroupId)
+        {
+            PointGroup group = pointGroupId.GetObject(OpenMode.ForWrite)
                 as PointGroup;
-            group.SetQuery(query);
-            group.PointLabelStyleId = _pointLabelStyleId;
             group.IsPointLabelStyleOverridden = true;
         }
 
-        private void createPointLabelStyle()
+        private ObjectId findGroup(string name)
         {
-            _pointLabelStyleId = _pointLabelStyles.Add("DemoPointStyle");
-            customizePointLabelStyle();
-        }
-
-        private void customizePointLabelStyle()
-        {
-            using (Transaction tr = startTransaction())
+            foreach (ObjectId id in _civildoc.PointGroups)
             {
-                makePointLabelCustomizations();
-                tr.Commit();
+                PointGroup group = id.GetObject(OpenMode.ForRead) 
+                    as PointGroup;
+                if (group.Name == name)
+                {
+                    return id;
+                }
             }
+            return ObjectId.Null;
         }
-
-        private void makePointLabelCustomizations()
-        {
-            LabelStyle style = _pointLabelStyleId.GetObject(OpenMode.ForWrite)
-                as LabelStyle;
-            
-            ObjectId textId = style.AddComponent("Text", LabelStyleComponentType.Text);
-            LabelStyleTextComponent text = textId.GetObject(OpenMode.ForWrite)
-                as LabelStyleTextComponent;
-            text.Text.Contents.Value = "SAMPLE TEXT";
-        }
-
-
-        private LabelStyleCollection _pointLabelStyles
-        {
-            get
-            {
-                return _civildoc.Styles.LabelStyles
-                    .PointLabelStyles.LabelStyles;
-            }
-        }
-
-        private ObjectId _pointLabelStyleId;
-        private ObjectId _pointGroupId;
     }
 }
