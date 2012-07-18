@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
+using Autodesk.Civil;
 using Autodesk.Civil.DatabaseServices;
 using Autodesk.Civil.DatabaseServices.Styles;
 
@@ -13,6 +15,121 @@ namespace Autodesk.CivilizedDevelopment
 {
     class CogoPointLabelCommands : SimpleDrawingCommand
     {
+        [CommandMethod("CDS_CreateDemoPointLabelStyle")]
+        public void CDS_CreateDemoPointLabelStyle()
+        {
+            
+            createPointLabelStyle("Demo"); 
+        }
+
+        private void createPointLabelStyle(string name)
+        {
+            ObjectId styleId = _pointLabelStyles.Add(name);
+            removeAllComponents(styleId);
+            customizeStyle(styleId);
+        }
+
+        private LabelStyleCollection _pointLabelStyles
+        {
+            get
+            {
+                return _civildoc.Styles.LabelStyles.PointLabelStyles.LabelStyles;
+            }
+        }
+
+        private void removeAllComponents(ObjectId styleId)
+        {
+            IEnumerable<string> componentNames = getTextComponentNames(styleId);
+            removeComponents(styleId, componentNames);
+        }
+
+        private IEnumerable<string> getTextComponentNames(ObjectId styleId)
+        {
+            List<string> names = new List<string>();
+            using (Transaction tr = startTransaction())
+            {
+                LabelStyle style = styleId.GetObject(OpenMode.ForRead)
+                    as LabelStyle;
+                foreach (ObjectId id in style.GetComponents(
+                    LabelStyleComponentType.Text))
+                {
+                    LabelStyleComponent component =
+                        id.GetObject(OpenMode.ForRead) as LabelStyleComponent;
+                    names.Add(component.Name);
+                }
+            }
+            return names;
+        }
+
+        private void removeComponents(ObjectId styleId, 
+            IEnumerable<string> componentNames)
+        {
+            using (Transaction tr = startTransaction())
+            {
+                LabelStyle style = styleId.GetObject(OpenMode.ForWrite)
+                    as LabelStyle;
+                foreach (string name in componentNames)
+                {
+                    style.RemoveComponent(name);
+                }
+
+                tr.Commit();
+            }
+        }
+
+        private void customizeStyle(ObjectId styleId)
+        {
+            using (Transaction tr = startTransaction())
+            {
+                addStyleComponents(styleId);
+                tr.Commit();
+            }
+        }
+
+        private void addStyleComponents(ObjectId styleId)
+        {
+            LabelStyle style = styleId.GetObject(OpenMode.ForWrite)
+                    as LabelStyle;
+            addLeaderComponent(style);
+            addPointNumberComponent(style);
+            addLocationComponent(style);
+        }
+
+        private void addLeaderComponent(LabelStyle style)
+        {
+            ObjectId id = style.AddComponent("Leader", 
+                LabelStyleComponentType.Line);
+            LabelStyleLineComponent component = id.GetObject(OpenMode.ForWrite)
+                as LabelStyleLineComponent;
+            component.General.StartAnchorPoint.Value = AnchorPointType.MiddleCenter;
+        }
+
+        private void addPointNumberComponent(LabelStyle style)
+        {
+            ObjectId id = style.AddComponent("PN", 
+                LabelStyleComponentType.Text);
+            LabelStyleTextComponent component = id.GetObject(OpenMode.ForWrite)
+                as LabelStyleTextComponent;
+            component.Text.Attachment.Value = LabelTextAttachmentType.MiddleLeft;
+            component.Text.Contents.Value = _pointNumber;
+            component.General.AnchorComponent.Value = "Leader";
+            component.General.AnchorLocation.Value = AnchorPointType.End;
+        }
+
+        private void addLocationComponent(LabelStyle style)
+        {
+            ObjectId id = style.AddComponent("Location", 
+                LabelStyleComponentType.Text);
+            LabelStyleTextComponent component = id.GetObject(OpenMode.ForWrite)
+                as LabelStyleTextComponent;
+            component.Text.Attachment.Value = LabelTextAttachmentType.TopLeft;
+            string value = String.Format("({0}, {1}, {2})", 
+                _northing, _easting, _elevation);
+            component.Text.Contents.Value = value;
+            component.General.AnchorComponent.Value = "PN";
+            component.General.AnchorLocation.Value = AnchorPointType.BottomLeft;
+        }
+
         [CommandMethod("CDS_ShowCogoPointLabelProperties")]
         public void CDS_ShowCogoPointLabelProperties()
         {
@@ -114,5 +231,13 @@ namespace Autodesk.CivilizedDevelopment
             }
             return ObjectId.Null;
         }
+
+        private readonly string _pointNumber = "<[Point Number(Sn)]>";
+        private readonly string _northing = 
+            "<[Northing(Uft|P4|RN|AP|GC|UN|Sn|OF)]>";
+        private readonly string _easting =
+            "<[Easting(Uft|P4|RN|AP|GC|UN|Sn|OF)]>";
+        private readonly string _elevation =
+            "<[Point Elevation(Uft|P2|RN|AP|Sn|OF)]>";
     }
 }
