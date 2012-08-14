@@ -75,7 +75,6 @@
     <Compile Include="Samples\Alignments\AlignmentEntitiesCommands.cs" />
     <Compile Include="Samples\Alignments\AlignmentEntitiesCommandsColibra.cs" />
     <Compile Include="NetSamplesApp.cs" />
-    <Compile Include="Samples\Alignments\AlignmentLabelCommands.cs" />
     <Compile Include="Samples\CogoPoints\CogoPointCommands.cs" />
     <Compile Include="Samples\CogoPoints\CogoPointLabelCommands.cs" />
     <Compile Include="Samples\CogoPoints\DescriptionKeyCommands.cs" />
