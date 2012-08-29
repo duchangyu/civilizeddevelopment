@@ -65,7 +65,7 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("2.0.12.0")]
-[assembly: AssemblyFileVersion("2.0.12.0")]
+[assembly: AssemblyVersion("2.0.13.0")]
+[assembly: AssemblyFileVersion("2.0.13.0")]
 
 [assembly: InternalsVisibleTo("TinyTestTesting")]
