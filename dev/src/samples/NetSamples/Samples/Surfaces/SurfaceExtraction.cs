@@ -59,7 +59,8 @@ namespace Autodesk.CivilizedDevelopment
                 return;
             }
 
-            PromptPointResult result = _editor.GetPoint("\nSelect point outside surface: ");
+            PromptPointResult result = _editor.GetPoint(
+                "\nSelect point outside surface: ");
             if (result.Status != PromptStatus.OK)
             {
                 write("\nNo point selected.");
@@ -72,13 +73,17 @@ namespace Autodesk.CivilizedDevelopment
 
             using (Transaction tr = startTransaction())
             {
-                TinSurface surface = surfaceId.GetObject(OpenMode.ForRead) as TinSurface;
-                ObjectIdCollection borders = surface.ExtractBorder(SurfaceExtractionSettingsType.Model);
+                TinSurface surface = surfaceId.GetObject(OpenMode.ForRead) 
+                    as TinSurface;
+                ObjectIdCollection borders = surface.ExtractBorder(
+                    SurfaceExtractionSettingsType.Model);
                 foreach (ObjectId borderId in borders)
                 {
                     
-                    Polyline3d border = borderId.GetObject(OpenMode.ForRead) as Polyline3d;
-                    Point3d closestToBorder = border.GetClosestPointTo(selectedPoint, false);
+                    Polyline3d border = borderId.GetObject(OpenMode.ForRead) 
+                        as Polyline3d;
+                    Point3d closestToBorder = 
+                        border.GetClosestPointTo(selectedPoint, false);
                     double distance = selectedPoint.DistanceTo(closestToBorder);
                     if (distance < shortestDistanceSoFar)
                     {
@@ -90,7 +95,8 @@ namespace Autodesk.CivilizedDevelopment
 
             using (Transaction tr = startTransaction())
             {
-                BlockTableRecord btr = tr.GetObject(_database.CurrentSpaceId, OpenMode.ForWrite) as BlockTableRecord;
+                BlockTableRecord btr = tr.GetObject(_database.CurrentSpaceId, 
+                    OpenMode.ForWrite) as BlockTableRecord;
                 Line line = new Line(selectedPoint, closestPointFound);
                 btr.AppendEntity(line);
                 tr.AddNewlyCreatedDBObject(line, true);
