@@ -60,6 +60,8 @@ Namespace Autodesk.CivilizedDevelopment
       Using tr As Transaction = startTransaction()
         Dim surface As TinSurface = TryCast(
           surfaceId.GetObject(OpenMode.ForRead), TinSurface)
+        write(vbLf & "Selected surface: " & surface.Name)
+        write(vbLf & "Selected point: " & selectedPoint.ToString())
         Dim borders As ObjectIdCollection = surface.ExtractBorder(
           SurfaceExtractionSettingsType.Model)
         For Each borderId As ObjectId In borders
@@ -75,6 +77,8 @@ Namespace Autodesk.CivilizedDevelopment
           End If
         Next
       End Using
+
+      write(vbLf & "Closest point found: " & closestPointFound.ToString())
 
       Using tr As Transaction = startTransaction()
         Dim btr As BlockTableRecord = TryCast(tr.GetObject(

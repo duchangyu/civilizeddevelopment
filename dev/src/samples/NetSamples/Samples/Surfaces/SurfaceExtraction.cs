@@ -75,6 +75,8 @@ namespace Autodesk.CivilizedDevelopment
             {
                 TinSurface surface = surfaceId.GetObject(OpenMode.ForRead) 
                     as TinSurface;
+                write("\nSelected surface: " + surface.Name);
+                write("\nSelected point: " + selectedPoint.ToString());
                 ObjectIdCollection borders = surface.ExtractBorder(
                     SurfaceExtractionSettingsType.Model);
                 foreach (ObjectId borderId in borders)
@@ -92,6 +94,8 @@ namespace Autodesk.CivilizedDevelopment
                     }
                 }
             }
+
+            write("\nClosest point found: " + closestPointFound.ToString());
 
             using (Transaction tr = startTransaction())
             {
