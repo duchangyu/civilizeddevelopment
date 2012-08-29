@@ -1,5 +1,6 @@
 ﻿Imports Autodesk.AutoCAD.DatabaseServices
 Imports Autodesk.AutoCAD.EditorInput
+Imports Autodesk.AutoCAD.Geometry
 Imports Autodesk.AutoCAD.Runtime
 Imports Autodesk.Civil
 Imports Autodesk.Civil.DatabaseServices
@@ -33,6 +34,54 @@ Namespace Autodesk.CivilizedDevelopment
             End Using
           End If
         Next
+        tr.Commit()
+      End Using
+    End Sub
+
+    <CommandMethod("CDS_FindClosestPointOnSurface")> _
+    Public Sub CDS_FindClosestPointOnSurface()
+      Dim surfaceId As ObjectId = promptForTinSurface()
+      If surfaceId.IsNull Then
+        write(vbLf & "No TIN Surface selected.")
+        Return
+      End If
+
+      Dim result As PromptPointResult = _editor.GetPoint(
+        vbLf & "Select point outside surface: ")
+      If result.Status <> PromptStatus.OK Then
+        write(vbLf & "No point selected.")
+        Return
+      End If
+
+      Dim selectedPoint As Point3d = result.Value
+      Dim closestPointFound As Point3d = Point3d.Origin
+      Dim shortestDistanceSoFar As Double = [Double].MaxValue
+
+      Using tr As Transaction = startTransaction()
+        Dim surface As TinSurface = TryCast(
+          surfaceId.GetObject(OpenMode.ForRead), TinSurface)
+        Dim borders As ObjectIdCollection = surface.ExtractBorder(
+          SurfaceExtractionSettingsType.Model)
+        For Each borderId As ObjectId In borders
+
+          Dim border As Polyline3d = TryCast(
+            borderId.GetObject(OpenMode.ForRead), Polyline3d)
+          Dim closestToBorder As Point3d =
+            border.GetClosestPointTo(selectedPoint, False)
+          Dim distance As Double = selectedPoint.DistanceTo(closestToBorder)
+          If distance < shortestDistanceSoFar Then
+            closestPointFound = closestToBorder
+            shortestDistanceSoFar = distance
+          End If
+        Next
+      End Using
+
+      Using tr As Transaction = startTransaction()
+        Dim btr As BlockTableRecord = TryCast(tr.GetObject(
+            _database.CurrentSpaceId, OpenMode.ForWrite), BlockTableRecord)
+        Dim line As New Line(selectedPoint, closestPointFound)
+        btr.AppendEntity(line)
+        tr.AddNewlyCreatedDBObject(line, True)
         tr.Commit()
       End Using
     End Sub
