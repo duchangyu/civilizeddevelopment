@@ -9,7 +9,8 @@ Imports Autodesk.Civil.DatabaseServices
 Imports CivilSurface = Autodesk.Civil.DatabaseServices.Surface
 Imports AcadEntity = Autodesk.AutoCAD.DatabaseServices.Entity
 
-<Assembly: CommandClass(GetType(Autodesk.CivilizedDevelopment.SurfaceExtractContoursCommands))> 
+<Assembly: CommandClass(
+  GetType(Autodesk.CivilizedDevelopment.SurfaceExtractContoursCommands))> 
 
 Namespace Autodesk.CivilizedDevelopment
   Public Class SurfaceExtractContoursCommands
@@ -25,7 +26,8 @@ Namespace Autodesk.CivilizedDevelopment
       Using tr As Transaction = startTransaction()
         Dim surface As CivilSurface =
           TryCast(surfaceId.GetObject(OpenMode.ForRead), CivilSurface)
-        showGeneralProperties(surface.Name, surface.GetGeneralProperties())
+        showGeneralProperties(surface.Name,
+                              surface.GetGeneralProperties())
         Dim terrainSurface As ITerrainSurface =
           TryCast(surface, ITerrainSurface)
         If terrainSurface IsNot Nothing Then
@@ -42,8 +44,10 @@ Namespace Autodesk.CivilizedDevelopment
     Private Sub showGeneralProperties(name As String,
                                       props As GeneralSurfaceProperties)
       _editor.WriteMessage(vbLf & "Surface name: " + name)
-      _editor.WriteMessage(vbLf & "- Max elevation: " + props.MaximumElevation)
-      _editor.WriteMessage(vbLf & "- Min elevation: " + props.MinimumElevation)
+      _editor.WriteMessage(vbLf & "- Max elevation: " +
+                           props.MaximumElevation)
+      _editor.WriteMessage(vbLf & "- Min elevation: " +
+                           props.MinimumElevation)
     End Sub
 
 
@@ -81,7 +85,8 @@ Namespace Autodesk.CivilizedDevelopment
 
 
     Private Function promptForTinSurface() As ObjectId
-      Dim options As New PromptEntityOptions(vbLf & "Select a TIN Surface: ")
+      Dim options As New PromptEntityOptions(
+        vbLf & "Select a TIN Surface: ")
       options.SetRejectMessage(
         vbLf & "The selected object is not a TIN Surface.")
       options.AddAllowedClass(GetType(CivilSurface), False)
