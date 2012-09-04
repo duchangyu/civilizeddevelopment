@@ -84,6 +84,7 @@
     <Compile Include="Samples\Surfaces\CalculateWaterdrops.cs" />
     <Compile Include="Samples\Surfaces\CreateElevationRanges.cs" />
     <Compile Include="Samples\Misc\DatabaseTypeCommand.cs" />
+    <Compile Include="Samples\Surfaces\SurfaceExtractContours.cs" />
     <Compile Include="Samples\Surfaces\SurfaceExtraction.cs" />
     <Compile Include="Samples\Surfaces\SurfacePointsAndTriangles.cs" />
     <Compile Include="Samples\Surfaces\SurfaceProperties.cs" />
