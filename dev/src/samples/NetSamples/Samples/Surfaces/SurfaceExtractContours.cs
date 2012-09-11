@@ -16,59 +16,84 @@ namespace Autodesk.CivilizedDevelopment
 {
     public class SurfaceExtractContoursCommands : SimpleDrawingCommand
     {
-        [CommandMethod("CDS_ExtractSurfceContours")]
-        public void CDS_ExtractSurfceContours()
+        [CommandMethod("CDS_ExtractSurfaceContoursFromToElevationRange")]
+        public void CDS_ExtractSurfaceContoursFromToElevationRange()
         {
-            ObjectId surfaceId = promptForTinSurface();
-            if (surfaceId.IsNull)
-            {
-                write("\nNo Surface selected.");
-                return;
-            }
-
             using (Transaction tr = startTransaction())
             {
-                CivilSurface surface = surfaceId.GetObject(OpenMode.ForRead)
-                    as CivilSurface;
-                showGeneralProperties(surface.Name, 
-                    surface.GetGeneralProperties());
-                ITerrainSurface terrainSurface = surface as ITerrainSurface;
-                if (terrainSurface != null)
-                {
-                    extractMajorContours(terrainSurface);
-                    extractMinorContours(terrainSurface);
-                }
+                ITerrainSurface surface = getSurface() as ITerrainSurface;
+                if (surface == null) return;
+                
+                double minElevation = getDouble("minimum elevation");
+                if (Double.IsNaN(minElevation)) return;
+
+                double maxElevation = getDouble("maximum elevation");
+                if (Double.IsNaN(maxElevation)) return;
+
+                double interval = getDouble("interval");
+                if (Double.IsNaN(interval)) return;
+
+                ObjectIdCollection contours =
+                    surface.ExtractContours(
+                        minElevation, maxElevation, interval);
+
+                customizeContours(contours, _rangedContoursColor);
+                    
+                tr.Commit();
+            }
+        }
+
+        [CommandMethod("CDS_ExtractSurfaceContoursAtInterval")]
+        public void CDS_ExtractSurfaceContoursAtInterval()
+        {
+            using (Transaction tr = startTransaction())
+            {
+                ITerrainSurface surface = getSurface() as ITerrainSurface;
+                if (surface == null) return;
+
+                double interval = getDouble("interval");
+                if (Double.IsNaN(interval)) return;
+
+                ObjectIdCollection contours =
+                    surface.ExtractContours(interval);
+
+                customizeContours(contours, _intervalContoursColor);
 
                 tr.Commit();
             }
         }
 
-        private void showGeneralProperties(string name, 
-            GeneralSurfaceProperties props)
+        [CommandMethod("CDS_ExtractSurfaceMajorAndMinorContours")]
+        public void CDS_ExtractSurfaceMajorAndMinorContours()
         {
-            _editor.WriteMessage("\nSurface name: " + name);
-            _editor.WriteMessage("\n- Max elevation: " + 
-                props.MaximumElevation);
-            _editor.WriteMessage("\n- Min elevation: " + 
-                props.MinimumElevation);
+            using (Transaction tr = startTransaction())
+            {
+                ITerrainSurface surface = getSurface() as ITerrainSurface;
+                if (surface == null) return;
+                
+                extractMajorContours(surface);
+                extractMinorContours(surface);
+
+                tr.Commit();
+                
+                
+            }
         }
+
+        
 
         private void extractMajorContours(ITerrainSurface surface)
         {
             ObjectIdCollection contours = surface.ExtractMajorContours(
-                SurfaceExtractionSettingsType.Model);
-            AutoCAD.Colors.Color blue = 
-                AutoCAD.Colors.Color.FromRgb(0, 0, 255);
-            customizeContours(contours, blue);
+                SurfaceExtractionSettingsType.Model);                
+            customizeContours(contours, _majorContoursColor);
         }
 
         private void extractMinorContours(ITerrainSurface surface)
         {
             ObjectIdCollection contours = surface.ExtractMinorContours(
                 SurfaceExtractionSettingsType.Model);
-            AutoCAD.Colors.Color lightblue =
-                AutoCAD.Colors.Color.FromRgb(0, 255, 255);
-            customizeContours(contours, lightblue);
+            customizeContours(contours, _minorContoursColor);
         }
 
         private void customizeContours(ObjectIdCollection contours, 
@@ -82,8 +107,21 @@ namespace Autodesk.CivilizedDevelopment
             }
         }
 
+        private CivilSurface getSurface()
+        {
+            ObjectId surfaceId = promptForSurface();
+            if (surfaceId.IsNull)
+            {
+                return null;
+            }
+            CivilSurface surface = surfaceId.GetObject(OpenMode.ForRead) 
+                as CivilSurface;
+            showGeneralProperties(surface);
+            return surface;
+        }
 
-        private ObjectId promptForTinSurface()
+
+        private ObjectId promptForSurface()
         {
             PromptEntityOptions options = new PromptEntityOptions(
                 "\nSelect a TIN Surface: ");
@@ -100,5 +138,37 @@ namespace Autodesk.CivilizedDevelopment
             }
             return ObjectId.Null;   // Indicating error.
         }
+
+        private void showGeneralProperties(CivilSurface surface)
+        {
+            _editor.WriteMessage("\nSurface name: " + surface.Name);
+            GeneralSurfaceProperties properties = 
+                surface.GetGeneralProperties();
+            _editor.WriteMessage("\n- Max elevation: " +
+                properties.MaximumElevation);
+            _editor.WriteMessage("\n- Min elevation: " +
+                properties.MinimumElevation);
+        }
+
+        private double getDouble(string valueName)
+        {
+            double result = Double.NaN;
+            string msg = String.Format("\nEnter value for {0}:", valueName);
+            PromptDoubleResult res = _editor.GetDouble(msg);
+            if (res.Status == PromptStatus.OK)
+            {
+                result = res.Value;
+            }
+            return result;
+        }
+
+        private AutoCAD.Colors.Color _majorContoursColor =
+            AutoCAD.Colors.Color.FromRgb(0, 0, 255);
+        private AutoCAD.Colors.Color _minorContoursColor =
+            AutoCAD.Colors.Color.FromRgb(0, 255, 255);
+        private AutoCAD.Colors.Color _rangedContoursColor =
+            AutoCAD.Colors.Color.FromRgb(255, 0, 0);
+        private AutoCAD.Colors.Color _intervalContoursColor =
+            AutoCAD.Colors.Color.FromRgb(0, 255, 0);
     }
 }
