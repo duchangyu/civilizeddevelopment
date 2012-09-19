@@ -15,6 +15,40 @@ GetType(Autodesk.CivilizedDevelopment.SurfaceExtractContoursCommands))>
 Namespace Autodesk.CivilizedDevelopment
   Public Class SurfaceExtractContoursCommands
     Inherits SimpleDrawingCommand
+    <CommandMethod("CDS_ExtractSurfaceContoursAtElevation")> _
+    Public Sub CDS_ExtractSurfaceContoursAtElevation()
+      Using tr As Transaction = startTransaction()
+        Dim surface As ITerrainSurface = TryCast(getSurface(), ITerrainSurface)
+        If surface Is Nothing Then
+          Return
+        End If
+
+        Dim elevation As Double = getDouble("elevation")
+        If [Double].IsNaN(elevation) Then
+          Return
+        End If
+
+        If elevationInSurfaceRange(elevation, TryCast(surface, CivilSurface)) Then
+          Dim contours As ObjectIdCollection = surface.ExtractContoursAt(elevation)
+          customizeContours(contours, _singleContourColor)
+        End If
+
+        tr.Commit()
+      End Using
+    End Sub
+
+
+
+    Private Function elevationInSurfaceRange(elevation As Double, surface As CivilSurface) As Boolean
+      Dim properties As GeneralSurfaceProperties = surface.GetGeneralProperties()
+      If elevation < properties.MinimumElevation OrElse elevation > properties.MaximumElevation Then
+        _editor.WriteMessage(vbLf & "Specified elevation not in surface range.")
+        Return False
+      End If
+      Return True
+
+    End Function
+
     <CommandMethod("CDS_ExtractSurfaceContoursFromToElevationRange")> _
     Public Sub CDS_ExtractSurfaceContoursFromToElevationRange()
       Using tr As Transaction = startTransaction()
@@ -190,5 +224,7 @@ Namespace Autodesk.CivilizedDevelopment
       AutoCAD.Colors.Color.FromRgb(255, 0, 0)
     Private _intervalContoursColor As AutoCAD.Colors.Color =
       AutoCAD.Colors.Color.FromRgb(0, 255, 0)
+    Private _singleContourColor As AutoCAD.Colors.Color =
+      AutoCAD.Colors.Color.FromRgb(255, 255, 0)
   End Class
 End Namespace

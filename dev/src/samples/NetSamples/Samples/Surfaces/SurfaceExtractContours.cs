@@ -16,6 +16,45 @@ namespace Autodesk.CivilizedDevelopment
 {
     public class SurfaceExtractContoursCommands : SimpleDrawingCommand
     {
+        [CommandMethod("CDS_ExtractSurfaceContoursAtElevation")]
+        public void CDS_ExtractSurfaceContoursAtElevation()
+        {
+            using (Transaction tr = startTransaction())
+            {
+                ITerrainSurface surface = getSurface() as ITerrainSurface;
+                if (surface == null) return;
+
+                double elevation = getDouble("elevation");
+                if (Double.IsNaN(elevation)) return;
+
+                if (elevationInSurfaceRange(elevation, 
+                    surface as CivilSurface))
+                {
+                    ObjectIdCollection contours = 
+                        surface.ExtractContoursAt(elevation);
+                    customizeContours(contours, _singleContourColor);
+                }
+
+                tr.Commit();
+            }
+        }
+
+        private bool elevationInSurfaceRange(double elevation, 
+            CivilSurface surface)
+        {
+            GeneralSurfaceProperties properties = 
+                surface.GetGeneralProperties();
+            if (elevation < properties.MinimumElevation || 
+                elevation > properties.MaximumElevation)
+            {
+                _editor.WriteMessage(
+                    "\nSpecified elevation not in surface range.");
+                return false;
+            }
+            return true;
+
+        }
+
         [CommandMethod("CDS_ExtractSurfaceContoursFromToElevationRange")]
         public void CDS_ExtractSurfaceContoursFromToElevationRange()
         {
@@ -170,5 +209,7 @@ namespace Autodesk.CivilizedDevelopment
             AutoCAD.Colors.Color.FromRgb(255, 0, 0);
         private AutoCAD.Colors.Color _intervalContoursColor =
             AutoCAD.Colors.Color.FromRgb(0, 255, 0);
+        private AutoCAD.Colors.Color _singleContourColor =
+            AutoCAD.Colors.Color.FromRgb(255, 255, 0);
     }
 }
