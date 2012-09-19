@@ -15,10 +15,13 @@ GetType(Autodesk.CivilizedDevelopment.SurfaceExtractContoursCommands))>
 Namespace Autodesk.CivilizedDevelopment
   Public Class SurfaceExtractContoursCommands
     Inherits SimpleDrawingCommand
+
+
     <CommandMethod("CDS_ExtractSurfaceContoursAtElevation")> _
     Public Sub CDS_ExtractSurfaceContoursAtElevation()
       Using tr As Transaction = startTransaction()
-        Dim surface As ITerrainSurface = TryCast(getSurface(), ITerrainSurface)
+        Dim surface As ITerrainSurface = TryCast(getSurface(), 
+          ITerrainSurface)
         If surface Is Nothing Then
           Return
         End If
@@ -28,8 +31,10 @@ Namespace Autodesk.CivilizedDevelopment
           Return
         End If
 
-        If elevationInSurfaceRange(elevation, TryCast(surface, CivilSurface)) Then
-          Dim contours As ObjectIdCollection = surface.ExtractContoursAt(elevation)
+        If elevationInSurfaceRange(elevation,
+                                   TryCast(surface, CivilSurface)) Then
+          Dim contours As ObjectIdCollection =
+            surface.ExtractContoursAt(elevation)
           customizeContours(contours, _singleContourColor)
         End If
 
@@ -39,10 +44,14 @@ Namespace Autodesk.CivilizedDevelopment
 
 
 
-    Private Function elevationInSurfaceRange(elevation As Double, surface As CivilSurface) As Boolean
-      Dim properties As GeneralSurfaceProperties = surface.GetGeneralProperties()
-      If elevation < properties.MinimumElevation OrElse elevation > properties.MaximumElevation Then
-        _editor.WriteMessage(vbLf & "Specified elevation not in surface range.")
+    Private Function elevationInSurfaceRange(elevation As Double,
+        surface As CivilSurface) As Boolean
+      Dim properties As GeneralSurfaceProperties =
+        surface.GetGeneralProperties()
+      If elevation < properties.MinimumElevation Or
+           elevation > properties.MaximumElevation Then
+        _editor.WriteMessage(
+          vbLf & "Specified elevation not in surface range.")
         Return False
       End If
       Return True
