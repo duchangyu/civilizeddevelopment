@@ -145,6 +145,7 @@
     <Compile Include="Samples\Styles\DisplayRepresentations.vb" />
     <Compile Include="Samples\Surfaces\CalculateWaterdrops.vb" />
     <Compile Include="Samples\Surfaces\CreateElevationRanges.vb" />
+    <Compile Include="Samples\Surfaces\SamplingPoints.vb" />
     <Compile Include="Samples\Surfaces\SurfaceExtractContours.vb" />
     <Compile Include="Samples\Surfaces\SurfaceExtraction.vb" />
     <Compile Include="Samples\Surfaces\SurfacePointsAndTriangles.vb" />
