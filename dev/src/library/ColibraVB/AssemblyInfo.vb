@@ -65,6 +65,6 @@ Imports System.Runtime.InteropServices
 '      Build Number
 '      Revision
 '
-<Assembly: AssemblyVersion("2.0.17.0")> 
-<Assembly: AssemblyFileVersion("2.0.17.0")> 
+<Assembly: AssemblyVersion("2.0.18.0")> 
+<Assembly: AssemblyFileVersion("2.0.18.0")> 
 <Assembly: InternalsVisibleTo("ColibraVBShould")> 

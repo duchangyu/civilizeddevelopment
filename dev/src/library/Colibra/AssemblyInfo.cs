@@ -65,6 +65,6 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("2.0.17.0")]
-[assembly: AssemblyFileVersion("2.0.17.0")]
+[assembly: AssemblyVersion("2.0.18.0")]
+[assembly: AssemblyFileVersion("2.0.18.0")]
 [assembly: InternalsVisibleTo("ColibraShould")]
