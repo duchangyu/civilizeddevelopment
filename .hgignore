@@ -12,6 +12,7 @@ syntax: glob
 *.docstates
 *.force
 *.ncrunchsolution
+*.user
 Source\Colibra\obj\**.*
 Source\ColibraShould\obj\**.*
 Source\ColibraVB\obj\**.*
