@@ -13,6 +13,17 @@ GetType(Autodesk.CivilizedDevelopment.ProfileCreationCommands))>
 Namespace Autodesk.CivilizedDevelopment
   Public Class ProfileCreationCommands
     Inherits SimpleDrawingCommand
+
+    <CommandMethod("CDS_CreateStackedProfileViews")> _
+    Public Sub CDS_CreateStackedProfileViews()
+      Using tr As Transaction = startTransaction()
+        Dim created As Boolean = createStackedProfiles()
+        If created Then
+          tr.Commit()
+        End If
+      End Using
+    End Sub
+
     <CommandMethod("CDS_CreateMultipleProfileViews")> _
     Public Sub CDS_CreateMultipleProfileViews()
       Using tr As Transaction = startTransaction()
@@ -23,7 +34,16 @@ Namespace Autodesk.CivilizedDevelopment
       End Using
     End Sub
 
-
+    Private Function createStackedProfiles() As Boolean
+      If noAlignmentSelected() Then
+        Return False
+      End If
+      If noInsertionPointSelected() Then
+        Return False
+      End If
+      createStackedProfileViews()
+      Return True
+    End Function
 
     Private Function createMultipleProfiles() As Boolean
       If noAlignmentSelected() Then
@@ -57,7 +77,10 @@ Namespace Autodesk.CivilizedDevelopment
       Return Not selected
     End Function
 
-
+    Private Sub createStackedProfileViews()
+      ProfileView.CreateMultiple(_alignmentId, _insertionPoint,
+                                 _stackedOptions, _creationOptions)
+    End Sub
 
     Private Sub createProfileViews()
       ProfileView.CreateMultiple(_alignmentId, _insertionPoint,
@@ -76,6 +99,21 @@ Namespace Autodesk.CivilizedDevelopment
         options.MaxViewInRowOrColumn = 3
         options.StartCorner = ProfileViewStartCornerType.UpperLeft
         Return options
+      End Get
+    End Property
+
+    Private ReadOnly Property _stackedOptions() _
+        As StackedProfileViewsCreationOptions
+      Get
+        Dim options As New StackedProfileViewsCreationOptions(
+          _defaultPVId, _defaultPVId, _defaultPVId)
+        Return options
+      End Get
+    End Property
+
+    Private ReadOnly Property _defaultPVId() As ObjectId
+      Get
+        Return _civildoc.Styles.ProfileViewStyles(0)
       End Get
     End Property
 

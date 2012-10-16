@@ -14,6 +14,19 @@ namespace Autodesk.CivilizedDevelopment
 {
     public class ProfileCreationCommands : SimpleDrawingCommand
     {
+        [CommandMethod("CDS_CreateStackedProfileViews")]
+        public void CDS_CreateStackedProfileViews()
+        {
+            using (Transaction tr = startTransaction())
+            {
+                bool created = createStackedProfiles();
+                if (created)
+                {
+                    tr.Commit();
+                }
+            }
+        }
+
         [CommandMethod("CDS_CreateMultipleProfileViews")]
         public void CDS_CreateMultipleProfileViews()
         {
@@ -25,6 +38,14 @@ namespace Autodesk.CivilizedDevelopment
                     tr.Commit();
                 }
             }
+        }
+
+        private bool createStackedProfiles()
+        {
+            if (noAlignmentSelected()) return false;
+            if (noInsertionPointSelected()) return false;
+            createStackedProfileViews();
+            return true;
         }
 
         private bool createMultipleProfiles()
@@ -54,6 +75,12 @@ namespace Autodesk.CivilizedDevelopment
             return !selected;
         }
 
+        private void createStackedProfileViews()
+        {
+            ProfileView.CreateMultiple(_alignmentId, _insertionPoint, 
+                _stackedOptions, _creationOptions);
+        }
+
         private void createProfileViews()
         {
             ProfileView.CreateMultiple(_alignmentId, _insertionPoint,
@@ -73,6 +100,25 @@ namespace Autodesk.CivilizedDevelopment
                 options.StartCorner = 
                     ProfileViewStartCornerType.UpperLeft;
                 return options;
+            }
+        }
+
+        private StackedProfileViewsCreationOptions _stackedOptions
+        {
+            get
+            {
+                StackedProfileViewsCreationOptions options =
+                    new StackedProfileViewsCreationOptions(_defaultPVId,
+                        _defaultPVId, _defaultPVId);
+                return options;
+            }
+        }
+
+        private ObjectId _defaultPVId
+        {
+            get
+            {
+                return _civildoc.Styles.ProfileViewStyles[0];
             }
         }
 
