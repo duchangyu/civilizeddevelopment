@@ -75,6 +75,9 @@ namespace ColibraShould
             }
             catch (NotImplementedException exception)
             {
+                // Silences Warning "The variable 'exception' is declared but it is never used."
+                Assert.IsTrue(true, exception.Message); 
+
                 // Expected to throw.
                 return;
             }

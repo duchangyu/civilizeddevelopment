@@ -1,7 +1,8 @@
 syntax: glob
 
-# Ignore all the produced dlls.
-*.dll
+# Ignore all the produced dlls and object files.
+Bin\**.*
+dev\**\obj\**.*
 
 # Ignore Visual Studio user files.
 *.suo
@@ -13,10 +14,6 @@ syntax: glob
 *.force
 *.ncrunchsolution
 *.user
-Source\Colibra\obj\**.*
-Source\ColibraShould\obj\**.*
-Source\ColibraVB\obj\**.*
-Source\ColibraVBShould\obj\**.*
 
 
 # Ignore all pdbs.

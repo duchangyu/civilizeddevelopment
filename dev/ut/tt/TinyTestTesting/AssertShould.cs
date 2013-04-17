@@ -56,6 +56,9 @@ namespace TinyTestTesting
             }
             catch (AssertionFailureException e)
             {
+                // Silences Warning "The variable 'e' is declared but it is never used."
+                Assert.IsTrue(true, e.Message); 
+
                 // We expect the assertion to fail.
                 return;
             }
@@ -77,6 +80,9 @@ namespace TinyTestTesting
             }
             catch(AssertionFailureException e)
             {
+                // Silences Warning "The variable 'e' is declared but it is never used."
+                Assert.IsTrue(true, e.Message); 
+
                 // We expect the assertion to fail.
                 return;
             }
@@ -98,6 +104,9 @@ namespace TinyTestTesting
             }
             catch (AssertionFailureException e)
             {
+                // Silences Warning "The variable 'e' is declared but it is never used."
+                Assert.IsTrue(true, e.Message); 
+
             	// We expect the assertion to fail.
                 return;
             }
@@ -119,6 +128,9 @@ namespace TinyTestTesting
             }
             catch (AssertionFailureException e)
             {
+                // Silences Warning "The variable 'e' is declared but it is never used."
+                Assert.IsTrue(true, e.Message); 
+
             	// We expect the assertion to fail.
                 return;
             }
@@ -140,6 +152,9 @@ namespace TinyTestTesting
             }
             catch (AssertionFailureException e)
             {
+                // Silences Warning "The variable 'e' is declared but it is never used."
+                Assert.IsTrue(true, e.Message); 
+
             	// We expect the assertion to fail.
                 return;
             }
@@ -161,6 +176,9 @@ namespace TinyTestTesting
             }
             catch (AssertionFailureException e)
             {
+                // Silences Warning "The variable 'e' is declared but it is never used."
+                Assert.IsTrue(true, e.Message); 
+
                 // We expect the assertion to fail.
                 return;
             }
@@ -182,6 +200,9 @@ namespace TinyTestTesting
             }
             catch (AssertionFailureException e)
             {
+                // Silences Warning "The variable 'e' is declared but it is never used."
+                Assert.IsTrue(true, e.Message); 
+
             	// We expect the assertion to fail.
                 return;
             }

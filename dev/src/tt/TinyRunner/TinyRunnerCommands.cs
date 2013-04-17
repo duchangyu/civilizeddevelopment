@@ -120,7 +120,5 @@ namespace TinyRunner
             engine.Execute(collector);
         }
 
-
-        private string m_StartUpWorkingDir;
     }
 }
