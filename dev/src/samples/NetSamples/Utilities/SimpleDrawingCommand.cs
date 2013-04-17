@@ -77,5 +77,14 @@ namespace Autodesk.CivilizedDevelopment
         {
             _editor.WriteMessage(message);
         }
+
+        protected void logException(Exception ex)
+        {
+            while (ex != null)
+            {
+                _editor.WriteMessage(ex.Message + '\n');
+                ex = ex.InnerException;
+            }
+        }
     }
 }

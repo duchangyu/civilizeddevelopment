@@ -141,6 +141,7 @@
     <Compile Include="Samples\CogoPoints\DescriptionKeyCommands.vb" />
     <Compile Include="Samples\CogoPoints\PointGroupCommands.vb" />
     <Compile Include="Samples\CogoPoints\UserDefinedPropertiesCommands.vb" />
+    <Compile Include="Samples\Corridors\CorridorCommands.vb" />
     <Compile Include="Samples\Misc\DatabaseTypeCommands.vb" />
     <Compile Include="Samples\Profiles\ProfileCreationCommands.vb" />
     <Compile Include="Samples\Styles\DisplayRepresentations.vb" />

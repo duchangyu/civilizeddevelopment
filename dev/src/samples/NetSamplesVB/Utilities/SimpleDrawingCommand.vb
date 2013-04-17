@@ -64,5 +64,12 @@ Namespace Autodesk.CivilizedDevelopment
         Protected Sub write(message As String)
             _editor.WriteMessage(message)
         End Sub
+
+        Protected Sub logException(ex As Exception)
+            While ex IsNot Nothing
+                _editor.WriteMessage(ex.Message + ControlChars.Lf)
+                ex = ex.InnerException
+            End While
+        End Sub
     End Class
 End Namespace
