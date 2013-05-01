@@ -196,6 +196,13 @@ namespace Autodesk.CivilizedDevelopment
             // clean) it is easier most of the time.
         }
 
+        // The following 2 methods are implemented under the
+        // assumption that the subassembly name contains a
+        // substring "Right" or "Left" depending on its side.
+        // This is a big assumption that works on this
+        // particular example, but you will have to get more
+        // creative.
+        //
         private void assignElevationTarget(
             SubassemblyTargetInfo target)
         {
@@ -300,6 +307,11 @@ namespace Autodesk.CivilizedDevelopment
             }
         }
 
+
+        // I also make the assumption here that the specified
+        // alignment has the string "Left" or "Right" in the
+        // name depending on its side from the centerline.
+        //
         private void resolveTargetIds(ObjectId alignmentId)
         {
             Alignment alignment = alignmentId.GetObject(
