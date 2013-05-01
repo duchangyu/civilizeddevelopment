@@ -99,6 +99,7 @@ namespace Autodesk.CivilizedDevelopment
             createCorridorObject();
             createCorridorBaseline();
             createBaselineRegion();
+            assignTargets();
             _corridor.Rebuild();
         }
 
@@ -117,7 +118,113 @@ namespace Autodesk.CivilizedDevelopment
 
         private void createBaselineRegion()
         {
-            _baseline.BaselineRegions.Add(RegionName, AssemblyId);
+            _region = _baseline.BaselineRegions.Add(
+                RegionName, AssemblyId);
+        }
+
+        private void assignTargets()
+        {
+            // These will return empty collections because the
+            // Corridor object has not been built yet.
+            //
+            // SubassemblyTargetInfoCollection targets = 
+            //      _corridor.GetTargets();
+            // SubassemblytargetInfoCollection targets = 
+            //      _baseline.GetTargets();
+
+            // Getting the targets from the BaselineRegion 
+            // works because it access the information from
+            // the specified Assembly object when creating the
+            // BaselineRegion.
+            //
+            SubassemblyTargetInfoCollection targets = 
+                _region.GetTargets();
+            foreach (SubassemblyTargetInfo target in targets)
+            {
+                assignTarget(target);
+                
+            }
+            // The collection is empty if retrieved from the
+            // Corridor or Baseline object; therefore these
+            // calls will do nothing.
+            // 
+            // _corridor.SetTargets(targets);
+            // _baseline.SetTargets(targets);
+
+            // Regions allow you to specify the targets.
+            //
+            _region.SetTargets(targets);
+        }
+
+        private void assignTarget(SubassemblyTargetInfo target)
+        {
+            switch(target.TargetType)
+            {
+                case SubassemblyLogicalNameType.Surface:
+                    assignSurfaceTarget(target);
+                    break;
+
+                case SubassemblyLogicalNameType.Elevation:
+                    assignElevationTarget(target);
+                    break;
+
+                case SubassemblyLogicalNameType.Offset:
+                    assignOffsetTarget(target);
+                    break;
+            }
+        }
+
+        private void assignSurfaceTarget(
+            SubassemblyTargetInfo target)
+        {
+            // The 'Add()' method of 'ObjectIdCollection'
+            // knows nothing about subassembly targets; therefore
+            // this call doesn't work.
+            //
+            // target.TargetIds.Add(surfaceId);
+
+            target.TargetIds = _targetSurfaces;
+
+            // Alternatively, you can get the collection,
+            // manipulate it, and then set it again.
+            //
+            // ObjectIdCollection ids = target.TargetIds;
+            // ... do whatever manipulations (add/remove targets)
+            // target.TargetIds = ids;
+            //
+            // This will work, but trust me, my way (starting
+            // clean) it is easier most of the time.
+        }
+
+        private void assignElevationTarget(
+            SubassemblyTargetInfo target)
+        {
+            if (isRightSide(target.SubassemblyName))
+            {
+                target.TargetIds = _targetRightElevation;
+            }
+            else
+            {
+                target.TargetIds = _targetLeftElevation;
+            }
+        }
+
+        private void assignOffsetTarget(
+            SubassemblyTargetInfo target)
+        {
+            if (isRightSide(target.SubassemblyName))
+            {
+                target.TargetIds = _targetRightOffset;
+            }
+            else
+            {
+                target.TargetIds = _targetLeftOffset;
+            }
+        }
+
+        private bool isRightSide(string value)
+        {
+            return value.Contains("Right");
         }
 
         private CorridorCollection _corridors
@@ -125,8 +232,105 @@ namespace Autodesk.CivilizedDevelopment
             get { return _document.CorridorCollection; }
         }
 
+        private ObjectIdCollection _targetSurfaces
+        {
+            get
+            {
+                return _document.GetSurfaceIds();
+            }
+        }
+
+        private ObjectIdCollection _targetRightOffset
+        {
+            get
+            {
+                if (_rightOffsetAlignmentId == ObjectId.Null)
+                {
+                    resolveAllTargetIds();
+                }
+                return insideCollection(_rightOffsetAlignmentId);
+            }
+        }
+
+        private ObjectIdCollection _targetLeftOffset
+        {
+            get
+            {
+                if (_leftOffsetAlignmentId == ObjectId.Null)
+                {
+                    resolveAllTargetIds();
+                }
+                return insideCollection(_leftOffsetAlignmentId);
+            }
+        }
+
+        private ObjectIdCollection _targetRightElevation
+        {
+            get
+            {
+                if (_rightProfileId == ObjectId.Null)
+                {
+                    resolveAllTargetIds();
+                }
+                return insideCollection(_rightProfileId);
+            }
+        }
+
+        private ObjectIdCollection _targetLeftElevation
+        {
+            get
+            {
+                if (_leftProfileId == ObjectId.Null)
+                {
+                    resolveAllTargetIds();
+                }
+                return insideCollection(_leftProfileId);
+            }
+        }
+
+        private void resolveAllTargetIds()
+        {
+            Alignment alignment = AlignmentId.GetObject(
+                OpenMode.ForRead) as Alignment;
+            ObjectIdCollection offsetAlignments = 
+                alignment.GetChildOffsetAlignmentIds();
+            foreach (ObjectId offsetId in offsetAlignments)
+            {
+                resolveTargetIds(offsetId);
+            }
+        }
+
+        private void resolveTargetIds(ObjectId alignmentId)
+        {
+            Alignment alignment = alignmentId.GetObject(
+                OpenMode.ForRead) as Alignment;
+            if (isRightSide(alignment.Name))
+            {
+                _rightOffsetAlignmentId = alignmentId;
+                _rightProfileId = alignment.GetProfileIds()[0];
+
+            }
+            else
+            {
+                _leftOffsetAlignmentId = alignmentId;
+                _leftProfileId = alignment.GetProfileIds()[0];
+            }
+        }
+
+        private ObjectIdCollection insideCollection(ObjectId id)
+        {
+            ObjectIdCollection col = new ObjectIdCollection();
+            col.Add(id);
+            return col;
+        }
+
         private CivilDocument _document;
         private Corridor _corridor;
         private Baseline _baseline;
+        private BaselineRegion _region;
+        private ObjectId _leftOffsetAlignmentId = ObjectId.Null;
+        private ObjectId _rightOffsetAlignmentId = ObjectId.Null;
+        private ObjectId _leftProfileId = ObjectId.Null;
+        private ObjectId _rightProfileId = ObjectId.Null;
     }
 }
